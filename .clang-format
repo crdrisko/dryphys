@@ -1,0 +1,46 @@
+---
+Language:        Cpp
+BasedOnStyle:    Microsoft
+
+## Custom Formatting
+AccessModifierOffset: -4
+AlignAfterOpenBracket: DontAlign
+AlignConsecutiveAssignments: true
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: All
+AlwaysBreakTemplateDeclarations: Yes
+BinPackArguments: false
+BinPackParameters: false
+BreakBeforeBinaryOperators: All
+BreakBeforeBraces: Allman
+BreakStringLiterals: false
+ColumnLimit:     125
+IncludeBlocks:   Regroup
+IncludeCategories:
+  ## Other libraries
+  - Regex:           '^<.*/.*[\.h\.hpp]>'
+    Priority:        3
+    SortPriority:    0
+  ## C system headers
+  - Regex:           '^<.*\.h>'
+    Priority:        1
+    SortPriority:    0
+  ## C++ standard library headers
+  - Regex:           '^<.*'
+    Priority:        2
+    SortPriority:    0
+  ## Other project files
+  - Regex:           '.*'
+    Priority:        4
+    SortPriority:    0
+IndentPPDirectives: BeforeHash
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 2
+NamespaceIndentation: All
+PenaltyBreakAssignment: 10
+PointerAlignment: Left
+ReflowComments:  false
+SpaceAfterTemplateKeyword: false
+SpaceBeforeCpp11BracedList: true
+SpacesBeforeTrailingComments: 3
+...
