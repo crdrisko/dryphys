@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['option_0',['option',['../_c_make_lists_8txt.html#a869883fcfe19e7eb462918ce9b82e326',1,'option(phys_build_tests &quot;Builds all libraries and unit tests.&quot; OFF) option(phys_build_samples &quot;Builds all libraries and code samples.&quot; OFF) option(phys_configure_docs &quot;Builds all libraries while configuring the Doxygen file for documentation generation.&quot; OFF) option(phys_enable_coverage &quot;Builds all libraries:&#160;CMakeLists.txt'],['../_c_make_lists_8txt.html#a78bc44f6a657ede265162b676460dfc0',1,'option(phys_format_codebase &quot;Builds all libraries while also formatting the code.&quot; OFF) option(phys_double_precision &quot;Builds all libraries using double-precision floating point arithmetic enabled.&quot; OFF) option(phys_four_word_alignment &quot;Builds all libraries while padding certain classes to make use of four-word alignment.&quot; OFF) if(phys_format_codebase AND NOT WIN32) execute_process(COMMAND bash cmake/scripts/format-codebase.sh WORKING_DIRECTORY $:&#160;CMakeLists.txt']]]
+  ['invert_0',['invert',['../class_dry_phys_1_1_vector3_d.html#aef5623d5c84cc8a39ae90031b967f127',1,'DryPhys::Vector3D']]]
 ];
