@@ -119,7 +119,7 @@ GTEST_TEST(testVector3DFunctions, invertFunctionSwapsTheSignOfAllElements)
     ASSERT_FLOAT_EQ(-5.0f, vec[2]);
 }
 
-GTEST_TEST(testVector3DFunctions, magnitudeFunctionsCalculateTheMagnitudeCorrectly)
+GTEST_TEST(testVector3DFunctions, magnitudeFunctionsCalculateTheLengthOfAVector)
 {
     DryPhys::Vector3D vec {1.0f, -2.0f, 4.0f};
 
@@ -142,10 +142,29 @@ GTEST_TEST(testVector3DFunctions, normalizeDividesTheElementsByTheMagnitude)
     ASSERT_FLOAT_EQ(-1.0f / std::sqrt(3.0f), vec[2]);
 }
 
+GTEST_TEST(testVector3DFunctions, vectorMultiplicationHasThreeUniqueForms)
+{
+    DryPhys::Vector3D vec1 {1.0f, 2.0f, 5.0f};
+    DryPhys::Vector3D vec2 {2.0f, -8.0f, 2.0f};
+
+    // Component Product
+    vec1 *= vec2;
+    ASSERT_EQ(vec1, DryPhys::Vector3D(2.0f, -16.0f, 10.0f));
+
+    DryPhys::Vector3D prod = vec2 * vec2;
+    ASSERT_EQ(prod, DryPhys::Vector3D(4.0f, 64.0f, 4.0f));
+
+    // Dot Product
+    ASSERT_FLOAT_EQ(152.0f, vec1.dot(vec2));
+
+    // Cross Product
+    ASSERT_EQ(vec1.cross(vec2), DryPhys::Vector3D(48.0f, 16.0f, 16.0f));
+}
+
 GTEST_TEST(testVector3DFunctions, ourTupleLikeAPIProvidesReadAccessToTheElementsViaStructuredBindings)
 {
     DryPhys::Vector3D vec {0.0f, 1.2f, 3.14f};
-    auto& [x, y, z] = vec;
+    const auto& [x, y, z] = vec;
 
     ASSERT_FLOAT_EQ(x, vec[0]);
     ASSERT_FLOAT_EQ(y, vec[1]);

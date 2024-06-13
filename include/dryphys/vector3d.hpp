@@ -34,72 +34,80 @@ namespace DryPhys
 #ifdef phys_four_word_alignment
         //! Padding to ensure four word alignment
         [[maybe_unused]] real pad;
+
+    /*!
+     * Since the pad variable here messes with the ability for the default constructor to be constexpr,
+     *  we'll define our own macro which will be disabled under these conditions.
+     */
+    #define DRYPHYS_CONSTEXPR
+#else
+    #define DRYPHYS_CONSTEXPR constexpr
 #endif
 
     public:
         //! Constructors
-        Vector3D() noexcept = default;
-        Vector3D(const real x, const real y, const real z) noexcept : x {x}, y {y}, z {z} {}
+        DRYPHYS_CONSTEXPR Vector3D() noexcept = default;
+        DRYPHYS_CONSTEXPR Vector3D(const real x, const real y, const real z) noexcept : x {x}, y {y}, z {z} {}
 
         //! Comparison operators - only the equality operator is symmetric
-        friend bool operator==(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator==(const Vector3D& lhs_, const Vector3D& rhs_)
         {
             return lhs_.x == rhs_.x && lhs_.y == rhs_.y && lhs_.z == rhs_.z;
         }
 
-        friend bool operator<(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator<(const Vector3D& lhs_, const Vector3D& rhs_)
         {
             return lhs_.x < rhs_.x && lhs_.y < rhs_.y && lhs_.z < rhs_.z;
         }
 
-        friend bool operator>(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator>(const Vector3D& lhs_, const Vector3D& rhs_)
         {
             return lhs_.x > rhs_.x && lhs_.y > rhs_.y && lhs_.z > rhs_.z;
         }
 
-        friend bool operator<=(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator<=(const Vector3D& lhs_, const Vector3D& rhs_)
         {
             return lhs_.x <= rhs_.x && lhs_.y <= rhs_.y && lhs_.z <= rhs_.z;
         }
 
-        friend bool operator>=(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator>=(const Vector3D& lhs_, const Vector3D& rhs_)
         {
             return lhs_.x >= rhs_.x && lhs_.y >= rhs_.y && lhs_.z >= rhs_.z;
         }
 
         //! Element access
-        real& operator[](unsigned i) { return ((&x)[i]); }
-        const real& operator[](unsigned i) const { return ((&x)[i]); }
+        DRYPHYS_CONSTEXPR real& operator[](unsigned i) { return ((&x)[i]); }
+        DRYPHYS_CONSTEXPR const real& operator[](unsigned i) const { return ((&x)[i]); }
 
         //! Arithmetic Operators
-        void operator+=(const Vector3D& rhs)
+        DRYPHYS_CONSTEXPR void operator+=(const Vector3D& rhs)
         {
             x += rhs.x;
             y += rhs.y;
             z += rhs.z;
         }
 
-        Vector3D operator+(const Vector3D& rhs) const { return Vector3D(x + rhs.x, y + rhs.y, z + rhs.z); }
+        DRYPHYS_CONSTEXPR Vector3D operator+(const Vector3D& rhs) const { return Vector3D(x + rhs.x, y + rhs.y, z + rhs.z); }
 
-        void operator-=(const Vector3D& rhs)
+        DRYPHYS_CONSTEXPR void operator-=(const Vector3D& rhs)
         {
             x -= rhs.x;
             y -= rhs.y;
             z -= rhs.z;
         }
 
-        Vector3D operator-(const Vector3D& rhs) const { return Vector3D(x - rhs.x, y - rhs.y, z - rhs.z); }
+        DRYPHYS_CONSTEXPR Vector3D operator-(const Vector3D& rhs) const { return Vector3D(x - rhs.x, y - rhs.y, z - rhs.z); }
 
-        void operator*=(real rhs)
+        DRYPHYS_CONSTEXPR void operator*=(real rhs)
         {
             x *= rhs;
             y *= rhs;
             z *= rhs;
         }
 
-        Vector3D operator*(real rhs) const { return Vector3D(x * rhs, y * rhs, z * rhs); }
+        DRYPHYS_CONSTEXPR Vector3D operator*(real rhs) const { return Vector3D(x * rhs, y * rhs, z * rhs); }
 
-        void operator/=(real rhs)
+        DRYPHYS_CONSTEXPR void operator/=(real rhs)
         {
             rhs = static_cast<real>(1) / rhs;
 
@@ -108,16 +116,40 @@ namespace DryPhys
             z *= rhs;
         }
 
-        Vector3D operator/(real rhs) const
+        DRYPHYS_CONSTEXPR Vector3D operator/(real rhs) const
         {
             rhs = static_cast<real>(1) / rhs;
             return Vector3D(x * rhs, y * rhs, z * rhs);
         }
 
+        //! We use operator*= for the component product
+        DRYPHYS_CONSTEXPR void operator*=(const Vector3D& rhs)
+        {
+            x *= rhs.x;
+            y *= rhs.y;
+            z *= rhs.z;
+        }
+
+        //! We use operator* for the component product
+        DRYPHYS_CONSTEXPR Vector3D operator*(const Vector3D& rhs) const { return Vector3D(x * rhs.x, y * rhs.y, z * rhs.z); }
+
+        /*!
+         * Calculates the dot (scalar) product of the two vectors.
+         */
+        DRYPHYS_CONSTEXPR real dot(const Vector3D& rhs) const { return x * rhs.x + y * rhs.y + z * rhs.z; }
+
+        /*!
+         * Calculates the cross (vector) product of the two vectors.
+         */
+        DRYPHYS_CONSTEXPR Vector3D cross(const Vector3D& rhs) const
+        {
+            return Vector3D(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z, x * rhs.y - y * rhs.x);
+        }
+
         /*! 
          * Flips all the components of the vector
          */
-        void invert()
+        DRYPHYS_CONSTEXPR void invert()
         {
             x = -x;
             y = -y;
@@ -125,14 +157,15 @@ namespace DryPhys
         }
 
         /*! 
+         * Calculates the magnitude of this vector squared to avoid a square root call
+         */
+        DRYPHYS_CONSTEXPR real magnitudeSquared() const { return x * x + y * y + z * z; }
+
+        /*! 
          * Calculates the magnitude of this vector
          */
         real magnitude() const { return std::sqrt(x * x + y * y + z * z); }
 
-        /*! 
-         * Calculates the magnitude of this vector squared to avoid a square root call
-         */
-        real magnitudeSquared() const { return x * x + y * y + z * z; }
 
         /*! 
          * Turns a non-zero vector into a vector of unit length
@@ -205,6 +238,5 @@ struct std::tuple_element<Index, DryPhys::Vector3D>
 {
     using type = DryPhys::real;
 };
-
 
 #endif
