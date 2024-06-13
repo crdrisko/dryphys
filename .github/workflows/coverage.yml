@@ -20,7 +20,7 @@ jobs:
       shell: bash
       run: |
         sudo apt-get install lcov
-        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=DEBUG -Dchem_enable_coverage=ON
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=DEBUG -Dphys_enable_coverage=ON
         cmake --build .
         sudo cmake --build . --target install
         ctest --output-on-failure
