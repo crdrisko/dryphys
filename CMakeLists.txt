@@ -66,9 +66,9 @@ find_package(DryChem REQUIRED)
 
 if (NOT ${DryChem_FOUND})
     ## If DryChem isn't installed or can't be found, download it from github ##
-    NDGradExternalDownload(PROJECT DryChem
-                           REPOSITORY "https://github.com/crdrisko/drychem.git"
-                           TAG main)
+    DryPhysExternalDownload(PROJECT DryChem
+                            REPOSITORY "https://github.com/crdrisko/drychem.git"
+                            TAG main)
 
     set(COMMON_UTILS_INCLUDE_DIR "${DryChem_SOURCE_DIR}/common-utilities/include")
     set(CPP_UNITS_INCLUDE_DIR "${DryChem_SOURCE_DIR}/cpp-units/include")
