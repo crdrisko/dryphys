@@ -25,8 +25,8 @@ GTEST_TEST(testVector3DFunctions, differentConstructorsInitializeObjectsAsExpect
 
     for (unsigned i {}; i < 3; ++i)
     {
-        ASSERT_FLOAT_EQ(0.0, defaultInitialized[i]);
-        ASSERT_FLOAT_EQ(2 * (i + 1) - 1, valuesInitialized[i]);
+        ASSERT_FLOAT_EQ(0.0f, defaultInitialized[i]);
+        ASSERT_FLOAT_EQ(static_cast<float>(2 * (i + 1) - 1), valuesInitialized[i]);
     }
 }
 
@@ -145,7 +145,7 @@ GTEST_TEST(testVector3DFunctions, normalizeDividesTheElementsByTheMagnitude)
 GTEST_TEST(testVector3DFunctions, ourTupleLikeAPIProvidesReadAccessToTheElementsViaStructuredBindings)
 {
     DryPhys::Vector3D vec {0.0f, 1.2f, 3.14f};
-    auto [x, y, z] = vec;
+    auto& [x, y, z] = vec;
 
     ASSERT_FLOAT_EQ(x, vec[0]);
     ASSERT_FLOAT_EQ(y, vec[1]);
@@ -158,7 +158,7 @@ GTEST_TEST(testVector3DFunctions, ourTupleLikeAPIProvidesWriteAccessToTheElement
 
     auto&& [x, y, z] = vec;
 
-    long double value {std::move(z)};
+    float value {std::move(z)};
 
     ASSERT_FLOAT_EQ(value, 3.14f);
 

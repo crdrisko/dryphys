@@ -45,7 +45,7 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 if (WIN32)
-    # add_compile_options(/MD /WX)
+    add_compile_options(/MD /WX)
 else()
     add_compile_options(-pedantic-errors -Wall -Werror -Wextra)
 endif()
