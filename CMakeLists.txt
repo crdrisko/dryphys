@@ -94,10 +94,17 @@ configure_file (
 
 include_directories("${PROJECT_BINARY_DIR}" include)
 
+set(SOURCE src/particle.cpp)
+
+add_library(dryphys STATIC ${SOURCE})
+
 
 ### Installation ###
 install(DIRECTORY ${LIBRARIES}
         DESTINATION include)
+
+install(TARGETS dryphys
+        DESTINATION lib)
 
 
 ### Unit Testing ###

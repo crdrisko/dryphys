@@ -46,7 +46,7 @@ function(DryPhysNewTest)
 
     add_executable(Test${TEST_ARGS_TESTNAME} ${TESTPATH}/test${TEST_ARGS_TESTNAME}.cpp)
 
-    target_link_libraries(Test${TEST_ARGS_TESTNAME} ${GTEST_LIBRARIES} Threads::Threads)
+    target_link_libraries(Test${TEST_ARGS_TESTNAME} dryphys ${GTEST_LIBRARIES} Threads::Threads)
 
     if (TEST_ARGS_USEFILESYSTEM AND CMAKE_COMPILER_IS_GNUCXX)
         target_link_libraries(Test${TEST_ARGS_TESTNAME} stdc++fs)
