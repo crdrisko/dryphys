@@ -22,6 +22,16 @@ namespace DryPhys
 #else
     using real = float;
 #endif
+
+#ifdef phys_four_word_alignment
+    /*!
+     * Since the pad variable in Vector3D messes with the ability for the default constructor to be
+     *  constexpr, we'll define our own macro which will be disabled under these conditions.
+     */
+    #define DRYPHYS_CONSTEXPR
+#else
+    #define DRYPHYS_CONSTEXPR constexpr
+#endif
 }
 
 #endif

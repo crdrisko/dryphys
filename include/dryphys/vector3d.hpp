@@ -34,14 +34,6 @@ namespace DryPhys
 #ifdef phys_four_word_alignment
         //! Padding to ensure four word alignment
         [[maybe_unused]] real pad;
-
-    /*!
-     * Since the pad variable here messes with the ability for the default constructor to be constexpr,
-     *  we'll define our own macro which will be disabled under these conditions.
-     */
-    #define DRYPHYS_CONSTEXPR
-#else
-    #define DRYPHYS_CONSTEXPR constexpr
 #endif
 
     public:
@@ -165,7 +157,6 @@ namespace DryPhys
          * Calculates the magnitude of this vector
          */
         real magnitude() const { return std::sqrt(x * x + y * y + z * z); }
-
 
         /*! 
          * Turns a non-zero vector into a vector of unit length
