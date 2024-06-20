@@ -6,7 +6,7 @@ project(DryPhys VERSION 1.0.0)
 ### Options ###
 option(phys_build_all           "Builds all libraries, unit tests, and code samples." OFF)
 option(phys_build_tests         "Builds all libraries and unit tests." OFF)
-option(phys_build_samples       "Builds all libraries and code samples." OFF)
+option(phys_build_demos         "Builds all libraries and code demos/samples." OFF)
 option(phys_configure_docs      "Builds all libraries while configuring the Doxygen file for documentation generation." OFF)
 option(phys_enable_coverage     "Builds all libraries, unit tests, and enables coverage options." OFF)
 option(phys_format_codebase     "Builds all libraries while also formatting the code." OFF)
@@ -32,7 +32,7 @@ endif()
 
 if (phys_build_all)
     set(phys_build_tests ON)
-    set(phys_build_samples ON)
+    set(phys_build_demos ON)
 endif()
 
 
@@ -71,11 +71,48 @@ if (NOT ${DryChem_FOUND})
                             TAG main)
 
     set(COMMON_UTILS_INCLUDE_DIR "${DryChem_SOURCE_DIR}/common-utilities/include")
-    set(CPP_UNITS_INCLUDE_DIR "${DryChem_SOURCE_DIR}/cpp-units/include")
     set(DryChem_FOUND TRUE)
 endif()
 
 include_directories(${COMMON_UTILS_INCLUDE_DIR})
+
+if (phys_build_demos)
+    include(FetchContent)
+
+    ## ImGui
+    message(STATUS "Fetching ImGUI...")
+    FetchContent_Declare(imgui          # v1.90.5
+                         GIT_REPOSITORY "https://github.com/ocornut/imgui.git"
+                         GIT_TAG "231cbee0fc4f59dbe5b8b853a11b08dc84e57c65")
+
+    FetchContent_MakeAvailable(imgui)
+    include_directories(${imgui_SOURCE_DIR})
+
+    ## SFML
+    message(STATUS "Fetching SFML...")
+    FetchContent_Declare(sfml           # v2.6.1
+                     GIT_REPOSITORY "https://github.com/SFML/SFML.git"
+                     GIT_TAG "69ea0cd863aed1d4092b970b676924a716ff718b")
+
+    # set(SFML_BUILD_AUDIO FALSE)
+    set(SFML_BUILD_NETWORK FALSE)
+
+    FetchContent_MakeAvailable(sfml)
+    include_directories(${sfml_SOURCE_DIR}/include)
+
+    ## ImGui-SFML
+    message(STATUS "Fetching ImGui-SFML...")
+    FetchContent_Declare(imgui_sfml     # v2.6
+                         GIT_REPOSITORY "https://github.com/SFML/imgui-sfml.git"
+                         GIT_TAG "de565ac8f2b795dedc0307b60830cb006afd2ecd")
+
+    set(IMGUI_DIR ${imgui_SOURCE_DIR})
+    set(IMGUI_SFML_FIND_SFML OFF)
+    set(IMGUI_SFML_IMGUI_DEMO ON)
+
+    FetchContent_MakeAvailable(imgui_sfml)
+    include_directories(${imgui_sfml_SOURCE_DIR})
+endif()
 
 
 ### Files / Directories ###
@@ -94,16 +131,64 @@ configure_file (
 
 include_directories("${PROJECT_BINARY_DIR}" include)
 
-set(SOURCE src/particle.cpp)
+set(DRYPHYS_SOURCE src/dryphys/particle.cpp
+                   src/dryphys/particleDrag.cpp
+                   src/dryphys/particleGravity.cpp
+                   src/dryphys/integrator.cpp
+                   src/dryphys/eulersMethod.cpp)
 
-add_library(dryphys STATIC ${SOURCE})
+set(ENGINE2D_SOURCE src/engine2d/animation.cpp
+                    src/engine2d/engine.cpp)
+
+add_library(engine2d STATIC ${ENGINE2D_SOURCE})
+add_library(dryphys STATIC ${DRYPHYS_SOURCE})
+
+set(LIBRARIES include/dryphys
+              include/engine2d)
+
+if (phys_build_demos)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/demos)
+
+    set(IMGUI_SOURCE ${imgui_SOURCE_DIR}/imgui.cpp
+                     ${imgui_SOURCE_DIR}/imgui_demo.cpp
+                     ${imgui_SOURCE_DIR}/imgui_draw.cpp
+                     ${imgui_SOURCE_DIR}/imgui_tables.cpp
+                     ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+                     ${imgui_sfml_SOURCE_DIR}/imgui-SFML.cpp)
+
+    ## CyberCity Demo
+    set(CYBERCITY_SOURCE src/demos/cyberCity/main.cpp
+                         src/demos/cyberCity/physics.cpp
+                         src/demos/cyberCity/scenes/sceneMenu.cpp
+                         src/demos/cyberCity/scenes/scenePlay.cpp
+                         src/demos/cyberCity/states/playerStates.cpp
+                         src/demos/cyberCity/states/states.cpp)
+
+    add_executable(cyberCity ${CYBERCITY_SOURCE} ${IMGUI_SOURCE})
+    target_include_directories(cyberCity PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/cyberCity)
+    target_link_libraries(cyberCity PRIVATE ImGui-SFML::ImGui-SFML ${LIBRARIES})
+
+    ## Shape Watcher Demo
+    add_executable(shapeWatcher src/demos/shapeWatcher/main.cpp ${IMGUI_SOURCE})
+    target_include_directories(shapeWatcher PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/shapeWatcher)
+    target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML)
+
+    ## Geometry Waves Demo
+    add_executable(geometryWaves src/demos/geometryWaves/main.cpp
+                                 src/demos/geometryWaves/entityManager.cpp
+                                 src/demos/geometryWaves/game.cpp ${IMGUI_SOURCE})
+    target_include_directories(geometryWaves PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/geometryWaves)
+    target_link_libraries(geometryWaves PRIVATE ImGui-SFML::ImGui-SFML)
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+endif()
 
 
 ### Installation ###
 install(DIRECTORY ${LIBRARIES}
         DESTINATION include)
 
-install(TARGETS dryphys
+install(TARGETS dryphys engine2d
         DESTINATION lib)
 
 

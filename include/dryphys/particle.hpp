@@ -11,21 +11,28 @@
 
 #include <config.h>
 
-#include "vector3d.hpp"
+#include "dryphys/vector3d.hpp"
 
 namespace DryPhys
 {
     class Particle
     {
     protected:
-        Vector3D position_;       //! Linear position of the particle in world space
-        Vector3D velocity_;       //! Linear velocity of the particle in world space
-        Vector3D acceleration_;   //! Acceleration of the particle
+        Vector3D position_;           //! Linear position of the particle in world space
+        Vector3D velocity_;           //! Linear velocity of the particle in world space
+        Vector3D acceleration_;       //! Acceleration of the particle
+        Vector3D forceAccumulator_;   //! Accumulated forces acting on this particle
 
-        real damping_;       //! Damping applied to linear motion to adjust for numerical instability
-        real inverseMass_;   //! Inverse mass which can be zero (immovable object) and can not be infinite (massless)
+        real damping_ {};       //! Damping applied to linear motion to adjust for numerical instability
+        real inverseMass_ {};   //! Inverse mass which can be zero (immovable object) and can not be infinite (massless)
 
     public:
+        void integrate(real duration);
+
+        DRYPHYS_CONSTEXPR bool hasFiniteMass() const { return inverseMass_ > 0; }
+        DRYPHYS_CONSTEXPR void addForce(const Vector3D& force) { forceAccumulator_ += force; }
+        DRYPHYS_CONSTEXPR void clearAccumulator() { forceAccumulator_.clear(); }
+
         //! Accessors
         DRYPHYS_CONSTEXPR void setPosition(const Vector3D& position) { position_ = position; }
         DRYPHYS_CONSTEXPR void setVelocity(const Vector3D& velocity) { velocity_ = velocity; }
@@ -46,11 +53,6 @@ namespace DryPhys
         DRYPHYS_CONSTEXPR real getDamping() const { return damping_; }
         DRYPHYS_CONSTEXPR real getInverseMass() const { return inverseMass_; }
         real getMass() const;
-
-        void integrate(real duration);
-
-        DRYPHYS_CONSTEXPR bool hasFiniteMass() const { return (inverseMass_ >= 0.0f); }
-        // void clearAccumulator() {}
     };
 }   // namespace DryPhys
 

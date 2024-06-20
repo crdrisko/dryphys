@@ -1,0 +1,105 @@
+Tile PlatformBraced	 0 5
+Tile PlatformBraced  1 5
+Tile PlatformBraced  2 5
+Tile PlatformBraced  3 5
+Tile PlatformBraced  4 5
+Tile PlatformBraced  5 5
+Tile PlatformBraced  6 5
+Tile PlatformBraced  7 5
+Tile PlatformBraced  8 5
+Tile PlatformBraced  9 5
+Tile PlatformBraced 10 5
+Tile PlatformBraced 11 5
+Tile PlatformBraced 12 5
+Tile PlatformBraced 13 5
+Tile PlatformBraced 14 5
+Tile PlatformBraced 15 5
+Tile PlatformBraced 16 5
+Tile PlatformBraced 17 5
+Tile PlatformBraced 18 5
+Tile PlatformBraced 19 5
+Tile PlatformBraced 20 5
+Tile PlatformBraced 21 5
+Tile PlatformBraced 22 5
+Tile PlatformBraced 23 5
+Tile PlatformBraced 24 5
+Tile PlatformBraced 25 5
+Tile PlatformBraced 26 5
+Tile PlatformBraced 27 5
+Tile PlatformBraced 28 5
+Tile PlatformBraced 29 5
+Tile PlatformBraced 30 5
+Tile PlatformBraced 31 5
+Tile PlatformBraced 32 5
+Tile PlatformBraced 33 5
+Tile PlatformBraced 34 5
+Tile PlatformBraced 35 5
+Tile PlatformBraced 36 5
+Tile PlatformBraced 37 5
+Tile PlatformBraced 38 5
+Tile PlatformBraced 39 5
+Tile PlatformBraced 40 5
+
+Tile PlatformBraced		1 0
+Tile PlatformBraced		2 0
+Tile PlatformBraced		3 0
+Tile PlatformBraced		4 0
+
+Enemy 1 1 48 48 5 -5 20 0.75 Cop EnemyShoot
+Enemy 2 1 48 48 5 -5 20 0.75 Drone EnemyShoot
+Enemy 3 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
+Enemy 4 1 48 48 5 -5 20 0.75 Turret EnemyShoot
+
+Tile Platform	7 0
+Tile Platform	8 0
+Tile Platform	9 0
+Tile Platform	10 0
+
+Enemy 7 1 48 48 5 -5 20 0.75 Cop EnemyShoot
+Enemy 8 1 48 48 5 -5 20 0.75 Drone EnemyShoot
+Enemy 9 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
+Enemy 10 1 48 48 5 -5 20 0.75 Turret EnemyShoot
+
+Tile PlatformCracked	13 0
+Tile PlatformCracked	14 0
+Tile PlatformCracked	15 0
+Tile PlatformCracked	16 0
+
+Enemy 13 1 48 48 5 -5 20 0.75 Cop EnemyShoot
+Enemy 14 1 48 48 5 -5 20 0.75 Drone EnemyShoot
+Enemy 15 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
+Enemy 16 1 48 48 5 -5 20 0.75 Turret EnemyShoot
+
+Tile Block	19 0
+Tile Block	20 0
+Tile Block	21 0
+Tile Block	22 0
+
+Enemy 19 1 48 48 5 -5 20 0.75 Cop EnemyShoot
+Enemy 20 1 48 48 5 -5 20 0.75 Drone EnemyShoot
+Enemy 21 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
+Enemy 22 1 48 48 5 -5 20 0.75 Turret EnemyShoot
+
+Tile BlockWide	25 0
+Tile BlockWide	26 0
+Tile BlockWide	27 0
+Tile BlockWide	28 0
+
+Enemy 25 1 48 48 5 -5 20 0.75 Cop EnemyShoot
+Enemy 26 1 48 48 5 -5 20 0.75 Drone EnemyShoot
+Enemy 27 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
+Enemy 28 1 48 48 5 -5 20 0.75 Turret EnemyShoot
+
+Tile PlatformEnd	31 0
+Tile PlatformEnd	32 0
+Tile PlatformEnd	33 0
+Tile PlatformEnd	34 0
+
+Enemy 31 1 48 48 5 -5 20 0.75 Cop EnemyShoot
+Enemy 32 1 48 48 5 -5 20 0.75 Drone EnemyShoot
+Enemy 33 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
+Enemy 34 1 48 48 5 -5 20 0.75 Turret EnemyShoot
+
+Player 10 10 48 48 5 -5 20 0.75 Player1 PlayerShoot
+
+Music LastArea 20

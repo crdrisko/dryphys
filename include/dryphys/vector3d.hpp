@@ -41,30 +41,31 @@ namespace DryPhys
         DRYPHYS_CONSTEXPR Vector3D() noexcept = default;
         DRYPHYS_CONSTEXPR Vector3D(const real x, const real y, const real z) noexcept : x {x}, y {y}, z {z} {}
 
+
         //! Comparison operators - only the equality operator is symmetric
-        DRYPHYS_CONSTEXPR friend bool operator==(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator==(const Vector3D& lhs, const Vector3D& rhs)
         {
-            return lhs_.x == rhs_.x && lhs_.y == rhs_.y && lhs_.z == rhs_.z;
+            return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
         }
 
-        DRYPHYS_CONSTEXPR friend bool operator<(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator<(const Vector3D& lhs, const Vector3D& rhs)
         {
-            return lhs_.x < rhs_.x && lhs_.y < rhs_.y && lhs_.z < rhs_.z;
+            return lhs.x < rhs.x && lhs.y < rhs.y && lhs.z < rhs.z;
         }
 
-        DRYPHYS_CONSTEXPR friend bool operator>(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator>(const Vector3D& lhs, const Vector3D& rhs)
         {
-            return lhs_.x > rhs_.x && lhs_.y > rhs_.y && lhs_.z > rhs_.z;
+            return lhs.x > rhs.x && lhs.y > rhs.y && lhs.z > rhs.z;
         }
 
-        DRYPHYS_CONSTEXPR friend bool operator<=(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator<=(const Vector3D& lhs, const Vector3D& rhs)
         {
-            return lhs_.x <= rhs_.x && lhs_.y <= rhs_.y && lhs_.z <= rhs_.z;
+            return lhs.x <= rhs.x && lhs.y <= rhs.y && lhs.z <= rhs.z;
         }
 
-        DRYPHYS_CONSTEXPR friend bool operator>=(const Vector3D& lhs_, const Vector3D& rhs_)
+        DRYPHYS_CONSTEXPR friend bool operator>=(const Vector3D& lhs, const Vector3D& rhs)
         {
-            return lhs_.x >= rhs_.x && lhs_.y >= rhs_.y && lhs_.z >= rhs_.z;
+            return lhs.x >= rhs.x && lhs.y >= rhs.y && lhs.z >= rhs.z;
         }
 
         //! Element access
@@ -72,40 +73,48 @@ namespace DryPhys
         DRYPHYS_CONSTEXPR const real& operator[](unsigned i) const { return ((&x)[i]); }
 
         //! Arithmetic Operators
-        DRYPHYS_CONSTEXPR void operator+=(const Vector3D& rhs)
+        DRYPHYS_CONSTEXPR Vector3D& operator+=(const Vector3D& rhs)
         {
             x += rhs.x;
             y += rhs.y;
             z += rhs.z;
+
+            return *this;
         }
 
         DRYPHYS_CONSTEXPR Vector3D operator+(const Vector3D& rhs) const { return Vector3D(x + rhs.x, y + rhs.y, z + rhs.z); }
 
-        DRYPHYS_CONSTEXPR void operator-=(const Vector3D& rhs)
+        DRYPHYS_CONSTEXPR Vector3D& operator-=(const Vector3D& rhs)
         {
             x -= rhs.x;
             y -= rhs.y;
             z -= rhs.z;
+
+            return *this;
         }
 
         DRYPHYS_CONSTEXPR Vector3D operator-(const Vector3D& rhs) const { return Vector3D(x - rhs.x, y - rhs.y, z - rhs.z); }
 
-        DRYPHYS_CONSTEXPR void operator*=(real rhs)
+        DRYPHYS_CONSTEXPR Vector3D& operator*=(real rhs)
         {
             x *= rhs;
             y *= rhs;
             z *= rhs;
+
+            return *this;
         }
 
         DRYPHYS_CONSTEXPR Vector3D operator*(real rhs) const { return Vector3D(x * rhs, y * rhs, z * rhs); }
 
-        DRYPHYS_CONSTEXPR void operator/=(real rhs)
+        DRYPHYS_CONSTEXPR Vector3D& operator/=(real rhs)
         {
             rhs = static_cast<real>(1) / rhs;
 
             x *= rhs;
             y *= rhs;
             z *= rhs;
+
+            return *this;
         }
 
         DRYPHYS_CONSTEXPR Vector3D operator/(real rhs) const
@@ -114,15 +123,25 @@ namespace DryPhys
             return Vector3D(x * rhs, y * rhs, z * rhs);
         }
 
-        //! We use operator*= for the component product
-        DRYPHYS_CONSTEXPR void operator*=(const Vector3D& rhs)
+        /*!
+         * Calculates the component product of the two vectors.
+         *
+         * \note We use operator*= for the component product
+         */
+        DRYPHYS_CONSTEXPR Vector3D& operator*=(const Vector3D& rhs)
         {
             x *= rhs.x;
             y *= rhs.y;
             z *= rhs.z;
+
+            return *this;
         }
 
-        //! We use operator* for the component product
+        /*!
+         * Calculates the component product of the two vectors.
+         *
+         * \note We use operator* for the component product
+         */
         DRYPHYS_CONSTEXPR Vector3D operator*(const Vector3D& rhs) const { return Vector3D(x * rhs.x, y * rhs.y, z * rhs.z); }
 
         /*!
@@ -139,27 +158,41 @@ namespace DryPhys
         }
 
         /*! 
-         * Flips all the components of the vector
+         * Reset the elements of the vector to zero.
          */
-        DRYPHYS_CONSTEXPR void invert()
+        DRYPHYS_CONSTEXPR Vector3D& clear()
+        {
+            x = 0;
+            y = 0;
+            z = 0;
+
+            return *this;
+        }
+
+        /*! 
+         * Flips all the components of the vector.
+         */
+        DRYPHYS_CONSTEXPR Vector3D& invert()
         {
             x = -x;
             y = -y;
             z = -z;
+
+            return *this;
         }
 
         /*! 
-         * Calculates the magnitude of this vector squared to avoid a square root call
+         * Calculates the magnitude of this vector squared to avoid a square root call.
          */
         DRYPHYS_CONSTEXPR real magnitudeSquared() const { return x * x + y * y + z * z; }
 
         /*! 
-         * Calculates the magnitude of this vector
+         * Calculates the magnitude/length of this vector.
          */
         real magnitude() const { return std::sqrt(x * x + y * y + z * z); }
 
         /*! 
-         * Turns a non-zero vector into a vector of unit length
+         * Turns a non-zero vector into a vector of unit length.
          */
         void normalize()
         {

@@ -1,0 +1,98 @@
+TextureSheet	Effects					application/assets/Sprites/Cyberpunk/Effects/effects.png
+TextureSheet	Enemies					application/assets/Sprites/Cyberpunk/Enemies/enemies.png
+TextureSheet	Tiles					application/assets/Sprites/Cyberpunk/Environments/Environment1/tileset.png
+TextureSheet	Banners					application/assets/Sprites/Cyberpunk/Environments/Environment1/Props/banners.png
+TextureSheet	Props					application/assets/Sprites/Cyberpunk/Environments/Environment1/Props/props.png
+TextureSheet	Tiles2					application/assets/Sprites/Cyberpunk/Environments/Environment2/tileset.png
+TextureSheet	Player1					application/assets/Sprites/Cyberpunk/Player/Player1/player1.png
+TextureSheet	Player2					application/assets/Sprites/Cyberpunk/Player/Player2/player2.png
+TextureSheet	Vehicles				application/assets/Sprites/Cyberpunk/Vehicles/vehicles.png
+
+Texture			Back					application/assets/Sprites/Cyberpunk/Environments/Environment1/skyline-a.png
+Texture			Middle					application/assets/Sprites/Cyberpunk/Environments/Environment1/buildings-bg.png
+Texture			Front					application/assets/Sprites/Cyberpunk/Environments/Environment1/near-buildings-bg.png
+
+Animation		EnemyExplosion			Effects				6		6		0		0		55		52
+Animation		EnemyShoot				Effects				3		8		0		52		12		12
+Animation		Explosion				Effects				8		6		0		64		48		48
+Animation		PlayerShoot				Effects				4		6		0		112		20		5
+Animation		Shot					Effects				3		8		0		118		15		10
+Animation		ShotHit					Effects				3		6		0		128		15		11
+Animation		CopIdle					Enemies				3		13		0		0		61		64
+Animation		CopRun					Enemies				10		8		0		64		61		64
+Animation		DroneIdle				Enemies				8		12		0		128		55		52
+Animation		EggTurretIdle			Enemies				2		10		0		180		44		62
+Animation		EggTurretShoot			Enemies				4		12		0		242		44		62
+Animation		TurretIdle				Enemies				6		10		0		304		25		23
+Animation		PlatformLeft			Tiles				1		0		16		16		16		48		
+Animation		Window					Tiles				1		0		48		16		48		64								
+Animation		PlatformRight			Tiles				1		0		112		16		16		48								
+Animation		WallLeft				Tiles				1		0		144		16		32		64								
+Animation		WallMiddle				Tiles				1		0		192		16		16		64								
+Animation		WindowClosed			Tiles				1		0		224		16		48		64								
+Animation		WallRight				Tiles				1		0		288		16		32		64								
+Animation		PlatformCorner			Tiles				1		0		336		16		16		16									
+Animation		Ladder					Tiles				1		0		32		96		16		32								
+Animation		Pipes1					Tiles				1		0		64		96		16		48								
+Animation		AntennaTile				Tiles				1		0		112		96		32		64								
+Animation		Pipes2					Tiles				1		0		160		96		48		32								
+Animation		WindowHalfOpened		Tiles				1		0		224		96		48		64								
+Animation		Radiator				Tiles				1		0		288		96		16		32								
+Animation		Screen					Tiles				1		0		320		96		16		32								
+Animation		Pipes3					Tiles				1		0		352		96		16		32								
+Animation		Wires					Tiles				1		0		64		160		16		32								
+Animation		PlatformSolo			Tiles				1		0		104		176		48		16		
+Animation		AirConditioningUnit		Tiles				1		0		176		144		32		32								
+Animation		WindowOpened			Tiles				1		0		224		176		48		64	
+Animation		BannerBig				Banners				4		12		0		0		35		92
+Animation		BannerCoke				Banners				3		30		0		92		27		78
+Animation		BannerNeon				Banners				4		10		0		170		19		48
+Animation		BannerScroll			Banners				4		12		0		218		13		47
+Animation		BannerSide				Banners				4		10		0		265		19		76
+Animation		BannerSushi				Banners				3		5		0		341		36		13
+Animation		MonitorFace				Banners				4		10		0		354		21		18
+Animation		Antenna					Props				1		0		0		0		22		96
+Animation		BannerArrow				Props				1		0		22		0		16		34
+Animation		BannerFloor				Props				1		0		22		34		13		10
+Animation		BannerOpen				Props				1		0		22		44		14		44
+Animation		BannerSmall				Props				1		0		22		88		13		35
+Animation		ControlBox1				Props				1		0		38		0		32		30
+Animation		ControlBox2				Props				1		0		38		30		17		27
+Animation		ControlBox3				Props				1		0		38		57		62		30
+Animation		HotelSign				Props				1		0		70		0		68		35
+Animation		PlatformBraced			Tiles2				1		0		0		16		160		96	
+Animation		Platform				Tiles2				1		0		176		16		64		43							
+Animation		PlatformCracked			Tiles2				1		0		272		16		64		43							
+Animation		Block					Tiles2				1		0		361		16		85		96					
+Animation		BlockWide				Tiles2				1		0		471		16		137		96	
+Animation		PlatformEnd				Tiles2				1		0		185		80		85		43	
+Animation		Player1Evade			Player1				7		8		0		0		71		67
+Animation		Player1Crouch			Player1				1		0		497		0		71		67
+Animation		Player1Hurt				Player1				1		0		568		0		71		67
+Animation		Player1Shoot			Player1				1		0		639		0		71		67
+Animation		Player1Climb			Player1				6		10		710		0		71		67
+Animation		Player1Idle				Player1				4		10		0		67		71		67
+Animation		Player1Jump				Player1				4		12		284		67		71		67
+Animation		Player1Run				Player1				8		8		568		67		71		67
+Animation		Player1RunShoot			Player1				8		8		0		134		71		67
+Animation		Player1Walk				Player1				16		4		0		201		71		67
+Animation		Player2Evade			Player2				4		12		0		0		80		80
+Animation		Player2Crouch			Player2				4		12		0		0		80		80
+Animation		Player2Idle				Player2				4		10		320		0		80		80
+Animation		Player2Jump				Player2				7		7		0		80		80		80
+Animation		Player2Run				Player2				8		8		0		160		80		80
+Animation		Player2Walk				Player2				8		8		0		160		80		80
+Animation		Player2Shoot			Player2				3		12		0		240		80		80
+Animation		Player2Hurt				Player2				1		0		240		240		80		80
+Animation		PoliceVehicle			Vehicles			1		0		0		0		163		60
+Animation		RedVehicle				Vehicles			1		0		163		0		96		61
+Animation		YellowVehicle			Vehicles			1		0		259		0		93		60
+Animation		TruckVehicle			Vehicles			1		0		0		61		257		104
+
+Music			CyberCity1				application/assets/Music/Cyberpunk/cybercity2-b.wav
+Music			CyberCity2				application/assets/Music/Cyberpunk/cyberpunkcity2.wav
+Music			LastArea				application/assets/Music/Cyberpunk/lastarea.wav
+
+Font			AniMeMatrix				application/assets/Fonts/AniMeMatrixFont.otf
+Font			Arial					application/assets/Fonts/arial.ttf
+Font			VinerHand				application/assets/Fonts/VINERITC.ttf

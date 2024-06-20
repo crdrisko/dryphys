@@ -28,6 +28,7 @@ namespace DryPhys
 
         // Work out the acceleration from the force
         Vector3D resultingAcc = acceleration_;
+        resultingAcc += forceAccumulator_ * inverseMass_;
 
         // Update linear velocity from the acceleration
         velocity_ += resultingAcc * duration;
@@ -36,7 +37,7 @@ namespace DryPhys
         velocity_ *= std::pow(damping_, duration);
 
         // Clear the forces
-        // clearAccumulator();
+        clearAccumulator();
     }
 
     void Particle::setMass(real mass)

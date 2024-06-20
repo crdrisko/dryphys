@@ -1,0 +1,31 @@
+TextureSheetWrapped		HeroKnight					application\assets\Sprites\HeroKnight\HeroKnight.png					10		9		
+TextureSheetWrapped		HeroKnightDeathNoBlood		application\assets\Sprites\HeroKnight\HeroKnight_DeathNoBlood.png		5		2		
+TextureSheetWrapped		HeroKnightBlockNoEffect		application\assets\Sprites\HeroKnight\HeroKnight_BlockNoEffect.png		5		1		
+TextureSheetWrapped		SlideDust					application\assets\Sprites\HeroKnight\SlideDust.png						5		1		
+TextureSheetWrapped		BlockFlash					application\assets\Sprites\HeroKnight\BlockFlash.png					5		1		
+TextureSheetWrapped		EnvironmentTiles			application\assets\Sprites\HeroKnight\EnvironmentTiles.png				2		2		
+
+AnimationWrapped		Idle						HeroKnight				8   10
+AnimationWrapped		Run							HeroKnight				10  10
+AnimationWrapped		Attack1						HeroKnight				6   10
+AnimationWrapped		Attack2						HeroKnight				6   10
+AnimationWrapped		Attack3						HeroKnight				8   10
+AnimationWrapped		Jump						HeroKnight				3   10
+AnimationWrapped		Fall						HeroKnight				4   10
+AnimationWrapped		Hurt						HeroKnight				3   10
+AnimationWrapped		Death						HeroKnight				10  10
+AnimationWrapped		Block						HeroKnight				8   10
+AnimationWrapped		Parry						HeroKnight				5   10
+AnimationWrapped		Roll						HeroKnight				9   10
+AnimationWrapped		LedgeGrab					HeroKnight				5   10
+AnimationWrapped		WallSlide					HeroKnight				5   10
+AnimationWrapped		DeathNoBlood				HeroKnightDeathNoBlood	10  10
+AnimationWrapped		BlockNoEffect				HeroKnightBlockNoEffect	5   10
+AnimationWrapped		SlideDust					SlideDust				5	10
+AnimationWrapped		BlockFlash					BlockFlash				5	10
+AnimationWrapped		WallEnd						EnvironmentTiles		1	0
+AnimationWrapped		Ground						EnvironmentTiles		1	0
+AnimationWrapped		Wall						EnvironmentTiles		1	0
+AnimationWrapped		GroundEnd					EnvironmentTiles		1	0
+
+Font			Arial						C:\Windows\Fonts\arial.ttf

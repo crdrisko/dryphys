@@ -6,6 +6,8 @@
 // Date: 06/12/2024-06:32:33
 // Description: Provides ~100% unit test coverage over all Vector3D functions
 
+#include <iostream>
+
 #include <dryphys/vector3d.hpp>
 #include <gtest/gtest.h>
 
@@ -108,15 +110,57 @@ GTEST_TEST(testVector3DFunctions, overloadedArithmeticOperatorsActOnElementsOfTh
     ASSERT_EQ(quot, DryPhys::Vector3D(1.0f, -4.0f, 1.0f));
 }
 
+GTEST_TEST(testVector3DFunctions, opEqualOperatorsCanBeChainedTogether)
+{
+    DryPhys::Vector3D vec1 {1.0f, 2.0f, 5.0f};
+    DryPhys::Vector3D vec2 {2.0f, -8.0f, 2.0f};
+
+    (((((vec1 += vec2) *= 3.0f) -= vec2) *= vec2) /= 2.0f);
+    ASSERT_EQ(vec1, DryPhys::Vector3D(7.0f, 40.0f, 19.0f));
+}
+
+GTEST_TEST(testVector3DFunctions, clearFunctionSetsAllElementsToZero)
+{
+    DryPhys::Vector3D vec1 {1.0f, -3.0f, 5.0f};
+
+    testing::internal::CaptureStdout();
+
+    for (std::size_t i {}; i < 3; ++i)
+    {
+        std::cout << (vec1.clear())[i] << std::endl;
+    }
+
+    ASSERT_EQ(testing::internal::GetCapturedStdout(), "0\n0\n0\n");
+
+    DryPhys::Vector3D vec2 {1.0f, -3.0f, 5.0f};
+
+    vec2.clear();
+
+    ASSERT_EQ(0.0f, vec2[0]);
+    ASSERT_EQ(0.0f, vec2[1]);
+    ASSERT_EQ(0.0f, vec2[2]);
+}
+
 GTEST_TEST(testVector3DFunctions, invertFunctionSwapsTheSignOfAllElements)
 {
-    DryPhys::Vector3D vec {1.0f, -3.0f, 5.0f};
+    DryPhys::Vector3D vec1 {1.0f, -3.0f, 5.0f};
 
-    vec.invert();
+    testing::internal::CaptureStdout();
 
-    ASSERT_FLOAT_EQ(-1.0f, vec[0]);
-    ASSERT_FLOAT_EQ(3.0f, vec[1]);
-    ASSERT_FLOAT_EQ(-5.0f, vec[2]);
+    for (std::size_t i {}; i < 3; ++i)
+    {
+        std::cout << (vec1.invert())[i] << std::endl;
+    }
+
+    ASSERT_EQ(testing::internal::GetCapturedStdout(), "-1\n-3\n-5\n");
+
+    DryPhys::Vector3D vec2 {1.0f, -3.0f, 5.0f};
+
+    vec2.invert();
+
+    ASSERT_FLOAT_EQ(-1.0f, vec2[0]);
+    ASSERT_FLOAT_EQ(3.0f, vec2[1]);
+    ASSERT_FLOAT_EQ(-5.0f, vec2[2]);
 }
 
 GTEST_TEST(testVector3DFunctions, magnitudeFunctionsCalculateTheLengthOfAVector)

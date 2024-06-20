@@ -1,0 +1,163 @@
+Background		Back		6
+Middleground	Middle		3
+Foreground		Front		1
+
+Tile BlockWide	0 0
+Tile BlockWide  1 0
+Tile BlockWide  2 0
+Tile BlockWide  3 0
+Tile BlockWide  4 0
+Tile BlockWide  5 0
+Tile BlockWide  6 0
+Tile BlockWide  7 0
+Tile BlockWide  8 0
+Tile BlockWide  9 0
+Tile BlockWide 10 0
+Tile BlockWide 11 0
+Tile BlockWide 12 0
+Tile BlockWide 13 0
+Tile BlockWide 14 0
+Tile BlockWide 15 0
+Tile BlockWide 16 0
+Tile BlockWide 17 0
+Tile BlockWide 18 0
+Tile BlockWide 19 0
+Tile BlockWide 20 0
+Tile BlockWide 21 0
+Tile BlockWide 22 0
+Tile BlockWide 23 0
+Tile BlockWide 24 0
+Tile BlockWide 25 0
+
+Tile BlockWide 24 1
+Tile BlockWide 25 1
+Tile BlockWide 25 2
+# Tile BlockWide 29 1
+# Tile BlockWide 29 2
+# Tile BlockWide 30 1
+
+Tile BlockWide 29 0
+Tile BlockWide 30 0
+Tile BlockWide 31 0
+Tile BlockWide 32 0
+Tile BlockWide 33 0
+Tile BlockWide 34 0
+Tile BlockWide 35 0
+Tile BlockWide 36 0
+Tile BlockWide 37 0
+Tile BlockWide 38 0
+Tile BlockWide 39 0
+Tile BlockWide 40 0
+
+Tile  PoliceVehicle 15 2
+
+Tile PlatformEnd		5	4
+Tile PlatformEnd		6	4
+Tile PlatformEnd		7	4
+Tile PlatformEnd		8	4
+Tile PlatformEnd		9	4
+Tile PlatformEnd		10	4
+Tile PlatformEnd		7	7
+Tile PlatformEnd		8	7
+Tile PlatformEnd		9	7
+Tile PlatformEnd		8	10
+
+Tile  PoliceVehicle   29 2
+
+Tile PlatformEnd	39	4
+Tile PlatformEnd	40	4
+Tile PlatformEnd	41	4
+Tile PlatformEnd	42	4
+Tile PlatformEnd	43	4
+Tile PlatformEnd	44	4
+Tile PlatformEnd	45	4
+Tile PlatformEnd	46	4
+Tile PlatformEnd	40	7
+Tile PlatformEnd	41	7
+Tile PlatformEnd	42	7
+Tile PlatformEnd	43	7
+Tile PlatformEnd	44	7
+Tile PlatformEnd	45	7
+Tile PlatformEnd	41	10
+Tile PlatformEnd	44	10
+
+Tile BlockWide 41 0
+Tile BlockWide 42 0
+Tile BlockWide 43 0
+Tile BlockWide 44 0
+Tile BlockWide 45 0
+Tile BlockWide 46 0
+Tile BlockWide 47 0
+Tile BlockWide 48 0
+Tile BlockWide 49 0
+Tile BlockWide 50 0
+Tile BlockWide 51 0
+Tile BlockWide 52 0
+
+Tile RedVehicle 56 2
+Tile TruckVehicle 60 2
+
+Tile BlockWide 63 0
+Tile BlockWide 64 0
+Tile BlockWide 65 0
+Tile BlockWide 66 0
+Tile BlockWide 67 0
+Tile BlockWide 68 0
+Tile BlockWide 69 0
+Tile BlockWide 70 0
+Tile BlockWide 71 0
+Tile BlockWide 72 0
+Tile BlockWide 73 0
+Tile BlockWide 74 0
+Tile BlockWide 75 0
+Tile BlockWide 76 0
+Tile BlockWide 77 0
+Tile BlockWide 78 0
+Tile BlockWide 79 0
+Tile BlockWide 80 0
+Tile BlockWide 81 0
+Tile BlockWide 82 0
+Tile BlockWide 83 0
+Tile BlockWide 84 0
+Tile BlockWide 85 0
+Tile BlockWide 86 0
+Tile BlockWide 87 0
+Tile BlockWide 88 0
+Tile BlockWide 89 0
+
+Tile BlockWide  67 1
+Tile BlockWide  68 1
+Tile BlockWide  68 2
+Tile BlockWide  69 1
+Tile BlockWide  69 2
+Tile BlockWide  69 3
+Tile BlockWide  70 1
+Tile BlockWide  70 2
+Tile BlockWide  70 3
+Tile BlockWide  70 4
+Tile BlockWide  71 1
+Tile BlockWide  71 2
+Tile BlockWide  71 3
+Tile BlockWide  71 4
+Tile BlockWide  71 5
+Tile BlockWide  72 1
+Tile BlockWide  72 2
+Tile BlockWide  72 3
+Tile BlockWide  72 4
+Tile BlockWide  72 5
+Tile BlockWide  72 6
+Tile BlockWide  73 1
+Tile BlockWide  73 2
+Tile BlockWide  73 3
+Tile BlockWide  73 4
+Tile BlockWide  73 5
+Tile BlockWide  73 6
+
+Tile PlatformEnd  78 6
+
+Player 10 10 48 48 5 -5 20 0.75 Player1 PlayerShoot
+
+Enemy 16 1 48 48 5 -5 20 0.75 Cop EnemyShoot
+Enemy 79 7 48 48 5 -5 20 0.75 Cop EnemyShoot
+
+Music CyberCity1 20

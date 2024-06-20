@@ -1,0 +1,47 @@
+Tile PlatformBraced	 0 0
+Tile PlatformBraced  1 0
+Tile PlatformBraced  2 0
+Tile PlatformBraced  3 0
+Tile PlatformBraced  4 0
+Tile PlatformBraced  5 0
+Tile PlatformBraced  6 0
+Tile PlatformBraced  7 0
+Tile PlatformBraced  8 0
+Tile PlatformBraced  9 0
+Tile PlatformBraced 10 0
+Tile PlatformBraced 11 0
+Tile PlatformBraced 12 0
+Tile PlatformBraced 13 0
+Tile PlatformBraced 14 0
+Tile PlatformBraced 15 0
+Tile PlatformBraced 16 0
+Tile PlatformBraced 17 0
+Tile PlatformBraced 18 0
+Tile PlatformBraced 19 0
+Tile PlatformBraced 20 0
+Tile PlatformBraced 21 0
+Tile PlatformBraced 22 0
+Tile PlatformBraced 23 0
+Tile PlatformBraced 24 0
+Tile PlatformBraced 25 0
+
+Tile PlatformBraced 29 0
+Tile PlatformBraced 30 0
+Tile PlatformBraced 31 0
+Tile PlatformBraced 32 0
+Tile PlatformBraced 33 0
+Tile PlatformBraced 34 0
+Tile PlatformBraced 35 0
+Tile PlatformBraced 36 0
+Tile PlatformBraced 37 0
+Tile PlatformBraced 38 0
+Tile PlatformBraced 39 0
+Tile PlatformBraced 40 0
+
+
+Player 10 10 48 48 5 -5 20 0.75 Player2 PlayerShoot
+
+Enemy 15 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
+Enemy 33 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
+
+Music CyberCity2 20

@@ -8,6 +8,7 @@
 
 #include <limits>
 
+#include <dryphys/integrators/eulersMethod.hpp>
 #include <dryphys/particle.hpp>
 #include <gtest/gtest.h>
 
@@ -102,6 +103,8 @@ GTEST_TEST(testParticleFunctions, integrateDoesNothingIfMassIsNotFinite)
     DryPhys::Particle before;
     DryPhys::Particle after {before};
 
+    ASSERT_FALSE(after.hasFiniteMass());
+
     after.integrate(2.0f);
 
     ASSERT_EQ(before.getPosition(), after.getPosition());
@@ -122,7 +125,14 @@ GTEST_TEST(testParticleFunctions, integratePropogatesPositionsAndVelocitiesAccor
     particle.setDamping(1.0f);
     particle.setInverseMass(15.0f);
 
-    particle.integrate(2.0f);
+    // particle.integrate(2.0f);
+
+    DryPhys::IntegratorRegistry reg;
+    DryPhys::Integrator* integrator = new DryPhys::EulersMethod {};
+
+    reg.add(&particle, integrator);
+
+    reg.integrate(2.0f);
 
     ASSERT_EQ(particle.getPosition(), DryPhys::Vector3D(16.0f, 9.0f, 14.0f));
     ASSERT_EQ(particle.getVelocity(), DryPhys::Vector3D(3.0f, 3.0f, 1.0f));
@@ -156,7 +166,7 @@ GTEST_TEST(testParticleFunctions, hasFiniteMassReturnsTrueForInverseMassesThatAr
     ASSERT_TRUE(particle.hasFiniteMass());
 
     particle.setInverseMass(0.0f);
-    ASSERT_TRUE(particle.hasFiniteMass());
+    ASSERT_FALSE(particle.hasFiniteMass());
 
     particle.setMass(-2.0f);
     ASSERT_FALSE(particle.hasFiniteMass());
