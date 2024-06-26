@@ -6,8 +6,8 @@
 // Date: 06/17/2024-08:22:06
 // Description:
 
-#ifndef ACTION_HPP
-#define ACTION_HPP
+#ifndef DRYPHYS_INCLUDE_ENGINE2D_ACTION_HPP
+#define DRYPHYS_INCLUDE_ENGINE2D_ACTION_HPP
 
 #include <config.h>
 

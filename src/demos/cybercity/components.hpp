@@ -6,8 +6,8 @@
 // Date: 06/19/2024-10:56:29
 // Description:
 
-#ifndef COMPONENTS_HPP
-#define COMPONENTS_HPP
+#ifndef DRYPHYS_SRC_DEMOS_CYBERCITY_COMPONENTS_HPP
+#define DRYPHYS_SRC_DEMOS_CYBERCITY_COMPONENTS_HPP
 
 #include <bitset>
 
@@ -15,101 +15,103 @@
 #include <engine2d/animation.hpp>
 #include <engine2d/components.hpp>
 
-#include "states/playerStates.hpp"
+#include "cybercity/states/playerStates.hpp"
 
-class CAnimation : public Engine2D::Component
+namespace CyberCity
 {
-public:
-    Engine2D::Animation animation;
-    bool repeat = false;
-
-    CAnimation() = default;
-    CAnimation(const Engine2D::Animation& animation, bool r = true) : animation {animation}, repeat {r} {}
-};
-
-class CTransform : public Engine2D::Component
-{
-public:
-    DryPhys::Vector3D pos {};
-    DryPhys::Vector3D vel {};
-    DryPhys::Vector3D scale {1.0f, 1.0f, 0.0f};
-    DryPhys::Vector3D prevPos {};
-
-    float angle {};
-
-    CTransform() = default;
-    explicit CTransform(const DryPhys::Vector3D& p) : pos {p} {}
-    CTransform(const DryPhys::Vector3D& p, const DryPhys::Vector3D& v, const DryPhys::Vector3D& sc, float a)
-        : pos {p}, vel {v}, scale {sc}, angle {a}
+    class CAnimation : public Engine2D::Component
     {
-    }
-};
+    public:
+        Engine2D::Animation animation;
+        bool repeat = false;
 
-class CBoundingBox : public Engine2D::Component
-{
-public:
-    DryPhys::Vector3D size {};
-    DryPhys::Vector3D halfSize {};
-
-    CBoundingBox() = default;
-    explicit CBoundingBox(const DryPhys::Vector3D& s) : size {s}, halfSize {s / 2.0f} {}
-};
-
-class CInput : public Engine2D::Component
-{
-public:
-    enum Inputs
-    {
-        BEGININDEX = 0,
-        UP         = BEGININDEX,
-        DOWN,
-        LEFT,
-        RIGHT,
-        SPRINT,
-        JUMP,
-        EVADE,
-        ATTACK,
-        DEFEND,
-        ENDINDEX
+        CAnimation() = default;
+        CAnimation(const Engine2D::Animation& animation, bool r = true) : animation {animation}, repeat {r} {}
     };
 
-    using InputBitSet = std::bitset<ENDINDEX - BEGININDEX>;
+    class CTransform : public Engine2D::Component
+    {
+    public:
+        DryPhys::Vector3D pos {};
+        DryPhys::Vector3D vel {};
+        DryPhys::Vector3D scale {1.0f, 1.0f, 0.0f};
+        DryPhys::Vector3D prevPos {};
 
-    InputBitSet inputs {0b000000000};
+        float angle {};
 
-    bool canJump     = true;
-    bool canMove     = true;
-    bool facingRight = true;
+        CTransform() = default;
+        explicit CTransform(const DryPhys::Vector3D& p) : pos {p} {}
+        CTransform(const DryPhys::Vector3D& p, const DryPhys::Vector3D& v, const DryPhys::Vector3D& sc, float a)
+            : pos {p}, vel {v}, scale {sc}, angle {a}
+        {
+        }
+    };
 
-    CInput() = default;
-};
+    class CBoundingBox : public Engine2D::Component
+    {
+    public:
+        DryPhys::Vector3D size {};
+        DryPhys::Vector3D halfSize {};
 
-class CGravity : public Engine2D::Component
-{
-public:
-    float gravity {};
+        CBoundingBox() = default;
+        explicit CBoundingBox(const DryPhys::Vector3D& s) : size {s}, halfSize {s / 2.0f} {}
+    };
 
-    CGravity() = default;
-    explicit CGravity(float g) : gravity {g} {}
-};
+    class CInput : public Engine2D::Component
+    {
+    public:
+        enum Inputs
+        {
+            BEGININDEX = 0,
+            UP         = BEGININDEX,
+            DOWN,
+            LEFT,
+            RIGHT,
+            SPRINT,
+            JUMP,
+            EVADE,
+            ATTACK,
+            DEFEND,
+            ENDINDEX
+        };
 
-class CState : public Engine2D::Component
-{
-public:
-    PlayerState* state;
+        using InputBitSet = std::bitset<ENDINDEX - BEGININDEX>;
 
-    CState() : state {IdlingState::getInstance()} {}
-};
+        InputBitSet inputs {0b000000000};
 
-class CLifespan : public Engine2D::Component
-{
-public:
-    int lifespan {};
-    int frameCreated {};
+        bool canJump     = true;
+        bool canMove     = true;
+        bool facingRight = true;
 
-    CLifespan() = default;
-    CLifespan(int duration, int frame) : lifespan {duration}, frameCreated {frame} {}
-};
+        CInput() = default;
+    };
 
+    class CGravity : public Engine2D::Component
+    {
+    public:
+        float gravity {};
+
+        CGravity() = default;
+        explicit CGravity(float g) : gravity {g} {}
+    };
+
+    class CState : public Engine2D::Component
+    {
+    public:
+        PlayerState* state;
+
+        CState() : state {IdlingState::getInstance()} {}
+    };
+
+    class CLifespan : public Engine2D::Component
+    {
+    public:
+        int lifespan {};
+        int frameCreated {};
+
+        CLifespan() = default;
+        CLifespan(int duration, int frame) : lifespan {duration}, frameCreated {frame} {}
+    };
+}   // namespace CyberCity
 
 #endif

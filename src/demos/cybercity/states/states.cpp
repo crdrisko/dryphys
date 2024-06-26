@@ -6,19 +6,21 @@
 // Date: 06/20/2024-06:24:50
 // Description:
 
-#include "states/states.hpp"
+#include "cybercity/states/states.hpp"
 
-#include "scenes/scenePlay.hpp"
+#include "cybercity/entity.hpp"
+
+using namespace CyberCity;
 
 #define CREATE_STATE_ACTIONS(STATE_NAME)                                                                                    \
-    void STATE_NAME::walk(EntityPtr player) { changeState(player, WalkingState::getInstance()); }                           \
-    void STATE_NAME::run(EntityPtr player) { changeState(player, RunningState::getInstance()); }                            \
-    void STATE_NAME::climb(EntityPtr player) { changeState(player, ClimbingState::getInstance()); }                         \
-    void STATE_NAME::evade(EntityPtr player) { changeState(player, EvadingState::getInstance()); }                          \
-    void STATE_NAME::jump(EntityPtr player) { changeState(player, JumpingState::getInstance()); }                           \
-    void STATE_NAME::attack(EntityPtr player) { changeState(player, AttackingState::getInstance()); }                       \
-    void STATE_NAME::defend(EntityPtr player) { changeState(player, DefendingState::getInstance()); }                       \
-    void STATE_NAME::hurt(EntityPtr player) { changeState(player, HurtingState::getInstance()); }
+    void STATE_NAME::walk(std::shared_ptr<Entity> player) { changeState(player, WalkingState::getInstance()); }             \
+    void STATE_NAME::run(std::shared_ptr<Entity> player) { changeState(player, RunningState::getInstance()); }              \
+    void STATE_NAME::climb(std::shared_ptr<Entity> player) { changeState(player, ClimbingState::getInstance()); }           \
+    void STATE_NAME::evade(std::shared_ptr<Entity> player) { changeState(player, EvadingState::getInstance()); }            \
+    void STATE_NAME::jump(std::shared_ptr<Entity> player) { changeState(player, JumpingState::getInstance()); }             \
+    void STATE_NAME::attack(std::shared_ptr<Entity> player) { changeState(player, AttackingState::getInstance()); }         \
+    void STATE_NAME::defend(std::shared_ptr<Entity> player) { changeState(player, DefendingState::getInstance()); }         \
+    void STATE_NAME::hurt(std::shared_ptr<Entity> player) { changeState(player, HurtingState::getInstance()); }
 
 CREATE_STATE_ACTIONS(IdlingState)
 CREATE_STATE_ACTIONS(WalkingState)

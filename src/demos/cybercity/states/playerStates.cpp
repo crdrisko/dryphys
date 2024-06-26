@@ -6,146 +6,522 @@
 // Date: 06/20/2024-06:25:34
 // Description:
 
-#include "states/playerStates.hpp"
+#include "cybercity/states/playerStates.hpp"
 
 #include <iostream>
 #include <memory>
 
+#include <common-utils/strings.hpp>
 #include <engine2d/action.hpp>
 
-#include "scenes/scenePlay.hpp"
+#include "cybercity/entity.hpp"
 
-void PlayerState::changeState(EntityPtr player, PlayerState* state)
+namespace CyberCity
 {
-    if (player->hasComponent<CState>())
-        player->getComponent<CState>().state = state;
-}
-
-void PlayerState::handleActions(EntityPtr player, const Engine2D::Action& action)
-{
-    auto& pInput = player->getComponent<CInput>();
-
-    if (action.type() == "START")
+    void PlayerState::changeState(std::shared_ptr<Entity> player, PlayerState* state)
     {
-        if (action.name() == "UP")
+        if (player->hasComponent<CState>())
+            player->getComponent<CState>().state = state;
+    }
+
+    void PlayerState::handleActions(std::shared_ptr<Entity> player, const Engine2D::Action& action)
+    {
+        auto& pInput = player->getComponent<CInput>();
+
+        if (action.type() == "START")
         {
-            pInput.inputs.set(CInput::UP, true);
+            if (action.name() == "UP")
+            {
+                pInput.inputs.set(CInput::UP, true);
+            }
+            else if (action.name() == "DOWN")
+            {
+                pInput.inputs.set(CInput::DOWN, true);
+            }
+            else if (action.name() == "LEFT")
+            {
+                pInput.inputs.set(CInput::LEFT, true);
+            }
+            else if (action.name() == "RIGHT")
+            {
+                pInput.inputs.set(CInput::RIGHT, true);
+            }
+            else if (action.name() == "SPRINT")
+            {
+                pInput.inputs.set(CInput::SPRINT, true);
+            }
+            else if (action.name() == "JUMP")
+            {
+                pInput.inputs.set(CInput::JUMP, true);
+                pInput.canJump = false;
+            }
+            else if (action.name() == "EVADE")
+            {
+                pInput.inputs.set(CInput::EVADE, true);
+                // pInput.canMove = false;
+            }
+            else if (action.name() == "ATTACK")
+            {
+                pInput.inputs.set(CInput::ATTACK, true);
+            }
+            else if (action.name() == "DEFEND")
+            {
+                pInput.inputs.set(CInput::DEFEND, true);
+                pInput.canMove = false;
+            }
         }
-        else if (action.name() == "DOWN")
+        else if (action.type() == "END")
         {
-            pInput.inputs.set(CInput::DOWN, true);
-        }
-        else if (action.name() == "LEFT")
-        {
-            pInput.inputs.set(CInput::LEFT, true);
-        }
-        else if (action.name() == "RIGHT")
-        {
-            pInput.inputs.set(CInput::RIGHT, true);
-        }
-        else if (action.name() == "SPRINT")
-        {
-            pInput.inputs.set(CInput::SPRINT, true);
-        }
-        else if (action.name() == "JUMP")
-        {
-            pInput.inputs.set(CInput::JUMP, true);
-            pInput.canJump = false;
-        }
-        else if (action.name() == "EVADE")
-        {
-            pInput.inputs.set(CInput::EVADE, true);
-            pInput.canMove = false;
-        }
-        else if (action.name() == "ATTACK")
-        {
-            pInput.inputs.set(CInput::ATTACK, true);
-        }
-        else if (action.name() == "DEFEND")
-        {
-            pInput.inputs.set(CInput::DEFEND, true);
-            pInput.canMove = false;
+            if (action.name() == "UP")
+            {
+                pInput.inputs.set(CInput::UP, false);
+            }
+            else if (action.name() == "DOWN")
+            {
+                pInput.inputs.set(CInput::DOWN, false);
+            }
+            else if (action.name() == "LEFT")
+            {
+                pInput.inputs.set(CInput::LEFT, false);
+            }
+            else if (action.name() == "RIGHT")
+            {
+                pInput.inputs.set(CInput::RIGHT, false);
+            }
+            else if (action.name() == "SPRINT")
+            {
+                pInput.inputs.set(CInput::SPRINT, false);
+            }
+            else if (action.name() == "JUMP")
+            {
+                pInput.inputs.set(CInput::JUMP, false);
+            }
+            else if (action.name() == "EVADE")
+            {
+                pInput.inputs.set(CInput::EVADE, false);
+            }
+            else if (action.name() == "ATTACK")
+            {
+                pInput.inputs.set(CInput::ATTACK, false);
+            }
+            else if (action.name() == "DEFEND")
+            {
+                pInput.inputs.set(CInput::DEFEND, false);
+                pInput.canMove = true;
+            }
         }
     }
-    else if (action.type() == "END")
+
+    void PlayerState::handleInput(std::shared_ptr<Entity> player)
     {
-        if (action.name() == "UP")
+        auto& pInput = player->getComponent<CInput>();
+
+        if (pInput.canJump && pInput.inputs[CInput::JUMP])
         {
-            pInput.inputs.set(CInput::UP, false);
+            jump(player);
+            return;
         }
-        else if (action.name() == "DOWN")
+
+        if (pInput.inputs[CInput::ATTACK])
         {
-            pInput.inputs.set(CInput::DOWN, false);
+            attack(player);
+            return;
         }
-        else if (action.name() == "LEFT")
+
+        if (pInput.inputs[CInput::EVADE])
         {
-            pInput.inputs.set(CInput::LEFT, false);
+            evade(player);
+            return;
         }
-        else if (action.name() == "RIGHT")
+
+        if (pInput.inputs[CInput::DEFEND])
         {
-            pInput.inputs.set(CInput::RIGHT, false);
+            defend(player);
+            return;
         }
-        else if (action.name() == "SPRINT")
+
+        if (pInput.canMove && (pInput.inputs[CInput::RIGHT] || pInput.inputs[CInput::LEFT]))
         {
-            pInput.inputs.set(CInput::SPRINT, false);
+            if (pInput.inputs[CInput::SPRINT])
+                run(player);
+            else
+                walk(player);
         }
-        else if (action.name() == "JUMP")
+        else
         {
-            pInput.inputs.set(CInput::JUMP, false);
+            changeState(player, IdlingState::getInstance());
         }
-        else if (action.name() == "EVADE")
+    }
+
+    void PlayerState::handleAnimations(std::shared_ptr<Entity> player, Engine2D::Assets& assets, const std::string& prefix)
+    {
+        auto& pAnim  = player->getComponent<CAnimation>().animation;
+        auto& pInput = player->getComponent<CInput>();
+
+        std::string name {pAnim.getName()};
+
+        if (name == prefix + "Evade" || name == prefix + "Jump")
         {
-            pInput.inputs.set(CInput::EVADE, false);
+            if (!pAnim.hasEnded())
+                return;
         }
-        else if (action.name() == "ATTACK")
+
+        switch (queryState())
         {
-            pInput.inputs.set(CInput::ATTACK, false);
+        case PlayerState::Idling:
+            if (name != prefix + "Idle")
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Idle"));
+            break;
+        case PlayerState::Walking:
+            if (name != prefix + "Walk")
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Walk"));
+            break;
+        case PlayerState::Running:
+            if (name != prefix + "Run")
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Run"));
+            break;
+        case PlayerState::Climbing:
+            if (name != prefix + "Climb")
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Climb"));
+            break;
+        case PlayerState::Evading:
+            if (name != prefix + "Evade")
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Evade"));
+            break;
+        case PlayerState::Jumping:
+            if (pInput.canJump && (name != prefix + "Jump"))
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Jump"));
+            break;
+        case PlayerState::Attacking:
+            if (name == prefix + "Run")
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "RunShoot"));
+            else if (name != prefix + "Shoot" && name != prefix + "RunShoot")
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Shoot"));
+            break;
+        case PlayerState::Defending:
+            if (name != prefix + "Crouch")
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Crouch"));
+            break;
+        case PlayerState::Hurting:
+            if (name != prefix + "Hurt")
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Hurt"));
+            break;
+        default:
+            break;
         }
-        else if (action.name() == "DEFEND")
+    }
+
+    /* void PlayerState::handleAnimations(std::shared_ptr<Entity> player, Engine2D::Assets& assets, const std::string& prefix)
+{
+    auto& pAnim  = player->getComponent<CAnimation>();
+    auto& pInput = player->getComponent<CInput>();
+    // auto pState  = player->getComponent<CState>().state;
+
+    std::string name {player->getComponent<CAnimation>().animation.getName()};
+
+    if (name == prefix + "Idle")
+    {
+        switch (queryState())
         {
-            pInput.inputs.set(CInput::DEFEND, false);
+        case PlayerState::Walking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Walk"));
+            break;
+        case PlayerState::Running:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Run"));
+            break;
+        case PlayerState::Climbing:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Climb"));
+            break;
+        case PlayerState::Evading:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Evade"));
+            break;
+        case PlayerState::Jumping:
+            if (pInput.canJump)
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Jump"));
+            break;
+        case PlayerState::Attacking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Shoot"));
+            break;
+        case PlayerState::Defending:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Crouch"));
+            break;
+        case PlayerState::Hurting:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Hurt"));
+            break;
+        default:
+            break;
+        }
+    }
+    else if (name == prefix + "Walk")
+    {
+        switch (queryState())
+        {
+        case PlayerState::Idling:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Idle"));
+            break;
+        case PlayerState::Running:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Run"));
+            break;
+        case PlayerState::Climbing:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Climb"));
+            break;
+        case PlayerState::Evading:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Evade"));
+            break;
+        case PlayerState::Jumping:
+            if (pInput.canJump)
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Jump"));
+            break;
+        case PlayerState::Attacking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "RunShoot"));
+            break;
+        case PlayerState::Defending:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Crouch"));
+            break;
+        case PlayerState::Hurting:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Hurt"));
+            break;
+        default:
+            break;
+        }
+    }
+    else if (name == prefix + "Run")
+    {
+        switch (queryState())
+        {
+        case PlayerState::Idling:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Idle"));
+            break;
+        case PlayerState::Walking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Walk"));
+            break;
+        case PlayerState::Climbing:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Climb"));
+            break;
+        case PlayerState::Evading:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Evade"));
+            break;
+        case PlayerState::Jumping:
+            if (pInput.canJump)
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Jump"));
+            break;
+        case PlayerState::Attacking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "RunShoot"));
+            break;
+        case PlayerState::Defending:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Crouch"));
+            break;
+        case PlayerState::Hurting:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Hurt"));
+            break;
+        default:
+            break;
+        }
+    }
+    else if (name == prefix + "Jump")
+    {
+        if (pAnim.animation.hasEnded())
+        {
+            switch (queryState())
+            {
+            case PlayerState::Idling:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Idle"));
+                break;
+            case PlayerState::Walking:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Walk"));
+                break;
+            case PlayerState::Running:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Run"));
+                break;
+            case PlayerState::Climbing:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Climb"));
+                break;
+            case PlayerState::Evading:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Evade"));
+                break;
+            case PlayerState::Attacking:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Shoot"));
+                break;
+            case PlayerState::Defending:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Crouch"));
+                break;
+            case PlayerState::Hurting:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Hurt"));
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    else if (name == prefix + "Evade")
+    {
+        if (pAnim.animation.hasEnded())
+        {
+            switch (queryState())
+            {
+            case PlayerState::Idling:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Idle"));
+                break;
+            case PlayerState::Walking:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Walk"));
+                break;
+            case PlayerState::Running:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Run"));
+                break;
+            case PlayerState::Climbing:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Climb"));
+                break;
+            case PlayerState::Jumping:
+                if (pInput.canJump)
+                    player->addComponent<CAnimation>(assets.getAnimation(prefix + "Jump"));
+                break;
+            case PlayerState::Attacking:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Shoot"));
+                break;
+            case PlayerState::Defending:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Crouch"));
+                break;
+            case PlayerState::Hurting:
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Hurt"));
+                break;
+            default:
+                break;
+            }
+
             pInput.canMove = true;
         }
     }
-}
-
-void PlayerState::handleInput(EntityPtr player)
-{
-    auto& pInput = player->getComponent<CInput>();
-
-    if (pInput.canJump && pInput.inputs[CInput::JUMP])
+    else if (name == prefix + "Climb")
     {
-        jump(player);
-        return;
+        switch (queryState())
+        {
+        case PlayerState::Idling:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Idle"));
+            break;
+        case PlayerState::Walking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Walk"));
+            break;
+        case PlayerState::Running:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Run"));
+            break;
+        case PlayerState::Evading:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Evade"));
+            break;
+        case PlayerState::Jumping:
+            if (pInput.canJump)
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Jump"));
+            break;
+        case PlayerState::Attacking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Shoot"));
+            break;
+        case PlayerState::Defending:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Crouch"));
+            break;
+        case PlayerState::Hurting:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Hurt"));
+            break;
+        default:
+            break;
+        }
     }
-
-    if (pInput.inputs[CInput::ATTACK])
+    else if (name == prefix + "Crouch")
     {
-        attack(player);
-        return;
+        switch (queryState())
+        {
+        case PlayerState::Idling:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Idle"));
+            break;
+        case PlayerState::Walking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Walk"));
+            break;
+        case PlayerState::Running:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Run"));
+            break;
+        case PlayerState::Climbing:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Climb"));
+            break;
+        case PlayerState::Evading:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Evade"));
+            break;
+        case PlayerState::Jumping:
+            if (pInput.canJump)
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Jump"));
+            break;
+        case PlayerState::Attacking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Shoot"));
+            break;
+        case PlayerState::Hurting:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Hurt"));
+            break;
+        default:
+            break;
+        }
     }
-
-    if (pInput.inputs[CInput::EVADE])
+    else if (name == prefix + "Hurt")
     {
-        evade(player);
-        return;
+        switch (queryState())
+        {
+        case PlayerState::Idling:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Idle"));
+            break;
+        case PlayerState::Walking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Walk"));
+            break;
+        case PlayerState::Running:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Run"));
+            break;
+        case PlayerState::Climbing:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Climb"));
+            break;
+        case PlayerState::Evading:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Evade"));
+            break;
+        case PlayerState::Jumping:
+            if (pInput.canJump)
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Jump"));
+            break;
+        case PlayerState::Attacking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Shoot"));
+            break;
+        case PlayerState::Defending:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Crouch"));
+            break;
+        default:
+            break;
+        }
     }
-
-    if (pInput.inputs[CInput::DEFEND])
+    else if (name == prefix + "Shoot" || name == prefix + "RunShoot")
     {
-        defend(player);
-        return;
+        switch (queryState())
+        {
+        case PlayerState::Idling:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Idle"));
+            break;
+        case PlayerState::Walking:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Walk"));
+            break;
+        case PlayerState::Running:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Run"));
+            break;
+        case PlayerState::Climbing:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Climb"));
+            break;
+        case PlayerState::Evading:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Evade"));
+            break;
+        case PlayerState::Jumping:
+            if (pInput.canJump)
+                player->addComponent<CAnimation>(assets.getAnimation(prefix + "Jump"));
+            break;
+        case PlayerState::Defending:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Crouch"));
+            break;
+        case PlayerState::Hurting:
+            player->addComponent<CAnimation>(assets.getAnimation(prefix + "Hurt"));
+            break;
+        default:
+            break;
+        }
     }
-
-    if (pInput.canMove && (pInput.inputs[CInput::RIGHT] || pInput.inputs[CInput::LEFT]))
-    {
-        if (pInput.inputs[CInput::SPRINT])
-            run(player);
-        else
-            walk(player);
-    }
-    else
-    {
-        changeState(player, IdlingState::getInstance());
-    }
-}
+} */
+}   // namespace CyberCity

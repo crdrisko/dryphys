@@ -6,8 +6,8 @@
 // Date: 06/18/2024-05:23:24
 // Description:
 
-#ifndef ANIMATION_HPP
-#define ANIMATION_HPP
+#ifndef DRYPHYS_INCLUDE_ENGINE2D_ANIMATION_HPP
+#define DRYPHYS_INCLUDE_ENGINE2D_ANIMATION_HPP
 
 #include <map>
 #include <string>

@@ -35,3 +35,6 @@
 .vs/
 out/
 CMakeSettings.json
+
+**/assets
+.DS_Store

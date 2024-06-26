@@ -38,7 +38,6 @@ Tile PlatformBraced 38 0
 Tile PlatformBraced 39 0
 Tile PlatformBraced 40 0
 
-
 Player 10 10 48 48 5 -5 20 0.75 Player2 PlayerShoot
 
 Enemy 15 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot

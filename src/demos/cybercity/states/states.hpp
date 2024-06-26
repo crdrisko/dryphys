@@ -6,196 +6,198 @@
 // Date: 06/20/2024-06:24:48
 // Description:
 
-#ifndef STATES_HPP
-#define STATES_HPP
+#ifndef DRYPHYS_SRC_DEMOS_CYBERCITY_STATES_STATES_HPP
+#define DRYPHYS_SRC_DEMOS_CYBERCITY_STATES_STATES_HPP
 
 #include <memory>
 
-#include "playerStates.hpp"
-#include "scenes/scenePlay.hpp"
+#include "cybercity/states/playerStates.hpp"
 
-class WalkingState : public PlayerState
+namespace CyberCity
 {
-private:
-    void walk(EntityPtr player) override;
-    void run(EntityPtr player) override;
-    void climb(EntityPtr player) override;
-    void evade(EntityPtr player) override;
-    void jump(EntityPtr player) override;
-    void attack(EntityPtr player) override;
-    void defend(EntityPtr player) override;
-    void hurt(EntityPtr player) override;
-
-public:
-    static PlayerState* getInstance()
+    class WalkingState : public PlayerState
     {
-        static WalkingState instance {};
+    private:
+        void walk(std::shared_ptr<Entity> player) override;
+        void run(std::shared_ptr<Entity> player) override;
+        void climb(std::shared_ptr<Entity> player) override;
+        void evade(std::shared_ptr<Entity> player) override;
+        void jump(std::shared_ptr<Entity> player) override;
+        void attack(std::shared_ptr<Entity> player) override;
+        void defend(std::shared_ptr<Entity> player) override;
+        void hurt(std::shared_ptr<Entity> player) override;
 
-        return &instance;
-    }
+    public:
+        static PlayerState* getInstance()
+        {
+            static WalkingState instance {};
 
-    States queryState() const override { return Walking; };
-};
+            return &instance;
+        }
 
-class RunningState : public PlayerState
-{
-private:
-    void walk(EntityPtr player) override;
-    void run(EntityPtr player) override;
-    void climb(EntityPtr player) override;
-    void evade(EntityPtr player) override;
-    void jump(EntityPtr player) override;
-    void attack(EntityPtr player) override;
-    void defend(EntityPtr player) override;
-    void hurt(EntityPtr player) override;
+        States queryState() const override { return Walking; };
+    };
 
-public:
-    static PlayerState* getInstance()
+    class RunningState : public PlayerState
     {
-        static RunningState instance {};
+    private:
+        void walk(std::shared_ptr<Entity> player) override;
+        void run(std::shared_ptr<Entity> player) override;
+        void climb(std::shared_ptr<Entity> player) override;
+        void evade(std::shared_ptr<Entity> player) override;
+        void jump(std::shared_ptr<Entity> player) override;
+        void attack(std::shared_ptr<Entity> player) override;
+        void defend(std::shared_ptr<Entity> player) override;
+        void hurt(std::shared_ptr<Entity> player) override;
 
-        return &instance;
-    }
+    public:
+        static PlayerState* getInstance()
+        {
+            static RunningState instance {};
 
-    States queryState() const override { return Running; };
-};
+            return &instance;
+        }
 
-class ClimbingState : public PlayerState
-{
-private:
-    void walk(EntityPtr player) override;
-    void run(EntityPtr player) override;
-    void climb(EntityPtr player) override;
-    void evade(EntityPtr player) override;
-    void jump(EntityPtr player) override;
-    void attack(EntityPtr player) override;
-    void defend(EntityPtr player) override;
-    void hurt(EntityPtr player) override;
+        States queryState() const override { return Running; };
+    };
 
-public:
-    static PlayerState* getInstance()
+    class ClimbingState : public PlayerState
     {
-        static ClimbingState instance {};
+    private:
+        void walk(std::shared_ptr<Entity> player) override;
+        void run(std::shared_ptr<Entity> player) override;
+        void climb(std::shared_ptr<Entity> player) override;
+        void evade(std::shared_ptr<Entity> player) override;
+        void jump(std::shared_ptr<Entity> player) override;
+        void attack(std::shared_ptr<Entity> player) override;
+        void defend(std::shared_ptr<Entity> player) override;
+        void hurt(std::shared_ptr<Entity> player) override;
 
-        return &instance;
-    }
+    public:
+        static PlayerState* getInstance()
+        {
+            static ClimbingState instance {};
 
-    States queryState() const override { return Climbing; };
-};
+            return &instance;
+        }
 
-class EvadingState : public PlayerState
-{
-private:
-    void walk(EntityPtr player) override;
-    void run(EntityPtr player) override;
-    void climb(EntityPtr player) override;
-    void evade(EntityPtr player) override;
-    void jump(EntityPtr player) override;
-    void attack(EntityPtr player) override;
-    void defend(EntityPtr player) override;
-    void hurt(EntityPtr player) override;
+        States queryState() const override { return Climbing; };
+    };
 
-public:
-    static PlayerState* getInstance()
+    class EvadingState : public PlayerState
     {
-        static EvadingState instance {};
+    private:
+        void walk(std::shared_ptr<Entity> player) override;
+        void run(std::shared_ptr<Entity> player) override;
+        void climb(std::shared_ptr<Entity> player) override;
+        void evade(std::shared_ptr<Entity> player) override;
+        void jump(std::shared_ptr<Entity> player) override;
+        void attack(std::shared_ptr<Entity> player) override;
+        void defend(std::shared_ptr<Entity> player) override;
+        void hurt(std::shared_ptr<Entity> player) override;
 
-        return &instance;
-    }
+    public:
+        static PlayerState* getInstance()
+        {
+            static EvadingState instance {};
 
-    States queryState() const override { return Evading; };
-};
+            return &instance;
+        }
 
-class JumpingState : public PlayerState
-{
-private:
-    void walk(EntityPtr player) override;
-    void run(EntityPtr player) override;
-    void climb(EntityPtr player) override;
-    void evade(EntityPtr player) override;
-    void jump(EntityPtr player) override;
-    void attack(EntityPtr player) override;
-    void defend(EntityPtr player) override;
-    void hurt(EntityPtr player) override;
+        States queryState() const override { return Evading; };
+    };
 
-public:
-    static PlayerState* getInstance()
+    class JumpingState : public PlayerState
     {
-        static JumpingState instance {};
+    private:
+        void walk(std::shared_ptr<Entity> player) override;
+        void run(std::shared_ptr<Entity> player) override;
+        void climb(std::shared_ptr<Entity> player) override;
+        void evade(std::shared_ptr<Entity> player) override;
+        void jump(std::shared_ptr<Entity> player) override;
+        void attack(std::shared_ptr<Entity> player) override;
+        void defend(std::shared_ptr<Entity> player) override;
+        void hurt(std::shared_ptr<Entity> player) override;
 
-        return &instance;
-    }
+    public:
+        static PlayerState* getInstance()
+        {
+            static JumpingState instance {};
 
-    States queryState() const override { return Jumping; };
-};
+            return &instance;
+        }
 
-class AttackingState : public PlayerState
-{
-private:
-    void walk(EntityPtr player) override;
-    void run(EntityPtr player) override;
-    void climb(EntityPtr player) override;
-    void evade(EntityPtr player) override;
-    void jump(EntityPtr player) override;
-    void attack(EntityPtr player) override;
-    void defend(EntityPtr player) override;
-    void hurt(EntityPtr player) override;
+        States queryState() const override { return Jumping; };
+    };
 
-public:
-    static PlayerState* getInstance()
+    class AttackingState : public PlayerState
     {
-        static AttackingState instance {};
+    private:
+        void walk(std::shared_ptr<Entity> player) override;
+        void run(std::shared_ptr<Entity> player) override;
+        void climb(std::shared_ptr<Entity> player) override;
+        void evade(std::shared_ptr<Entity> player) override;
+        void jump(std::shared_ptr<Entity> player) override;
+        void attack(std::shared_ptr<Entity> player) override;
+        void defend(std::shared_ptr<Entity> player) override;
+        void hurt(std::shared_ptr<Entity> player) override;
 
-        return &instance;
-    }
+    public:
+        static PlayerState* getInstance()
+        {
+            static AttackingState instance {};
 
-    States queryState() const override { return Attacking; };
-};
+            return &instance;
+        }
 
-class DefendingState : public PlayerState
-{
-private:
-    void walk(EntityPtr player) override;
-    void run(EntityPtr player) override;
-    void climb(EntityPtr player) override;
-    void evade(EntityPtr player) override;
-    void jump(EntityPtr player) override;
-    void attack(EntityPtr player) override;
-    void defend(EntityPtr player) override;
-    void hurt(EntityPtr player) override;
+        States queryState() const override { return Attacking; };
+    };
 
-public:
-    static PlayerState* getInstance()
+    class DefendingState : public PlayerState
     {
-        static DefendingState instance {};
+    private:
+        void walk(std::shared_ptr<Entity> player) override;
+        void run(std::shared_ptr<Entity> player) override;
+        void climb(std::shared_ptr<Entity> player) override;
+        void evade(std::shared_ptr<Entity> player) override;
+        void jump(std::shared_ptr<Entity> player) override;
+        void attack(std::shared_ptr<Entity> player) override;
+        void defend(std::shared_ptr<Entity> player) override;
+        void hurt(std::shared_ptr<Entity> player) override;
 
-        return &instance;
-    }
+    public:
+        static PlayerState* getInstance()
+        {
+            static DefendingState instance {};
 
-    States queryState() const override { return Defending; };
-};
+            return &instance;
+        }
 
-class HurtingState : public PlayerState
-{
-private:
-    void walk(EntityPtr player) override;
-    void run(EntityPtr player) override;
-    void climb(EntityPtr player) override;
-    void evade(EntityPtr player) override;
-    void jump(EntityPtr player) override;
-    void attack(EntityPtr player) override;
-    void defend(EntityPtr player) override;
-    void hurt(EntityPtr player) override;
+        States queryState() const override { return Defending; };
+    };
 
-public:
-    static PlayerState* getInstance()
+    class HurtingState : public PlayerState
     {
-        static HurtingState instance {};
+    private:
+        void walk(std::shared_ptr<Entity> player) override;
+        void run(std::shared_ptr<Entity> player) override;
+        void climb(std::shared_ptr<Entity> player) override;
+        void evade(std::shared_ptr<Entity> player) override;
+        void jump(std::shared_ptr<Entity> player) override;
+        void attack(std::shared_ptr<Entity> player) override;
+        void defend(std::shared_ptr<Entity> player) override;
+        void hurt(std::shared_ptr<Entity> player) override;
 
-        return &instance;
-    }
+    public:
+        static PlayerState* getInstance()
+        {
+            static HurtingState instance {};
 
-    States queryState() const override { return Hurting; };
-};
+            return &instance;
+        }
+
+        States queryState() const override { return Hurting; };
+    };
+}   // namespace CyberCity
 
 #endif

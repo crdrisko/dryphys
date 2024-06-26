@@ -6,8 +6,8 @@
 // Date: 06/18/2024-05:23:45
 // Description:
 
-#ifndef SCENE_HPP
-#define SCENE_HPP
+#ifndef DRYPHYS_INCLUDE_ENGINE2D_SCENE_HPP
+#define DRYPHYS_INCLUDE_ENGINE2D_SCENE_HPP
 
 #include <cstddef>
 #include <map>
@@ -43,6 +43,7 @@ namespace Engine2D
     public:
         Scene();
         explicit Scene(Engine* engine);
+        virtual ~Scene() = default;
 
         virtual void sRender() = 0;
 

@@ -10,7 +10,7 @@
 
 #include <engine2d/engine.hpp>
 
-#include "scenes/sceneMenu.hpp"
+#include "cybercity/scenes/sceneMenu.hpp"
 
 int main(int argc, char** argv)
 {
@@ -23,6 +23,6 @@ int main(int argc, char** argv)
     Engine2D::Engine game {argv[1]};
 
     // Set the default scene our-self so the game engine doesn't need to know about it
-    game.setDefaultScene<SceneMenu>("MENU");
+    game.setDefaultScene<CyberCity::SceneMenu>("MENU");
     game.run();
 }

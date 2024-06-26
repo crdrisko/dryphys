@@ -6,8 +6,8 @@
 // Date: 06/18/2024-05:23:32
 // Description:
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#ifndef DRYPHYS_INCLUDE_ENGINE2D_ASSETS_HPP
+#define DRYPHYS_INCLUDE_ENGINE2D_ASSETS_HPP
 
 #include <iostream>
 #include <map>

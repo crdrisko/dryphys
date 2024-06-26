@@ -6,8 +6,8 @@
 // Date: 06/18/2024-05:22:08
 // Description:
 
-#ifndef ENGINE_HPP
-#define ENGINE_HPP
+#ifndef DRYPHYS_INCLUDE_ENGINE2D_ENGINE_HPP
+#define DRYPHYS_INCLUDE_ENGINE2D_ENGINE_HPP
 
 #include <map>
 #include <memory>

@@ -6,8 +6,8 @@
 // Date: 06/19/2024-08:47:37
 // Description:
 
-#ifndef SCENEMENU_HPP
-#define SCENEMENU_HPP
+#ifndef DRYPHYS_SRC_DEMOS_CYBERCITY_SCENES_SCENEMENU_HPP
+#define DRYPHYS_SRC_DEMOS_CYBERCITY_SCENES_SCENEMENU_HPP
 
 #include <string>
 #include <vector>
@@ -18,25 +18,28 @@
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>
 
-class SceneMenu : public Engine2D::Scene
+namespace CyberCity
 {
-private:
-    std::string title_;
-    std::vector<std::string> menuStrings_;
-    std::vector<std::string> levelPaths_;
-    sf::Text menuText_;
-    std::size_t selectedMenuIndex_ = 0;
+    class SceneMenu : public Engine2D::Scene
+    {
+    private:
+        std::string title_;
+        std::vector<std::string> menuStrings_;
+        std::vector<std::string> levelPaths_;
+        sf::Text menuText_;
+        std::size_t selectedMenuIndex_ = 0;
 
-    std::unique_ptr<sf::Music> music_;
+        std::unique_ptr<sf::Music> music_;
 
-    void init();
-    void update() override;
-    void sDoAction(const Engine2D::Action& action) override;
-    void sRender() override;
-    void onEnd() override;
+        void init();
+        void update() override;
+        void sDoAction(const Engine2D::Action& action) override;
+        void sRender() override;
+        void onEnd() override;
 
-public:
-    explicit SceneMenu(Engine2D::Engine* gameEngine = nullptr);
-};
+    public:
+        explicit SceneMenu(Engine2D::Engine* gameEngine = nullptr);
+    };
+}   // namespace CyberCity
 
 #endif

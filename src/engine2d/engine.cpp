@@ -26,7 +26,7 @@ namespace Engine2D
     {
         assets_.loadFromFile(assets);
 
-        window_.create(sf::VideoMode(1856, 960), "Hero Knight");
+        window_.create(sf::VideoMode(1856, 960), "Engine2D");
         window_.setFramerateLimit(60);
     }
 

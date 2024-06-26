@@ -94,8 +94,8 @@ if (phys_build_demos)
                      GIT_REPOSITORY "https://github.com/SFML/SFML.git"
                      GIT_TAG "69ea0cd863aed1d4092b970b676924a716ff718b")
 
-    # set(SFML_BUILD_AUDIO FALSE)
-    set(SFML_BUILD_NETWORK FALSE)
+    set(SFML_BUILD_AUDIO ON)
+    set(SFML_BUILD_NETWORK OFF)
 
     FetchContent_MakeAvailable(sfml)
     include_directories(${sfml_SOURCE_DIR}/include)
@@ -138,7 +138,10 @@ set(DRYPHYS_SOURCE src/dryphys/particle.cpp
                    src/dryphys/eulersMethod.cpp)
 
 set(ENGINE2D_SOURCE src/engine2d/animation.cpp
-                    src/engine2d/engine.cpp)
+                    src/engine2d/assets.cpp
+                    src/engine2d/engine.cpp
+                    src/engine2d/scene.cpp
+                    src/engine2d/textureSheet.cpp)
 
 add_library(engine2d STATIC ${ENGINE2D_SOURCE})
 add_library(dryphys STATIC ${DRYPHYS_SOURCE})
@@ -165,20 +168,24 @@ if (phys_build_demos)
                          src/demos/cyberCity/states/states.cpp)
 
     add_executable(cyberCity ${CYBERCITY_SOURCE} ${IMGUI_SOURCE})
-    target_include_directories(cyberCity PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/cyberCity)
-    target_link_libraries(cyberCity PRIVATE ImGui-SFML::ImGui-SFML ${LIBRARIES})
+    target_include_directories(cyberCity PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
+    target_link_libraries(cyberCity PRIVATE ImGui-SFML::ImGui-SFML engine2d dryphys sfml-audio)
 
     ## Shape Watcher Demo
-    add_executable(shapeWatcher src/demos/shapeWatcher/main.cpp ${IMGUI_SOURCE})
-    target_include_directories(shapeWatcher PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/shapeWatcher)
+    set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp)
+
+    add_executable(shapeWatcher ${SHAPEWATCHER_SOURCE} ${IMGUI_SOURCE})
+    target_include_directories(shapeWatcher PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
     target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML)
 
     ## Geometry Waves Demo
-    add_executable(geometryWaves src/demos/geometryWaves/main.cpp
-                                 src/demos/geometryWaves/entityManager.cpp
-                                 src/demos/geometryWaves/game.cpp ${IMGUI_SOURCE})
-    target_include_directories(geometryWaves PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/geometryWaves)
-    target_link_libraries(geometryWaves PRIVATE ImGui-SFML::ImGui-SFML)
+    # set(GEOMETRYWAVES_SOURCE src/demos/geometryWaves/main.cpp
+    #                          src/demos/geometryWaves/entityManager.cpp
+    #                          src/demos/geometryWaves/scenes/scenePlay.cpp)
+    
+    # add_executable(geometryWaves ${GEOMETRYWAVES_SOURCE} ${IMGUI_SOURCE})
+    # target_include_directories(geometryWaves PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
+    # target_link_libraries(geometryWaves PRIVATE ImGui-SFML::ImGui-SFML)
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 endif()

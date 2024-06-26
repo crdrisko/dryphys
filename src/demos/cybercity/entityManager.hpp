@@ -6,23 +6,21 @@
 // Date: 06/17/2024-14:49:43
 // Description:
 
-#ifndef ENTITYMANAGER_HPP
-#define ENTITYMANAGER_HPP
+#ifndef DRYPHYS_SRC_DEMOS_CYBERCITY_ENTITYMANAGER_HPP
+#define DRYPHYS_SRC_DEMOS_CYBERCITY_ENTITYMANAGER_HPP
 
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
 
-namespace Engine2D
-{
-    template<typename... TupleArgs>
-    class Entity;
+#include "cybercity/entity.hpp"
 
-    template<typename... TupleArgs>
+namespace CyberCity
+{
     class EntityManager
     {
-        using EntityVec = std::vector<std::shared_ptr<Entity<TupleArgs...>>>;
+        using EntityVec = std::vector<std::shared_ptr<Entity>>;
         using EntityMap = std::map<std::string, EntityVec>;
 
     private:
@@ -59,9 +57,9 @@ namespace Engine2D
             }
         }
 
-        std::shared_ptr<Entity<TupleArgs...>> addEntity(const std::string& tag)
+        std::shared_ptr<Entity> addEntity(const std::string& tag)
         {
-            auto entity = std::shared_ptr<Entity<TupleArgs...>>(new Entity<TupleArgs...>(totalEntities_++, tag));
+            auto entity = std::shared_ptr<Entity>(new Entity(totalEntities_++, tag));
             entitiesToAdd_.push_back(entity);
 
             return entity;
@@ -70,6 +68,6 @@ namespace Engine2D
         EntityVec& getEntities() { return entities_; }
         EntityVec& getEntities(const std::string& tag) { return entityMap_[tag]; }
     };
-}   // namespace Engine2D
+}   // namespace CyberCity
 
 #endif

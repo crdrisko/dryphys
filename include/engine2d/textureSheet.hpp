@@ -6,8 +6,8 @@
 // Date: 06/18/2024-05:23:55
 // Description:
 
-#ifndef TEXTURESHEET_HPP
-#define TEXTURESHEET_HPP
+#ifndef DRYPHYS_INCLUDE_ENGINE2D_TEXTURESHEET_HPP
+#define DRYPHYS_INCLUDE_ENGINE2D_TEXTURESHEET_HPP
 
 #include <string>
 
@@ -29,7 +29,6 @@ namespace Engine2D
         std::size_t columnOffset {};
         std::size_t lineTotal {};
 
-    public:
         TextureSheet() = default;
         TextureSheet(const std::string& name, const std::string& path, std::size_t perRow = 0, std::size_t perCol = 0);
 

@@ -6,19 +6,18 @@
 // Date: 06/17/2024-14:50:34
 // Description:
 
-#ifndef ENTITY_HPP
-#define ENTITY_HPP
+#ifndef DRYPHYS_SRC_DEMOS_CYBERCITY_ENTITY_HPP
+#define DRYPHYS_SRC_DEMOS_CYBERCITY_ENTITY_HPP
 
 #include <memory>
 #include <string>
 #include <tuple>
 #include <utility>
 
-#include "engine2d/components.hpp"
+#include "components.hpp"
 
-namespace Engine2D
+namespace CyberCity
 {
-    template<typename... TupleArgs>
     class Entity
     {
     private:
@@ -27,7 +26,7 @@ namespace Engine2D
         std::size_t id_  = 0;
         std::string tag_ = "default";
         bool active_     = true;
-        std::tuple<TupleArgs...> components_;
+        std::tuple<CAnimation, CTransform, CBoundingBox, CInput, CState, CGravity, CLifespan> components_;
 
         Entity(const std::size_t id, const std::string& tag) : id_ {id}, tag_ {tag} {}
 
@@ -72,6 +71,6 @@ namespace Engine2D
             getComponent<T>() = T();
         }
     };
-}   // namespace Engine2D
+}   // namespace CyberCity
 
 #endif

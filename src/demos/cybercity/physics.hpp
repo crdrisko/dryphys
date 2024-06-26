@@ -6,17 +6,22 @@
 // Date: 06/20/2024-06:41:26
 // Description:
 
-#ifndef PHYSICS_HPP
-#define PHYSICS_HPP
+#ifndef DRYPHYS_SRC_DEMOS_CYBERCITY_PHYSICS_HPP
+#define DRYPHYS_SRC_DEMOS_CYBERCITY_PHYSICS_HPP
 
 #include <dryphys/vector3d.hpp>
 
-#include "scenes/scenePlay.hpp"
+namespace CyberCity
+{
+    class Entity;
+
+    using EntityPtr = std::shared_ptr<Entity>;
+}   // namespace CyberCity
 
 namespace Physics
 {
-    DryPhys::Vector3D GetOverlap(EntityPtr a, EntityPtr b);
-    DryPhys::Vector3D GetPreviousOverlap(EntityPtr a, EntityPtr b);
+    DryPhys::Vector3D GetOverlap(CyberCity::EntityPtr a, CyberCity::EntityPtr b);
+    DryPhys::Vector3D GetPreviousOverlap(CyberCity::EntityPtr a, CyberCity::EntityPtr b);
 }   // namespace Physics
 
 #endif
