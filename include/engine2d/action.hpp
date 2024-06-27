@@ -28,7 +28,6 @@ namespace Engine2D
     public:
         Action() = default;
         Action(const std::string& name, const std::string& type) : name_ {name}, type_ {type} {}
-        Action(const std::string& name, const DryPhys::Vector3D& mousePos) : name_ {name}, mpos_ {mousePos} {}
         Action(const std::string& name, const std::string& type, const DryPhys::Vector3D& mousePos)
             : name_ {name}, type_ {type}, mpos_ {mousePos}
         {

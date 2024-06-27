@@ -41,7 +41,6 @@ namespace DryPhys
         DRYPHYS_CONSTEXPR Vector3D() noexcept = default;
         DRYPHYS_CONSTEXPR Vector3D(const real x, const real y, const real z) noexcept : x {x}, y {y}, z {z} {}
 
-
         //! Comparison operators - only the equality operator is symmetric
         DRYPHYS_CONSTEXPR friend bool operator==(const Vector3D& lhs, const Vector3D& rhs)
         {

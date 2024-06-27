@@ -1,16 +1,16 @@
-TextureSheet	Effects					src/demos/cybercity/assets/Sprites/Effects/effects.png
-TextureSheet	Enemies					src/demos/cybercity/assets/Sprites/Enemies/enemies.png
-TextureSheet	Tiles					src/demos/cybercity/assets/Sprites/Environments/Environment1/tileset.png
-TextureSheet	Banners					src/demos/cybercity/assets/Sprites/Environments/Environment1/Props/banners.png
-TextureSheet	Props					src/demos/cybercity/assets/Sprites/Environments/Environment1/Props/props.png
-TextureSheet	Tiles2					src/demos/cybercity/assets/Sprites/Environments/Environment2/tileset.png
-TextureSheet	Player1					src/demos/cybercity/assets/Sprites/Player/Player1/player1.png
-TextureSheet	Player2					src/demos/cybercity/assets/Sprites/Player/Player2/player2.png
-TextureSheet	Vehicles				src/demos/cybercity/assets/Sprites/Vehicles/vehicles.png
+TextureSheet	Effects					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Effects/effects.png
+TextureSheet	Enemies					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Enemies/enemies.png
+TextureSheet	Tiles					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Environments/Environment1/tileset.png
+TextureSheet	Banners					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Environments/Environment1/Props/banners.png
+TextureSheet	Props					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Environments/Environment1/Props/props.png
+TextureSheet	Tiles2					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Environments/Environment2/tileset.png
+TextureSheet	Player1					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Player/Player1/player1.png
+TextureSheet	Player2					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Player/Player2/player2.png
+TextureSheet	Vehicles				C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Vehicles/vehicles.png
 
-Texture			Back					src/demos/cybercity/assets/Sprites/Environments/Environment1/skyline-a.png
-Texture			Middle					src/demos/cybercity/assets/Sprites/Environments/Environment1/buildings-bg.png
-Texture			Front					src/demos/cybercity/assets/Sprites/Environments/Environment1/near-buildings-bg.png
+Texture			Back					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Environments/Environment1/skyline-a.png
+Texture			Middle					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Environments/Environment1/buildings-bg.png
+Texture			Front					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Sprites/Environments/Environment1/near-buildings-bg.png
 
 Animation		EnemyExplosion			Effects				6		6		0		0		55		52
 Animation		EnemyShoot				Effects				3		8		0		52		12		12
@@ -89,10 +89,10 @@ Animation		RedVehicle				Vehicles			1		0		163		0		96		61
 Animation		YellowVehicle			Vehicles			1		0		259		0		93		60
 Animation		TruckVehicle			Vehicles			1		0		0		61		257		104
 
-Music			CyberCity1				src/demos/cybercity/assets/Music/cybercity2-b.wav
-Music			CyberCity2				src/demos/cybercity/assets/Music/cyberpunkcity2.wav
-Music			LastArea				src/demos/cybercity/assets/Music/lastarea.wav
+Music			CyberCity1				C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Music/cybercity2-b.wav
+Music			CyberCity2				C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Music/cyberpunkcity2.wav
+Music			LastArea				C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Music/lastarea.wav
 
-Font			AniMeMatrix				src/demos/cybercity/assets/Fonts/AniMeMatrixFont.otf
-Font			Arial					src/demos/cybercity/assets/Fonts/arial.ttf
-Font			VinerHand				src/demos/cybercity/assets/Fonts/VINERITC.ttf
+Font			AniMeMatrix				C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Fonts/AniMeMatrixFont.otf
+Font			Arial					C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Fonts/arial.ttf
+Font			VinerHand				C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/assets/Fonts/VINERITC.ttf

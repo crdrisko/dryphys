@@ -15,15 +15,17 @@
 #include "cybercity/components.hpp"
 #include "cybercity/scenes/scenePlay.hpp"
 
+using namespace CyberCity;
+
 namespace Physics
 {
-    DryPhys::Vector3D GetOverlap(CyberCity::EntityPtr a, CyberCity::EntityPtr b)
+    DryPhys::Vector3D GetOverlap(EntityPtr a, EntityPtr b)
     {
-        auto aPos      = a->getComponent<CyberCity::CTransform>().pos;
-        auto aHalfSize = a->getComponent<CyberCity::CBoundingBox>().halfSize;
+        auto aPos      = a->getComponent<CTransform>().pos;
+        auto aHalfSize = a->getComponent<CBoundingBox>().halfSize;
 
-        auto bPos      = b->getComponent<CyberCity::CTransform>().pos;
-        auto bHalfSize = b->getComponent<CyberCity::CBoundingBox>().halfSize;
+        auto bPos      = b->getComponent<CTransform>().pos;
+        auto bHalfSize = b->getComponent<CBoundingBox>().halfSize;
 
         DryPhys::Vector3D delta {std::abs(aPos[0] - bPos[0]), std::abs(aPos[1] - bPos[1]), 0};
 
@@ -33,13 +35,13 @@ namespace Physics
         return DryPhys::Vector3D {ox, oy, 0};
     }
 
-    DryPhys::Vector3D GetPreviousOverlap(CyberCity::EntityPtr a, CyberCity::EntityPtr b)
+    DryPhys::Vector3D GetPreviousOverlap(EntityPtr a, EntityPtr b)
     {
-        auto aPos      = a->getComponent<CyberCity::CTransform>().prevPos;
-        auto aHalfSize = a->getComponent<CyberCity::CBoundingBox>().halfSize;
+        auto aPos      = a->getComponent<CTransform>().prevPos;
+        auto aHalfSize = a->getComponent<CBoundingBox>().halfSize;
 
-        auto bPos      = b->getComponent<CyberCity::CTransform>().prevPos;
-        auto bHalfSize = b->getComponent<CyberCity::CBoundingBox>().halfSize;
+        auto bPos      = b->getComponent<CTransform>().prevPos;
+        auto bHalfSize = b->getComponent<CBoundingBox>().halfSize;
 
         DryPhys::Vector3D delta {std::abs(aPos[0] - bPos[0]), std::abs(aPos[1] - bPos[1]), 0};
 

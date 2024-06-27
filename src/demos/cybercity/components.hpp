@@ -15,6 +15,7 @@
 #include <engine2d/animation.hpp>
 #include <engine2d/components.hpp>
 
+#include "cybercity/physics.hpp"
 #include "cybercity/states/playerStates.hpp"
 
 namespace CyberCity
@@ -84,6 +85,14 @@ namespace CyberCity
         bool facingRight = true;
 
         CInput() = default;
+    };
+
+    class CDraggable : public Engine2D::Component
+    {
+    public:
+        bool dragging = false;
+
+        CDraggable() = default;
     };
 
     class CGravity : public Engine2D::Component

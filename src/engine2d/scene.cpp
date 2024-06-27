@@ -34,11 +34,6 @@ namespace Engine2D
 
     void Scene::registerAction(int inputKeyCode, const std::string& actionName) { actionMap_[inputKeyCode] = actionName; }
 
-    void Scene::registerMouseAction(int inputMouseCode, const std::string& actionName)
-    {
-        registerAction(inputMouseCode + sf::Keyboard::KeyCount, actionName);
-    }
-
     void Scene::drawLine(const DryPhys::Vector3D& p1, const DryPhys::Vector3D& p2)
     {
         sf::Vertex line[] = {sf::Vector2f(p1[0], p1[1]), sf::Vector2f(p2[0], p2[1])};

@@ -75,7 +75,7 @@ namespace Engine2D
             }
 
             auto mousePos = sf::Mouse::getPosition(window_);
-            DryPhys::Vector3D mpos(mousePos.x, mousePos.y, 0);
+            DryPhys::Vector3D mpos {static_cast<float>(mousePos.x), static_cast<float>(mousePos.y), 0};
 
             if (event.type == sf::Event::MouseButtonPressed)
             {
@@ -127,7 +127,10 @@ namespace Engine2D
 
             if (event.type == sf::Event::MouseMoved)
             {
-                currentScene()->doAction(Action {"MOUSE_MOVE", DryPhys::Vector3D(event.mouseMove.x, event.mouseMove.y, 0)});
+                DryPhys::Vector3D mouseMoved {
+                    static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y), 0};
+
+                currentScene()->doAction(Action {"MOUSE_MOVE", "START", mouseMoved});
             }
         }
     }

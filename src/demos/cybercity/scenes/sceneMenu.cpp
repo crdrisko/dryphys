@@ -35,9 +35,9 @@ namespace CyberCity
         menuStrings_.push_back("Level 2");
         menuStrings_.push_back("Level 3");
 
-        levelPaths_.push_back("src/demos/cybercity/config/CP-Level1.txt");
-        levelPaths_.push_back("src/demos/cybercity/config/CP-Level2.txt");
-        levelPaths_.push_back("src/demos/cybercity/config/CP-Level3.txt");
+        levelPaths_.push_back("C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/config/CP-Level1.txt");
+        levelPaths_.push_back("C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/config/CP-Level2.txt");
+        levelPaths_.push_back("C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/config/CP-Level3.txt");
 
         menuText_.setFont(game_->assets().getFont("VinerHand"));
         menuText_.setCharacterSize(60);

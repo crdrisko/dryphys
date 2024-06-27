@@ -50,7 +50,6 @@ namespace Engine2D
         void doAction(const Action& action);
         void simulate(const std::size_t frames);
         void registerAction(int inputKeyCode, const std::string& actionName);
-        void registerMouseAction(int inputMouseCode, const std::string& actionName);
         void drawLine(const DryPhys::Vector3D& p1, const DryPhys::Vector3D& p2);
 
         std::size_t width() const;

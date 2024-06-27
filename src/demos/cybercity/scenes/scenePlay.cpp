@@ -57,19 +57,6 @@ namespace CyberCity
         loadLevel(levelPath);
     }
 
-    DryPhys::Vector3D ScenePlay::gridToMidPixel(float gridX, float gridY, std::shared_ptr<Entity> entity)
-    {
-        DryPhys::Vector3D result {gridX * gridSize_[0], height() - (gridY * gridSize_[1]), 0};
-        DryPhys::Vector3D size {entity->getComponent<CAnimation>().animation.getSize()};
-
-        float scale = gridSize_[0] / std::min(size[0], size[1]);
-
-        result[0] += size[0] * scale / 2.0f;
-        result[1] -= size[1] * scale / 2.0f;
-
-        return result;
-    }
-
     void ScenePlay::loadLevel(const std::string& filename)
     {
         // Reset the entity manager every time we load a level
@@ -86,11 +73,11 @@ namespace CyberCity
             if (splitRow[0] == "Tile")
             {
                 /*
-             * Tile N GX GY
-             *  Animation Name:     N       std::string (Animation asset name for this tile)
-             *  Grid X Pos:         GX      float
-             *  Grid Y Pos:         GY      float
-             */
+                 * Tile N GX GY
+                 *  Animation Name:     N       std::string (Animation asset name for this tile)
+                 *  Grid X Pos:         GX      float
+                 *  Grid Y Pos:         GY      float
+                 */
                 std::shared_ptr<Entity> tileEntity = entityManager_.addEntity("tile");
 
                 Engine2D::Animation& anim  = game_->assets().getAnimation(splitRow[1]);
@@ -104,17 +91,17 @@ namespace CyberCity
                     DryPhys::Vector3D {},
                     DryPhys::Vector3D {scale, scale, 0},
                     0.0f);
-
+                tileEntity->addComponent<CDraggable>();
                 tileEntity->addComponent<CBoundingBox>(game_->assets().getAnimation(splitRow[1]).getSize() * scale);
             }
             else if (splitRow[0] == "Dec")
             {
                 /*
-             * Dec N X Y
-             *  Animation Name:     N       std::string (Animation asset name for this decoration)
-             *  Grid X Pos:         GX      float
-             *  Grid Y Pos:         GY      float
-             */
+                 * Dec N X Y
+                 *  Animation Name:     N       std::string (Animation asset name for this decoration)
+                 *  Grid X Pos:         GX      float
+                 *  Grid Y Pos:         GY      float
+                 */
                 std::shared_ptr<Entity> tileEntity = entityManager_.addEntity("dec");
 
                 tileEntity->addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
@@ -144,18 +131,18 @@ namespace CyberCity
             else if (splitRow[0] == "Player")
             {
                 /*
-             * Player X Y CX CY SX SY SM G A B
-             *  Grid X Pos:             X       float (starting position of player)
-             *  Grid Y Pos:             Y       float (starting position of player)
-             *  Bounding Box Width:     CX      float
-             *  Bounding Box Height:    CY      float
-             *  Left/Right Speed:       SX      float
-             *  Jump Speed:             SY      float
-             *  Max Speed:              SM      float
-             *  Gravity:                G       float
-             *  Avatar Animation:       A       std::string (Animation asset name to use for player character)
-             *  Bullet Animation:       B       std::string (Animation asset name to use for player bullet)
-             */
+                 * Player X Y CX CY SX SY SM G A B
+                 *  Grid X Pos:             X       float (starting position of player)
+                 *  Grid Y Pos:             Y       float (starting position of player)
+                 *  Bounding Box Width:     CX      float
+                 *  Bounding Box Height:    CY      float
+                 *  Left/Right Speed:       SX      float
+                 *  Jump Speed:             SY      float
+                 *  Max Speed:              SM      float
+                 *  Gravity:                G       float
+                 *  Avatar Animation:       A       std::string (Animation asset name to use for player character)
+                 *  Bullet Animation:       B       std::string (Animation asset name to use for player bullet)
+                 */
                 playerConfig_.X        = std::stof(splitRow[1]);
                 playerConfig_.Y        = std::stof(splitRow[2]);
                 playerConfig_.CX       = std::stof(splitRow[3]);
@@ -170,18 +157,18 @@ namespace CyberCity
             else if (splitRow[0] == "Enemy")
             {
                 /*
-             * Enemy X Y CX CY SX SY SM G A B
-             *  Grid X Pos:             X       float (starting position of enemy)
-             *  Grid Y Pos:             Y       float (starting position of enemy)
-             *  Bounding Box Width:     CX      float
-             *  Bounding Box Height:    CY      float
-             *  Left/Right Speed:       SX      float
-             *  Jump Speed:             SY      float
-             *  Max Speed:              SM      float
-             *  Gravity:                G       float
-             *  Avatar Animation:       A       std::string (Animation asset name to use for enemy character)
-             *  Bullet Animation:       B       std::string (Animation asset name to use for enemy bullet)
-             */
+                 * Enemy X Y CX CY SX SY SM G A B
+                 *  Grid X Pos:             X       float (starting position of enemy)
+                 *  Grid Y Pos:             Y       float (starting position of enemy)
+                 *  Bounding Box Width:     CX      float
+                 *  Bounding Box Height:    CY      float
+                 *  Left/Right Speed:       SX      float
+                 *  Jump Speed:             SY      float
+                 *  Max Speed:              SM      float
+                 *  Gravity:                G       float
+                 *  Avatar Animation:       A       std::string (Animation asset name to use for enemy character)
+                 *  Bullet Animation:       B       std::string (Animation asset name to use for enemy bullet)
+                 */
                 ConfigData enemyConfig {};
 
                 enemyConfig.X        = std::stof(splitRow[1]);
@@ -209,46 +196,6 @@ namespace CyberCity
         spawnPlayer();
     }
 
-    void ScenePlay::spawnPlayer()
-    {
-        if (player_)
-            player_->destroy();
-
-        player_ = entityManager_.addEntity("player");
-
-        player_->addComponent<CAnimation>(game_->assets().getAnimation(playerConfig_.AVATAR + "Idle"));
-        player_->addComponent<CTransform>(gridToMidPixel(playerConfig_.X, playerConfig_.Y, player_));
-
-        float scale = gridSize_[0] / 50.0f;
-
-        player_->getComponent<CTransform>().scale = DryPhys::Vector3D {scale, scale, 0};
-
-        player_->addComponent<CBoundingBox>(DryPhys::Vector3D {25, 50, 0} * scale);   // Needs to shift down
-        player_->addComponent<CInput>();
-        player_->addComponent<CState>();
-        player_->addComponent<CGravity>(playerConfig_.GRAVITY);
-    }
-
-    void ScenePlay::spawnEnemy(const ConfigData& enemyConfig)
-    {
-        std::shared_ptr<Entity> enemyEntity = entityManager_.addEntity("enemy");
-
-        // Engine2D::Animation& anim  = game_->assets().getAnimation(enemyConfig.AVATAR);
-        // DryPhys::Vector3D animSize = anim.getSize();
-
-        enemyEntity->addComponent<CAnimation>(game_->assets().getAnimation(enemyConfig.AVATAR + "Idle"));
-        enemyEntity->addComponent<CTransform>(gridToMidPixel(enemyConfig.X, enemyConfig.Y, enemyEntity));
-
-        float scale = gridSize_[0] / 50.0f;
-
-        enemyEntity->getComponent<CTransform>().scale = DryPhys::Vector3D {scale, scale, 0};
-
-        enemyEntity->addComponent<CBoundingBox>(DryPhys::Vector3D {25, 50, 0} * scale);   // Needs to shift down
-        //enemyEntity->addComponent<CGravity>(enemyConfig.GRAVITY);
-    }
-
-    void ScenePlay::spawnBullet(std::shared_ptr<Entity>) {}
-
     void ScenePlay::update()
     {
         entityManager_.update();
@@ -259,9 +206,197 @@ namespace CyberCity
             sLifespan();
             sCollision();
             sAnimation();
+            sDragAndDrop();
 
             currentFrame_++;
         }
+    }
+
+    void ScenePlay::sDoAction(const Engine2D::Action& action)
+    {
+        if (action.type() == "START")
+        {
+            if (action.name() == "TOGGLE_TEXTURE")
+            {
+                drawTextures_ = !drawTextures_;
+            }
+            else if (action.name() == "TOGGLE_COLLISIONS")
+            {
+                drawCollisions_ = !drawCollisions_;
+            }
+            else if (action.name() == "TOGGLE_GRID")
+            {
+                drawGrid_ = !drawGrid_;
+            }
+            else if (action.name() == "PAUSE")
+            {
+                setPaused(!paused_);
+            }
+            else if (action.name() == "QUIT")
+            {
+                onEnd();
+            }
+            else if (action.name() == "LEFT_CLICK")
+            {
+                auto worldPos = windowToWorld(action.pos());
+
+                for (auto e : entityManager_.getEntities())
+                {
+                    if (e->hasComponent<CDraggable>() && isInside(worldPos, e))
+                    {
+                        auto& drag = e->getComponent<CDraggable>().dragging;
+
+                        drag = !drag;
+                    }
+                }
+            }
+            else if (action.name() == "MOUSE_MOVE")
+            {
+                mPos_ = action.pos();
+            }
+        }
+
+        player_->getComponent<CState>().state->handleActions(player_, action);
+    }
+
+    void ScenePlay::sRender()
+    {
+        // color the background darker so you know that the game is paused
+        if (!paused_)
+        {
+            game_->window().clear(sf::Color(100, 100, 255));
+        }
+        else
+        {
+            game_->window().clear(sf::Color(50, 50, 150));
+
+            pauseText_.setString("Paused");
+
+            sf::FloatRect textBoundingBox = pauseText_.getGlobalBounds();
+            pauseText_.setPosition(0.5f * (width() - textBoundingBox.width), 0.5f * (height() - textBoundingBox.height));
+
+            game_->window().draw(pauseText_);
+        }
+
+        // set the viewport of the window to be centered on the player if it's far enough right
+        auto& pPos          = player_->getComponent<CTransform>().pos;
+        float windowCenterX = std::max(game_->window().getSize().x / 2.0f, pPos[0]);
+        sf::View view       = game_->window().getView();
+        view.setCenter(windowCenterX, game_->window().getSize().y - view.getCenter().y);
+        game_->window().setView(view);
+
+        for (auto& [key, value] : envViews)
+        {
+            value.setCenter(view.getCenter().x + windowCenterX / key.length(), view.getCenter().y);
+        }
+
+        // draw all Entity textures / animations
+        if (drawTextures_)
+        {
+            for (std::shared_ptr<Entity> e : entityManager_.getEntities())
+            {
+                auto& transform = e->getComponent<CTransform>();
+
+                if (e->hasComponent<CAnimation>())
+                {
+                    auto& animation = e->getComponent<CAnimation>().animation;
+
+                    if (animation.getName() == "Back")
+                    {
+                        game_->window().setView(envViews[animation.getName()]);
+                        envViews[animation.getName()] = view;
+                    }
+                    else if (animation.getName() == "Middle")
+                    {
+                        game_->window().setView(envViews[animation.getName()]);
+                        envViews[animation.getName()] = view;
+                    }
+                    else if (animation.getName() == "Front")
+                    {
+                        game_->window().setView(envViews[animation.getName()]);
+                        envViews[animation.getName()] = view;
+                    }
+                    else
+                    {
+                        animation.getSprite().setRotation(transform.angle);
+                        animation.getSprite().setPosition(transform.pos[0], transform.pos[1]);
+                        animation.getSprite().setScale(transform.scale[0], transform.scale[1]);
+
+                        game_->window().setView(view);
+                    }
+
+                    game_->window().draw(animation.getSprite());
+                }
+            }
+        }
+
+        // draw all Entity collision bounding boxes with a rectangle shape
+        if (drawCollisions_)
+        {
+            for (std::shared_ptr<Entity> e : entityManager_.getEntities())
+            {
+                if (e->hasComponent<CBoundingBox>())
+                {
+                    auto& box       = e->getComponent<CBoundingBox>();
+                    auto& transform = e->getComponent<CTransform>();
+
+                    sf::RectangleShape rect;
+                    rect.setSize(sf::Vector2f(box.size[0] - 1, box.size[1] - 1));
+                    rect.setOrigin(sf::Vector2f(box.halfSize[0], box.halfSize[1]));
+                    rect.setPosition(transform.pos[0], transform.pos[1]);
+                    rect.setFillColor(sf::Color(0, 0, 0, 0));
+                    rect.setOutlineColor(sf::Color(255, 255, 255, 255));
+                    rect.setOutlineThickness(1);
+
+                    game_->window().draw(rect);
+                }
+            }
+        }
+
+        // draw the grid for easy debugging
+        if (drawGrid_)
+        {
+            float leftX     = game_->window().getView().getCenter().x - width() / 2;
+            float rightX    = leftX + width() + gridSize_[0];
+            float nextGridX = leftX - ((int)leftX % (int)gridSize_[0]);
+
+            for (float x = nextGridX; x < rightX; x += gridSize_[0])
+            {
+                drawLine(DryPhys::Vector3D(x, 0.0f, 0), DryPhys::Vector3D(x, static_cast<float>(height()), 0));
+            }
+
+            for (float y = 0; y < height(); y += gridSize_[1])
+            {
+                drawLine(DryPhys::Vector3D(leftX, height() - y, 0), DryPhys::Vector3D(rightX, height() - y, 0));
+
+                for (float x = nextGridX; x < rightX; x += gridSize_[0])
+                {
+                    std::string xCell = std::to_string((int)x / (int)gridSize_[0]);
+                    std::string yCell = std::to_string((int)y / (int)gridSize_[1]);
+
+                    gridText_.setString("(" + xCell + "," + yCell + ")");
+                    gridText_.setPosition(x + 3, height() - y - gridSize_[1] + 2);
+
+                    game_->window().draw(gridText_);
+                }
+            }
+        }
+
+        // draw the mouse cursor
+        auto world_mPos = windowToWorld(mPos_);
+
+        mouseShape_.setFillColor(sf::Color::Red);
+        mouseShape_.setRadius(4);
+        mouseShape_.setOrigin(2, 2);
+        mouseShape_.setPosition(world_mPos[0], world_mPos[1]);
+
+        game_->window().draw(mouseShape_);
+    }
+
+    void ScenePlay::onEnd()
+    {
+        music_->stop();
+        game_->changeScene("MENU", std::make_shared<SceneMenu>(game_));
     }
 
     void ScenePlay::sMovement()
@@ -424,35 +559,6 @@ namespace CyberCity
         }
     }
 
-    void ScenePlay::sDoAction(const Engine2D::Action& action)
-    {
-        if (action.type() == "START")
-        {
-            if (action.name() == "TOGGLE_TEXTURE")
-            {
-                drawTextures_ = !drawTextures_;
-            }
-            else if (action.name() == "TOGGLE_COLLISIONS")
-            {
-                drawCollisions_ = !drawCollisions_;
-            }
-            else if (action.name() == "TOGGLE_GRID")
-            {
-                drawGrid_ = !drawGrid_;
-            }
-            else if (action.name() == "PAUSE")
-            {
-                setPaused(!paused_);
-            }
-            else if (action.name() == "QUIT")
-            {
-                onEnd();
-            }
-        }
-
-        player_->getComponent<CState>().state->handleActions(player_, action);
-    }
-
     void ScenePlay::sAnimation()
     {
         auto pState = player_->getComponent<CState>().state;
@@ -472,133 +578,88 @@ namespace CyberCity
         }
     }
 
-    void ScenePlay::sRender()
+    void ScenePlay::sDragAndDrop()
     {
-        // color the background darker so you know that the game is paused
-        if (!paused_)
+        for (std::shared_ptr<Entity> entity : entityManager_.getEntities())
         {
-            game_->window().clear(sf::Color(100, 100, 255));
-        }
-        else
-        {
-            game_->window().clear(sf::Color(50, 50, 150));
-
-            pauseText_.setString("Paused");
-
-            sf::FloatRect textBoundingBox = pauseText_.getGlobalBounds();
-            pauseText_.setPosition(0.5f * (width() - textBoundingBox.width), 0.5f * (height() - textBoundingBox.height));
-
-            game_->window().draw(pauseText_);
-        }
-
-        // set the viewport of the window to be centered on the player if it's far enough right
-        auto& pPos          = player_->getComponent<CTransform>().pos;
-        float windowCenterX = std::max(game_->window().getSize().x / 2.0f, pPos[0]);
-        sf::View view       = game_->window().getView();
-        view.setCenter(windowCenterX, game_->window().getSize().y - view.getCenter().y);
-        game_->window().setView(view);
-
-        for (auto& [key, value] : envViews)
-        {
-            value.setCenter(view.getCenter().x + windowCenterX / key.length(), view.getCenter().y);
-        }
-
-        // draw all Entity textures / animations
-        if (drawTextures_)
-        {
-            for (std::shared_ptr<Entity> e : entityManager_.getEntities())
+            if (entity->hasComponent<CDraggable>() && entity->getComponent<CDraggable>().dragging)
             {
-                auto& transform = e->getComponent<CTransform>();
-
-                if (e->hasComponent<CAnimation>())
-                {
-                    auto& animation = e->getComponent<CAnimation>().animation;
-
-                    if (animation.getName() == "Back")
-                    {
-                        game_->window().setView(envViews[animation.getName()]);
-                        envViews[animation.getName()] = view;
-                    }
-                    else if (animation.getName() == "Middle")
-                    {
-                        game_->window().setView(envViews[animation.getName()]);
-                        envViews[animation.getName()] = view;
-                    }
-                    else if (animation.getName() == "Front")
-                    {
-                        game_->window().setView(envViews[animation.getName()]);
-                        envViews[animation.getName()] = view;
-                    }
-                    else
-                    {
-                        animation.getSprite().setRotation(transform.angle);
-                        animation.getSprite().setPosition(transform.pos[0], transform.pos[1]);
-                        animation.getSprite().setScale(transform.scale[0], transform.scale[1]);
-
-                        game_->window().setView(view);
-                    }
-
-                    game_->window().draw(animation.getSprite());
-                }
-            }
-        }
-
-        // draw all Entity collision bounding boxes with a rectangle shape
-        if (drawCollisions_)
-        {
-            for (std::shared_ptr<Entity> e : entityManager_.getEntities())
-            {
-                if (e->hasComponent<CBoundingBox>())
-                {
-                    auto& box       = e->getComponent<CBoundingBox>();
-                    auto& transform = e->getComponent<CTransform>();
-
-                    sf::RectangleShape rect;
-                    rect.setSize(sf::Vector2f(box.size[0] - 1, box.size[1] - 1));
-                    rect.setOrigin(sf::Vector2f(box.halfSize[0], box.halfSize[1]));
-                    rect.setPosition(transform.pos[0], transform.pos[1]);
-                    rect.setFillColor(sf::Color(0, 0, 0, 0));
-                    rect.setOutlineColor(sf::Color(255, 255, 255, 255));
-                    rect.setOutlineThickness(1);
-
-                    game_->window().draw(rect);
-                }
-            }
-        }
-
-        // draw the grid for easy debugging
-        if (drawGrid_)
-        {
-            float leftX     = game_->window().getView().getCenter().x - width() / 2;
-            float rightX    = leftX + width() + gridSize_[0];
-            float nextGridX = leftX - ((int)leftX % (int)gridSize_[0]);
-
-            for (float x = nextGridX; x < rightX; x += gridSize_[0])
-            {
-                drawLine(DryPhys::Vector3D(x, 0.0f, 0), DryPhys::Vector3D(x, static_cast<float>(height()), 0));
-            }
-
-            for (float y = 0; y < height(); y += gridSize_[1])
-            {
-                drawLine(DryPhys::Vector3D(leftX, height() - y, 0), DryPhys::Vector3D(rightX, height() - y, 0));
-
-                for (float x = nextGridX; x < rightX; x += gridSize_[0])
-                {
-                    std::string xCell = std::to_string((int)x / (int)gridSize_[0]);
-                    std::string yCell = std::to_string((int)y / (int)gridSize_[1]);
-
-                    gridText_.setString("(" + xCell + "," + yCell + ")");
-                    gridText_.setPosition(x + 3, height() - y - gridSize_[1] + 2);
-
-                    game_->window().draw(gridText_);
-                }
+                entity->getComponent<CTransform>().pos = windowToWorld(mPos_);
             }
         }
     }
 
-    void ScenePlay::onEnd()
+    void ScenePlay::spawnPlayer()
     {
-        music_->stop();
-        game_->changeScene("MENU", std::make_shared<SceneMenu>(game_));
+        if (player_)
+            player_->destroy();
+
+        player_ = entityManager_.addEntity("player");
+
+        player_->addComponent<CAnimation>(game_->assets().getAnimation(playerConfig_.AVATAR + "Idle"));
+        player_->addComponent<CTransform>(gridToMidPixel(playerConfig_.X, playerConfig_.Y, player_));
+
+        float scale = gridSize_[0] / 50.0f;
+
+        player_->getComponent<CTransform>().scale = DryPhys::Vector3D {scale, scale, 0};
+
+        player_->addComponent<CBoundingBox>(DryPhys::Vector3D {25, 50, 0} * scale);   // Needs to shift down
+        player_->addComponent<CInput>();
+        player_->addComponent<CState>();
+        player_->addComponent<CGravity>(playerConfig_.GRAVITY);
+    }
+
+    void ScenePlay::spawnEnemy(const ConfigData& enemyConfig)
+    {
+        std::shared_ptr<Entity> enemyEntity = entityManager_.addEntity("enemy");
+
+        // Engine2D::Animation& anim  = game_->assets().getAnimation(enemyConfig.AVATAR);
+        // DryPhys::Vector3D animSize = anim.getSize();
+
+        enemyEntity->addComponent<CAnimation>(game_->assets().getAnimation(enemyConfig.AVATAR + "Idle"));
+        enemyEntity->addComponent<CTransform>(gridToMidPixel(enemyConfig.X, enemyConfig.Y, enemyEntity));
+
+        float scale = gridSize_[0] / 50.0f;
+
+        enemyEntity->getComponent<CTransform>().scale = DryPhys::Vector3D {scale, scale, 0};
+
+        enemyEntity->addComponent<CBoundingBox>(DryPhys::Vector3D {25, 50, 0} * scale);   // Needs to shift down
+        //enemyEntity->addComponent<CGravity>(enemyConfig.GRAVITY);
+    }
+
+    void ScenePlay::spawnBullet(std::shared_ptr<Entity>) {}
+
+    DryPhys::Vector3D ScenePlay::gridToMidPixel(float gridX, float gridY, std::shared_ptr<Entity> entity) const
+    {
+        DryPhys::Vector3D result {gridX * gridSize_[0], height() - (gridY * gridSize_[1]), 0};
+        DryPhys::Vector3D size {entity->getComponent<CAnimation>().animation.getSize()};
+
+        float scale = gridSize_[0] / std::min(size[0], size[1]);
+
+        result[0] += size[0] * scale / 2.0f;
+        result[1] -= size[1] * scale / 2.0f;
+
+        return result;
+    }
+
+    DryPhys::Vector3D ScenePlay::windowToWorld(const DryPhys::Vector3D& window) const
+    {
+        auto view = game_->window().getView();
+
+        float worldX = view.getCenter().x - game_->window().getSize().x / 2.0f;
+        float worldY = view.getCenter().y - game_->window().getSize().y / 2.0f;
+
+        return DryPhys::Vector3D {window[0] + worldX, window[1] + worldY, 0};
+    }
+
+    bool ScenePlay::isInside(const DryPhys::Vector3D& pos, std::shared_ptr<Entity> e) const
+    {
+        auto ePos = e->getComponent<CTransform>().pos;
+        auto size = e->getComponent<CAnimation>().animation.getSize();
+
+        float dx = std::fabs(pos[0] - ePos[0]);
+        float dy = std::fabs(pos[1] - ePos[1]);
+
+        return (dx <= size[0] / 2.0f) && (dy <= size[1] / 2.0f);
     }
 }   // namespace CyberCity

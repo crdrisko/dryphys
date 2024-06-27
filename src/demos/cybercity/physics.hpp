@@ -9,6 +9,8 @@
 #ifndef DRYPHYS_SRC_DEMOS_CYBERCITY_PHYSICS_HPP
 #define DRYPHYS_SRC_DEMOS_CYBERCITY_PHYSICS_HPP
 
+#include <memory>
+
 #include <dryphys/vector3d.hpp>
 
 namespace CyberCity

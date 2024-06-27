@@ -40,10 +40,10 @@ namespace Engine2D
         size_ = Vector3D {static_cast<float>(texSize.x) / perRow_, static_cast<float>(texSize.y) / perColumn_, 0};
 
         sprite_.setOrigin(size_[0] / 2.0f, size_[1] / 2.0f);
-        sprite_.setTextureRect(sf::IntRect(size_[0] * (startingPosition.horizontalOffset % perRow_),
-            size_[1] * startingPosition.verticalOffset,
-            size_[0],
-            size_[1]));
+        sprite_.setTextureRect(sf::IntRect(static_cast<int>(size_[0] * (startingPosition.horizontalOffset % perRow_)),
+            static_cast<int>(size_[1] * startingPosition.verticalOffset),
+            static_cast<int>(size_[0]),
+            static_cast<int>(size_[1])));
 
         // Modify offsets for next animation in the same texture sheet
         t.rowOffset += frameCount;
@@ -87,19 +87,20 @@ namespace Engine2D
                 framePosition.lineTotal -= perRow_;
             }
 
-            sprite_.setTextureRect(sf::IntRect(size_[0] * ((previousFrame + framePosition.horizontalOffset) % perRow_),
-                size_[1] * framePosition.verticalOffset,
-                size_[0],
-                size_[1]));
+            sprite_.setTextureRect(
+                sf::IntRect(static_cast<int>(size_[0] * ((previousFrame + framePosition.horizontalOffset) % perRow_)),
+                    static_cast<int>(size_[1] * framePosition.verticalOffset),
+                    static_cast<int>(size_[0]),
+                    static_cast<int>(size_[1])));
 
             framePosition.lineTotal += currentFrame_ - previousFrame;
         }
         else
         {
-            sprite_.setTextureRect(sf::IntRect(startingFrame_.getPosition().x + (size_[0] * currentFrame_),
-                startingFrame_.getPosition().y,
-                startingFrame_.width,
-                startingFrame_.height));
+            sprite_.setTextureRect(sf::IntRect(static_cast<int>(startingFrame_.getPosition().x + (size_[0] * currentFrame_)),
+                static_cast<int>(startingFrame_.getPosition().y),
+                static_cast<int>(startingFrame_.width),
+                static_cast<int>(startingFrame_.height)));
         }
     }
 

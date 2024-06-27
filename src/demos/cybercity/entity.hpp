@@ -26,7 +26,7 @@ namespace CyberCity
         std::size_t id_  = 0;
         std::string tag_ = "default";
         bool active_     = true;
-        std::tuple<CAnimation, CTransform, CBoundingBox, CInput, CState, CGravity, CLifespan> components_;
+        std::tuple<CAnimation, CTransform, CBoundingBox, CInput, CDraggable, CState, CGravity, CLifespan> components_;
 
         Entity(const std::size_t id, const std::string& tag) : id_ {id}, tag_ {tag} {}
 

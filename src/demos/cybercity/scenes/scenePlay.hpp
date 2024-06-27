@@ -45,6 +45,9 @@ namespace CyberCity
         sf::Text gridText_;
         sf::Text pauseText_;
 
+        DryPhys::Vector3D mPos_;
+        sf::CircleShape mouseShape_;
+
         std::unique_ptr<sf::Music> music_;
         std::map<std::string, sf::View> envViews;
 
@@ -54,8 +57,6 @@ namespace CyberCity
 
         void init(const std::string& levelPath);
         void loadLevel(const std::string& filename);
-        DryPhys::Vector3D gridToMidPixel(float gridX, float gridY, std::shared_ptr<Entity> entity);
-
         void update() override;
         void sDoAction(const Engine2D::Action& action) override;
         void sRender() override;
@@ -66,11 +67,16 @@ namespace CyberCity
         void sLifespan();
         void sCollision();
         void sAnimation();
+        void sDragAndDrop();
 
         // Spawners
         void spawnPlayer();
         void spawnEnemy(const ConfigData& enemyConfig);
         void spawnBullet(std::shared_ptr<Entity> spawner);
+
+        DryPhys::Vector3D gridToMidPixel(float gridX, float gridY, std::shared_ptr<Entity> entity) const;
+        DryPhys::Vector3D windowToWorld(const DryPhys::Vector3D& window) const;
+        bool isInside(const DryPhys::Vector3D& pos, std::shared_ptr<Entity> e) const;
 
     public:
         ScenePlay(Engine2D::Engine* gameEngine, const std::string& levelPath);
