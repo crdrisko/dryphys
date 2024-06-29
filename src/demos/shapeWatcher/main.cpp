@@ -48,7 +48,7 @@ int main(int argc, char** argv)
     std::vector<SFMLShapeWrapper> shapes = parseInputFile(argv[1], width, height);
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Shape Watcher");
-    // window.setFramerateLimit(60);
+    window.setFramerateLimit(60);
 
     sf::Text text;
 

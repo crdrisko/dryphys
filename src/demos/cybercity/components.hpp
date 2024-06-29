@@ -15,7 +15,6 @@
 #include <engine2d/animation.hpp>
 #include <engine2d/components.hpp>
 
-#include "cybercity/physics.hpp"
 #include "cybercity/states/playerStates.hpp"
 
 namespace CyberCity

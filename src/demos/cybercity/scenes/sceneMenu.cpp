@@ -9,6 +9,7 @@
 #include "cybercity/scenes/sceneMenu.hpp"
 
 #include <cstddef>
+#include <filesystem>
 #include <iostream>
 #include <memory>
 
@@ -19,11 +20,18 @@
 
 #include "cybercity/scenes/scenePlay.hpp"
 
+namespace fs = std::filesystem;
+
 namespace CyberCity
 {
-    SceneMenu::SceneMenu(Engine2D::Engine* gameEngine) : Engine2D::Scene {gameEngine} { init(); }
+    SceneMenu::SceneMenu(Engine2D::Engine* gameEngine, const std::string& path) : Engine2D::Scene {gameEngine}
+    {
+        fs::path fullPath {path};
 
-    void SceneMenu::init()
+        init(fullPath.remove_filename());
+    }
+
+    void SceneMenu::init(const std::string& path)
     {
         registerAction(sf::Keyboard::W, "UP");
         registerAction(sf::Keyboard::S, "DOWN");
@@ -35,9 +43,9 @@ namespace CyberCity
         menuStrings_.push_back("Level 2");
         menuStrings_.push_back("Level 3");
 
-        levelPaths_.push_back("C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/config/CP-Level1.txt");
-        levelPaths_.push_back("C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/config/CP-Level2.txt");
-        levelPaths_.push_back("C:/Users/crdri/source/repos/crdrisko/dryphys/src/demos/cybercity/config/CP-Level3.txt");
+        levelPaths_.push_back(path + "CP-Level1.txt");
+        levelPaths_.push_back(path + "CP-Level2.txt");
+        levelPaths_.push_back(path + "CP-Level3.txt");
 
         menuText_.setFont(game_->assets().getFont("VinerHand"));
         menuText_.setCharacterSize(60);
@@ -125,5 +133,9 @@ namespace CyberCity
         game_->window().draw(menuText_);
     }
 
-    void SceneMenu::onEnd() { game_->quit(); }
+    void SceneMenu::onEnd()
+    {
+        music_->stop();
+        game_->quit();
+    }
 }   // namespace CyberCity

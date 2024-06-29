@@ -20,7 +20,7 @@
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>
 
-#include "cybercity/entity.hpp"
+#include "cybercity/components.hpp"
 #include "cybercity/physics.hpp"
 #include "cybercity/scenes/sceneMenu.hpp"
 
@@ -29,10 +29,10 @@ namespace CyberCity
     ScenePlay::ScenePlay(Engine2D::Engine* gameEngine, const std::string& levelPath)
         : Engine2D::Scene {gameEngine}, levelPath_ {levelPath}
     {
-        init(levelPath_);
+        init();
     }
 
-    void ScenePlay::init(const std::string& levelPath)
+    void ScenePlay::init()
     {
         registerAction(sf::Keyboard::T, "TOGGLE_TEXTURE");
         registerAction(sf::Keyboard::C, "TOGGLE_COLLISIONS");
@@ -54,7 +54,7 @@ namespace CyberCity
         gridText_.setCharacterSize(12);
         gridText_.setFont(game_->assets().getFont("Arial"));
 
-        loadLevel(levelPath);
+        loadLevel(levelPath_);
     }
 
     void ScenePlay::loadLevel(const std::string& filename)
@@ -396,7 +396,7 @@ namespace CyberCity
     void ScenePlay::onEnd()
     {
         music_->stop();
-        game_->changeScene("MENU", std::make_shared<SceneMenu>(game_));
+        game_->changeScene("MENU", std::make_shared<SceneMenu>(game_, levelPath_));
     }
 
     void ScenePlay::sMovement()

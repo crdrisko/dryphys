@@ -11,6 +11,7 @@
 
 #include <memory>
 
+#include "cybercity/entity.hpp"
 #include "cybercity/states/playerStates.hpp"
 
 namespace CyberCity

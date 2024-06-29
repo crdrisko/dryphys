@@ -171,6 +171,26 @@ if (phys_build_demos)
     target_include_directories(cyberCity PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
     target_link_libraries(cyberCity PRIVATE ImGui-SFML::ImGui-SFML engine2d dryphys sfml-audio)
 
+    set(CYBERCITY_CONFIG_FILES CP-Assets.txt
+                               CP-Level1.txt
+                               CP-Level2.txt
+                               CP-Level3.txt)
+
+    foreach (FILE ${CYBERCITY_CONFIG_FILES})
+        configure_file(src/demos/cyberCity/config/${FILE} ${PROJECT_BINARY_DIR}/etc/${FILE})
+    endforeach()
+
+    ## Geometry Waves Demo
+    set(GEOMETRYWAVES_SOURCE src/demos/geometryWaves/main.cpp
+                             src/demos/geometryWaves/entityManager.cpp
+                             src/demos/geometryWaves/scenes/scenePlay.cpp)
+
+    add_executable(geometryWaves ${GEOMETRYWAVES_SOURCE} ${IMGUI_SOURCE})
+    target_include_directories(geometryWaves PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
+    target_link_libraries(geometryWaves PRIVATE ImGui-SFML::ImGui-SFML engine2d dryphys sfml-audio)
+
+    configure_file(src/demos/geometryWaves/config/GW-Config.txt ${PROJECT_BINARY_DIR}/etc/GW-Config.txt)
+
     ## Shape Watcher Demo
     set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp)
 
@@ -178,14 +198,7 @@ if (phys_build_demos)
     target_include_directories(shapeWatcher PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
     target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML)
 
-    ## Geometry Waves Demo
-    # set(GEOMETRYWAVES_SOURCE src/demos/geometryWaves/main.cpp
-    #                          src/demos/geometryWaves/entityManager.cpp
-    #                          src/demos/geometryWaves/scenes/scenePlay.cpp)
-    
-    # add_executable(geometryWaves ${GEOMETRYWAVES_SOURCE} ${IMGUI_SOURCE})
-    # target_include_directories(geometryWaves PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    # target_link_libraries(geometryWaves PRIVATE ImGui-SFML::ImGui-SFML)
+    configure_file(src/demos/shapeWatcher/config/SW-Config.txt ${PROJECT_BINARY_DIR}/etc/SW-Config.txt)
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 endif()

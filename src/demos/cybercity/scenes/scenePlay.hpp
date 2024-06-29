@@ -20,12 +20,11 @@
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>
 
+#include "cybercity/entity.hpp"
 #include "cybercity/entityManager.hpp"
 
 namespace CyberCity
 {
-    class Entity;
-
     class ScenePlay : public Engine2D::Scene
     {
         struct ConfigData
@@ -55,7 +54,7 @@ namespace CyberCity
         bool drawCollisions_ = false;
         bool drawGrid_       = false;
 
-        void init(const std::string& levelPath);
+        void init();
         void loadLevel(const std::string& filename);
         void update() override;
         void sDoAction(const Engine2D::Action& action) override;

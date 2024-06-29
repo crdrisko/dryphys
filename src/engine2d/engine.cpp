@@ -26,8 +26,10 @@ namespace Engine2D
     {
         assets_.loadFromFile(assets);
 
-        window_.create(sf::VideoMode(1856, 960), "Engine2D");
-        window_.setFramerateLimit(60);
+        auto& [name, width, height, fps, fullscreen] = assets_.getWindowConfig();
+
+        window_.create(sf::VideoMode(width, height), name, (fullscreen + sf::Style::Default));
+        window_.setFramerateLimit(fps);
     }
 
     void Engine::update()

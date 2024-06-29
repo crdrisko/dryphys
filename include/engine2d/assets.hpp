@@ -22,6 +22,14 @@
 
 namespace Engine2D
 {
+    struct WindowConfig
+    {
+        std::string name {"Engine2D"};
+        int width {1856}, height {960};
+        int fps {60};
+        bool fullscreen {};
+    };
+
     class Assets
     {
     private:
@@ -31,6 +39,8 @@ namespace Engine2D
         std::map<std::string, sf::SoundBuffer> soundBufferMap_;
         std::map<std::string, sf::Sound> soundMap_;
         std::map<std::string, std::string> musicMap_;
+
+        WindowConfig config_;
 
         void addTextureSheet(
             const std::string& name, const std::string& path, std::size_t perRow = 0, std::size_t perCol = 0);
@@ -55,6 +65,8 @@ namespace Engine2D
         sf::Font& getFont(const std::string& name);
         sf::Sound& getSound(const std::string& name);
         std::unique_ptr<sf::Music> getMusic(const std::string& name);
+
+        WindowConfig& getWindowConfig() { return config_; }
     };
 }   // namespace Engine2D
 

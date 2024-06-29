@@ -32,7 +32,23 @@ namespace Engine2D
             DryChem::Tokenizer tok {row};
             std::vector<std::string> splitRow = tok.split();
 
-            if (splitRow[0] == "TextureSheet")
+            if (splitRow[0] == "Window")
+            {
+                /*
+                 * Window N W H FL FS
+                 *  Name:           N       std::string
+                 *  Width:          W       int
+                 *  Height:         H       int
+                 *  Frame Limit:    FL      int
+                 *  Full Screen:    FS      int (1 or 0)
+                 */
+                config_.name       = splitRow[1];
+                config_.width      = std::stoi(splitRow[2]);
+                config_.height     = std::stoi(splitRow[3]);
+                config_.fps        = std::stoi(splitRow[4]);
+                config_.fullscreen = std::stoi(splitRow[5]);
+            }
+            else if (splitRow[0] == "TextureSheet")
             {
                 /*
                  * TextureSheet N P
@@ -122,7 +138,7 @@ namespace Engine2D
             else
             {
                 std::cerr << "Unknown asset type: " << splitRow[0] << "\n";
-                std::exit(EXIT_FAILURE);
+                // std::exit(EXIT_FAILURE);
             }
         }
     }

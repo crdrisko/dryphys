@@ -31,14 +31,14 @@ namespace CyberCity
 
         std::unique_ptr<sf::Music> music_;
 
-        void init();
+        void init(const std::string& path);
         void update() override;
         void sDoAction(const Engine2D::Action& action) override;
         void sRender() override;
         void onEnd() override;
 
     public:
-        explicit SceneMenu(Engine2D::Engine* gameEngine = nullptr);
+        SceneMenu(Engine2D::Engine* gameEngine, const std::string& path);
     };
 }   // namespace CyberCity
 

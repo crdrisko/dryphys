@@ -23,6 +23,6 @@ int main(int argc, char** argv)
     Engine2D::Engine game {argv[1]};
 
     // Set the default scene our-self so the game engine doesn't need to know about it
-    game.setDefaultScene<CyberCity::SceneMenu>("MENU");
+    game.setDefaultScene<CyberCity::SceneMenu>("MENU", argv[1]);
     game.run();
 }

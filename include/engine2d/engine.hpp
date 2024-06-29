@@ -41,10 +41,10 @@ namespace Engine2D
     public:
         explicit Engine(const std::string& assets);
 
-        template<typename T>
-        void setDefaultScene(const std::string& sceneName)
+        template<typename T, typename... TArgs>
+        void setDefaultScene(const std::string& sceneName, TArgs... args)
         {
-            changeScene(sceneName, std::make_shared<T>(this));
+            changeScene(sceneName, std::make_shared<T>(this, args...));
         }
 
         void changeScene(const std::string& sceneName, std::shared_ptr<Scene> scene, bool endCurrentScene = true);

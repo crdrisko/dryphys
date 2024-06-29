@@ -9,7 +9,9 @@
 #include <cstddef>
 #include <iostream>
 
-#include "game.hpp"
+#include <engine2d/engine.hpp>
+
+#include "geometryWaves/scenes/scenePlay.hpp"
 
 int main(int argc, char** argv)
 {
@@ -19,6 +21,9 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    Game g {argv[1]};
-    g.run();
+    Engine2D::Engine game {argv[1]};
+
+    // Set the default scene our-self so the game engine doesn't need to know about it
+    game.setDefaultScene<GeometryWaves::ScenePlay>("GAME", argv[1]);
+    game.run();
 }
