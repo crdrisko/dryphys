@@ -146,6 +146,8 @@ set(ENGINE2D_SOURCE src/engine2d/animation.cpp
 add_library(engine2d STATIC ${ENGINE2D_SOURCE})
 add_library(dryphys STATIC ${DRYPHYS_SOURCE})
 
+target_link_libraries(engine2d PRIVATE dryphys sfml-audio)
+
 set(LIBRARIES include/dryphys
               include/engine2d)
 
@@ -169,7 +171,7 @@ if (phys_build_demos)
 
     add_executable(cyberCity ${CYBERCITY_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(cyberCity PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(cyberCity PRIVATE ImGui-SFML::ImGui-SFML engine2d dryphys sfml-audio)
+    target_link_libraries(cyberCity PRIVATE ImGui-SFML::ImGui-SFML engine2d)
 
     set(CYBERCITY_CONFIG_FILES CP-Assets.txt
                                CP-Level1.txt
@@ -177,7 +179,7 @@ if (phys_build_demos)
                                CP-Level3.txt)
 
     foreach (FILE ${CYBERCITY_CONFIG_FILES})
-        configure_file(src/demos/cyberCity/config/${FILE} ${PROJECT_BINARY_DIR}/etc/${FILE})
+        configure_file(src/demos/cybercity/config/${FILE} ${PROJECT_BINARY_DIR}/etc/${FILE})
     endforeach()
 
     ## Geometry Waves Demo
@@ -187,17 +189,18 @@ if (phys_build_demos)
 
     add_executable(geometryWaves ${GEOMETRYWAVES_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(geometryWaves PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(geometryWaves PRIVATE ImGui-SFML::ImGui-SFML engine2d dryphys sfml-audio)
+    target_link_libraries(geometryWaves PRIVATE ImGui-SFML::ImGui-SFML engine2d)
 
     configure_file(src/demos/geometryWaves/config/GW-Config.txt ${PROJECT_BINARY_DIR}/etc/GW-Config.txt)
 
     ## Shape Watcher Demo
     set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp
+                            src/demos/shapeWatcher/entityManager.cpp
                             src/demos/shapeWatcher/scenes/scenePlay.cpp)
 
     add_executable(shapeWatcher ${SHAPEWATCHER_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(shapeWatcher PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML  engine2d dryphys sfml-audio)
+    target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML engine2d)
 
     configure_file(src/demos/shapeWatcher/config/SW-Config.txt ${PROJECT_BINARY_DIR}/etc/SW-Config.txt)
 
