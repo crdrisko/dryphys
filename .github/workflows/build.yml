@@ -28,10 +28,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-20.04]
+        os: [macos-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
 
       - name: Configure
         run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -Dphys_build_all=ON

@@ -28,7 +28,7 @@ namespace CyberCity
     {
         fs::path fullPath {path};
 
-        init(fullPath.remove_filename());
+        init(fullPath.remove_filename().string());
     }
 
     void SceneMenu::init(const std::string& path)

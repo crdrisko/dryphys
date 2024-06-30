@@ -45,7 +45,7 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 if (WIN32)
-    add_compile_options(/MD /WX)
+    # add_compile_options(/MD /WX)
 else()
     add_compile_options(-pedantic-errors -Wall -Werror -Wextra)
 endif()
@@ -192,11 +192,12 @@ if (phys_build_demos)
     configure_file(src/demos/geometryWaves/config/GW-Config.txt ${PROJECT_BINARY_DIR}/etc/GW-Config.txt)
 
     ## Shape Watcher Demo
-    set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp)
+    set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp
+                            src/demos/shapeWatcher/scenes/scenePlay.cpp)
 
     add_executable(shapeWatcher ${SHAPEWATCHER_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(shapeWatcher PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML)
+    target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML  engine2d dryphys sfml-audio)
 
     configure_file(src/demos/shapeWatcher/config/SW-Config.txt ${PROJECT_BINARY_DIR}/etc/SW-Config.txt)
 
