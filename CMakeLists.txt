@@ -162,12 +162,12 @@ if (phys_build_demos)
                      ${imgui_sfml_SOURCE_DIR}/imgui-SFML.cpp)
 
     ## CyberCity Demo
-    set(CYBERCITY_SOURCE src/demos/cyberCity/main.cpp
-                         src/demos/cyberCity/physics.cpp
-                         src/demos/cyberCity/scenes/sceneMenu.cpp
-                         src/demos/cyberCity/scenes/scenePlay.cpp
-                         src/demos/cyberCity/states/playerStates.cpp
-                         src/demos/cyberCity/states/states.cpp)
+    set(CYBERCITY_SOURCE src/demos/cybercity/main.cpp
+                         src/demos/cybercity/physics.cpp
+                         src/demos/cybercity/scenes/sceneMenu.cpp
+                         src/demos/cybercity/scenes/scenePlay.cpp
+                         src/demos/cybercity/states/playerStates.cpp
+                         src/demos/cybercity/states/states.cpp)
 
     add_executable(cyberCity ${CYBERCITY_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(cyberCity PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)

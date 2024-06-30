@@ -21,8 +21,8 @@ jobs:
       - name: Install
         run: cmake --build . --target install
 
-    #   - name: Test
-    #     run: ctest --output-on-failure
+      - name: Test
+        run: ctest --output-on-failure
 
   nix-builds:
     runs-on: ${{ matrix.os }}
