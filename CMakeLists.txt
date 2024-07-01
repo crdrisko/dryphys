@@ -193,6 +193,16 @@ if (phys_build_demos)
 
     configure_file(src/demos/geometryWaves/config/GW-Config.txt ${PROJECT_BINARY_DIR}/etc/GW-Config.txt)
 
+    ## Light Cycle Demo
+
+    ## Particle System Demo
+    set(PARTICLESYSTEM_SOURCE src/demos/particleSystem/main.cpp
+                              src/demos/particleSystem/particleSystem.cpp)
+
+    add_executable(particleSystem ${PARTICLESYSTEM_SOURCE} ${IMGUI_SOURCE})
+    target_include_directories(particleSystem PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
+    target_link_libraries(particleSystem PRIVATE ImGui-SFML::ImGui-SFML)
+
     ## Shape Watcher Demo
     set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp
                             src/demos/shapeWatcher/entityManager.cpp
