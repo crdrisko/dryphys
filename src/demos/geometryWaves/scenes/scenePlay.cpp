@@ -464,7 +464,7 @@ namespace GeometryWaves
 
         DryPhys::Vector3D position {xDistr(gen_), yDistr(gen_), 0};
 
-        float angle = std::atan2f(position[1], position[0]);
+        float angle = std::atan2(position[1], position[0]);
         float speed = speedDistr(gen_);
 
         DryPhys::Vector3D velocity {speed * std::cos(angle), speed * std::sin(angle), 0};
@@ -510,7 +510,7 @@ namespace GeometryWaves
 
         DryPhys::Vector3D position = mousePos - entity->cTransform->position;
 
-        float angle = std::atan2f(position[1], position[0]);
+        float angle = std::atan2(position[1], position[0]);
 
         DryPhys::Vector3D velocity {bulletConfig_.S * std::cos(angle), bulletConfig_.S * std::sin(angle), 0};
 
