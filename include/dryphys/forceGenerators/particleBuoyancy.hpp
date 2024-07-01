@@ -9,6 +9,41 @@
 #ifndef PARTICLEBUOYANCY_HPP
 #define PARTICLEBUOYANCY_HPP
 
-// Place Code Here
+#include <config.h>
+
+#include "dryphys/particle.hpp"
+#include "dryphys/pfgen.hpp"
+#include "dryphys/vector3d.hpp"
+
+namespace DryPhys
+{
+    /*!
+     * A \c ParticleForceGenerator responsible for modeling a buoyancy force acting
+     *  on a particle according to the following:
+     *      \f{equation}\textbf{f}_{\textrm{buoyancy}} = 
+     *          \begin{cases}
+     *              0, & d \le 0 \\
+     *              v\rho, & d \ge 1 \\
+     *              dv\rho, & \textrm{otherwise}
+     *          \end{cases}.
+     *      \f}
+     */
+    class ParticleBuoyancy : public ParticleForceGenerator
+    {
+    private:
+        real maxDepth_;
+        real volume_;
+        real waterHeight_;
+        real liquidDensity_;
+
+    public:
+        ParticleBuoyancy(real maxDepth, real volume, real waterHeight, real liquidDensity = 1000.0f)
+            : maxDepth_ {maxDepth}, volume_ {volume}, waterHeight_ {waterHeight}, liquidDensity_ {liquidDensity}
+        {
+        }
+
+        void updateForce(Particle* particle, real duration) override;
+    };
+}   // namespace DryPhys
 
 #endif

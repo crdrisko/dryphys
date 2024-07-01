@@ -125,7 +125,7 @@ GTEST_TEST(testVector3DFunctions, clearFunctionSetsAllElementsToZero)
 
     testing::internal::CaptureStdout();
 
-    for (std::size_t i {}; i < 3; ++i)
+    for (unsigned i {}; i < 3; ++i)
     {
         std::cout << (vec1.clear())[i] << std::endl;
     }
@@ -147,7 +147,7 @@ GTEST_TEST(testVector3DFunctions, invertFunctionSwapsTheSignOfAllElements)
 
     testing::internal::CaptureStdout();
 
-    for (std::size_t i {}; i < 3; ++i)
+    for (unsigned i {}; i < 3; ++i)
     {
         std::cout << (vec1.invert())[i] << std::endl;
     }

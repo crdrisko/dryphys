@@ -10,6 +10,8 @@
 
 #include <config.h>
 
+#include <cmath>
+
 #include "dryphys/particle.hpp"
 #include "dryphys/vector3d.hpp"
 
@@ -48,7 +50,6 @@ namespace DryPhys
         // force *= magnitude;
         force *= -magnitude;
 
-
         particle->addForce(force);
     }
 
@@ -74,5 +75,34 @@ namespace DryPhys
         force *= -magnitude;
 
         particle->addForce(force);
+    }
+
+    void ParticleFakeSpring::updateForce(Particle* particle, real duration)
+    {
+        // Check that we do not have infinite mass
+        if (!particle->hasFiniteMass())
+            return;
+
+        // Calculate the relative position of the particle to the anchor
+        Vector3D position;
+        particle->getPosition(&position);
+        position -= *anchor_;
+
+        // Calculate the constants and check that they are in bounds
+        real gamma = 0.5f * std::sqrt(static_cast<real>(4) * springConstant_ - damping_ * damping_);
+
+        if (gamma == 0.0f)
+            return;
+
+        Vector3D c = position * (damping_ / (2.0f * gamma)) + particle->getVelocity() * (1.0f / gamma);
+
+        // Calculate the target position
+        Vector3D target = position * std::cos(gamma * duration) + c * std::sin(gamma * duration);
+        target *= std::exp(-0.5f * duration * damping_);
+
+        // Calculate the resulting acceleration, and therefore the force
+        Vector3D acceleration = (target - position) * (1.0f / (duration * duration)) - particle->getVelocity() * duration;
+
+        particle->addForce(acceleration * particle->getMass());
     }
 }   // namespace DryPhys

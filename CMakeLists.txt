@@ -124,18 +124,18 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib
 
 
 ### Libraries / Executables ###
-configure_file (
-  "${PROJECT_SOURCE_DIR}/include/config.h.cmake"
-  "${PROJECT_BINARY_DIR}/config.h"
-)
+configure_file("${PROJECT_SOURCE_DIR}/include/config.h.cmake" "${PROJECT_BINARY_DIR}/config.h")
 
 include_directories("${PROJECT_BINARY_DIR}" include)
 
-set(DRYPHYS_SOURCE src/dryphys/particle.cpp
+set(DRYPHYS_SOURCE src/dryphys/eulersMethod.cpp
+                   src/dryphys/integrator.cpp
+                   src/dryphys/particle.cpp
+                   src/dryphys/particleBuoyancy.cpp
                    src/dryphys/particleDrag.cpp
                    src/dryphys/particleGravity.cpp
-                   src/dryphys/integrator.cpp
-                   src/dryphys/eulersMethod.cpp)
+                   src/dryphys/particleSprings.cpp
+                   src/dryphys/pfgen.cpp)
 
 set(ENGINE2D_SOURCE src/engine2d/animation.cpp
                     src/engine2d/assets.cpp

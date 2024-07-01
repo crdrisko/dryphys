@@ -24,7 +24,6 @@ namespace DryPhys
         return force;
     }
 
-
     /*!
      * A \c ParticleForceGenerator responsible for modeling two particles connected via a spring. The
      *  spring is modeled using Hooke's Law:
@@ -93,7 +92,7 @@ namespace DryPhys
         void updateForce(Particle* particle, real duration) override;
     };
 
-    class ParticleAnchoredBungee : public ParticleForceGenerator
+    /*class ParticleAnchoredBungee : public ParticleForceGenerator
     {
     private:
         Vector3D* anchor_;
@@ -103,6 +102,22 @@ namespace DryPhys
     public:
         ParticleAnchoredBungee(Vector3D* anchor, real springConstant, real restLength)
             : anchor_ {anchor}, springConstant_ {springConstant}, restLength_ {restLength}
+        {
+        }
+
+        void updateForce(Particle* particle, real duration) override;
+    };*/
+
+    class ParticleFakeSpring : public ParticleForceGenerator
+    {
+    private:
+        Vector3D* anchor_;
+        real springConstant_;
+        real damping_;
+
+    public:
+        ParticleFakeSpring(Vector3D* anchor, real springConstant, real damping)
+            : anchor_ {anchor}, springConstant_ {springConstant}, damping_ {damping}
         {
         }
 
