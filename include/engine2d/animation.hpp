@@ -15,7 +15,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "dryphys/vector3d.hpp"
-#include "engine2d/textureSheet.hpp"
+#include "engine2d/forwardDeclare.hpp"
 
 namespace Engine2D
 {

@@ -11,13 +11,15 @@
 
 #include <tuple>
 
+#include "engine2d/forwardDeclare.hpp"
+
 namespace Engine2D
 {
     template<typename... ComponentTypes>
     class Entity
     {
     private:
-        friend class EntityManager;
+        friend class EntityManager<ComponentTypes...>;
 
         std::size_t id_  = 0;
         std::string tag_ = "default";

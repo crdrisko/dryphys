@@ -22,16 +22,16 @@
 
 namespace Engine2D
 {
-    struct WindowConfig
-    {
-        std::string name {"Engine2D"};
-        int width {1856}, height {960};
-        int fps {60};
-        bool fullscreen {};
-    };
-
     class Assets
     {
+        struct WindowConfig
+        {
+            std::string name {"Engine2D"};
+            int width {1856}, height {960};
+            int fps {60};
+            bool fullscreen {};
+        };
+
     private:
         std::map<std::string, TextureSheet> textureSheetMap_;
         std::map<std::string, Animation> animationMap_;

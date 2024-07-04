@@ -14,16 +14,14 @@
 #include <string>
 
 #include "dryphys/vector3d.hpp"
+#include "engine2d/forwardDeclare.hpp"
 
 namespace Engine2D
 {
-    using ActionMap = std::map<int, std::string>;
-
-    class Action;
-    class Engine;
-
     class Scene
     {
+        using ActionMap = std::map<int, std::string>;
+
     protected:
         Engine* game_ {nullptr};
         ActionMap actionMap_;

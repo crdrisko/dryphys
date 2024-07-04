@@ -15,6 +15,7 @@
 #include <iostream>
 
 #include "dryphys/vector3d.hpp"
+#include "engine2d/textureSheet.hpp"
 
 using namespace DryPhys;
 
@@ -61,8 +62,8 @@ namespace Engine2D
         std::size_t frameCount,
         std::size_t speed,
         const sf::IntRect& startingFrame)
-        : name_ {name}, sprite_ {t.getTexture()}, frameCount_ {frameCount}, currentFrame_ {0}, gameFrame_ {0},
-          speed_ {speed}, startingFrame_ {startingFrame}
+        : name_ {name}, sprite_ {t.getTexture()}, frameCount_ {frameCount}, currentFrame_ {0},
+          gameFrame_ {0}, speed_ {speed}, startingFrame_ {startingFrame}
     {
         size_ = Vector3D {static_cast<float>(startingFrame_.width), static_cast<float>(startingFrame_.height), 0};
 

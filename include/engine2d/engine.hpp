@@ -20,10 +20,10 @@
 
 namespace Engine2D
 {
-    using SceneMap = std::map<std::string, std::shared_ptr<Scene>>;
-
     class Engine
     {
+        using SceneMap = std::map<std::string, std::shared_ptr<Scene>>;
+
     protected:
         sf::RenderWindow window_;
         Assets assets_;
@@ -31,6 +31,7 @@ namespace Engine2D
         SceneMap sceneMap_;
         std::size_t simulationSpeed_ = 1;
         bool running_ {true};
+        bool createWindow_ {true};
 
         void init(const std::string& assets);
         void update();
@@ -39,7 +40,7 @@ namespace Engine2D
         std::shared_ptr<Scene> currentScene() { return sceneMap_[currentScene_]; }
 
     public:
-        explicit Engine(const std::string& assets);
+        explicit Engine(const std::string& assets, bool createWindow = true);
 
         template<typename T, typename... TArgs>
         void setDefaultScene(const std::string& sceneName, TArgs... args)

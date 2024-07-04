@@ -192,16 +192,15 @@ if (phys_build_demos)
     configure_file(src/demos/geometryWaves/config/GW-Config.txt ${PROJECT_BINARY_DIR}/etc/GW-Config.txt)
 
     ## Light Cycle Demo
-    # set(LIGHTCYCLE_SOURCE src/demos/lightCycle/main.cpp
-    #                       src/demos/lightCycle/tronAI.cpp
-    #                       src/demos/lightCycle/tronBattle.cpp
-    #                       src/demos/lightCycle/scenes/scenePlay.cpp)
+    set(LIGHTCYCLE_SOURCE src/demos/lightCycle/main.cpp
+                          src/demos/lightCycle/ai.cpp
+                          src/demos/lightCycle/scenes/scenePlay.cpp)
 
-    # add_executable(lightCycle ${LIGHTCYCLE_SOURCE} ${IMGUI_SOURCE})
-    # target_include_directories(lightCycle PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    # target_link_libraries(lightCycle PRIVATE ImGui-SFML::ImGui-SFML engine2d)
+    add_executable(lightCycle ${LIGHTCYCLE_SOURCE} ${IMGUI_SOURCE})
+    target_include_directories(lightCycle PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
+    target_link_libraries(lightCycle PRIVATE ImGui-SFML::ImGui-SFML engine2d)
 
-    # configure_file(src/demos/lightCycle/config/LC-Config.txt ${PROJECT_BINARY_DIR}/etc/LC-Config.txt)
+    configure_file(src/demos/lightCycle/config/LC-Config.txt ${PROJECT_BINARY_DIR}/etc/LC-Config.txt)
 
     ## Shape Watcher Demo
     set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp

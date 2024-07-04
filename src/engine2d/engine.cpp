@@ -20,16 +20,19 @@
 
 namespace Engine2D
 {
-    Engine::Engine(const std::string& assets) { init(assets); }
+    Engine::Engine(const std::string& assets, bool createWindow) : createWindow_ {createWindow} { init(assets); }
 
     void Engine::init(const std::string& assets)
     {
         assets_.loadFromFile(assets);
 
-        auto& [name, width, height, fps, fullscreen] = assets_.getWindowConfig();
+        if (createWindow_)
+        {
+            auto& [name, width, height, fps, fullscreen] = assets_.getWindowConfig();
 
-        window_.create(sf::VideoMode(width, height), name, (fullscreen + sf::Style::Default));
-        window_.setFramerateLimit(fps);
+            window_.create(sf::VideoMode(width, height), name, (fullscreen + sf::Style::Default));
+            window_.setFramerateLimit(fps);
+        }
     }
 
     void Engine::update()

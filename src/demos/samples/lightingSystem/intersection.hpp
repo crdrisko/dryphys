@@ -23,7 +23,10 @@ struct Point2D
     DryPhys::real cross(const Point2D& rhs) { return x * rhs.y - y * rhs.x; }
 };
 
-inline DryPhys::Vector3D operator-(const Point2D& a, const Point2D& b) { return (DryPhys::Vector3D(a.x - b.x, a.y - b.y, 0)); }
+inline DryPhys::Vector3D operator-(const Point2D& a, const Point2D& b)
+{
+    return (DryPhys::Vector3D(a.x - b.x, a.y - b.y, 0));
+}
 
 struct Intersect
 {

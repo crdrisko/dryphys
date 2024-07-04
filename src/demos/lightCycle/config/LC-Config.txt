@@ -1,0 +1,7 @@
+Window  LightCycle  64 36 60 0
+Font    Arial       ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Fonts/arial.ttf
+
+Player  Student     3       3       255     0       0
+Player  Random      60      32      255     255     0
+Player  RandomSafe  60      3       0       0       255
+Player  GoStraight  3       32      0       255     0
