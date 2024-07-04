@@ -192,14 +192,16 @@ if (phys_build_demos)
     configure_file(src/demos/geometryWaves/config/GW-Config.txt ${PROJECT_BINARY_DIR}/etc/GW-Config.txt)
 
     ## Light Cycle Demo
+    # set(LIGHTCYCLE_SOURCE src/demos/lightCycle/main.cpp
+    #                       src/demos/lightCycle/tronAI.cpp
+    #                       src/demos/lightCycle/tronBattle.cpp
+    #                       src/demos/lightCycle/scenes/scenePlay.cpp)
 
-    ## Particle System Demo
-    set(PARTICLESYSTEM_SOURCE src/demos/particleSystem/main.cpp
-                              src/demos/particleSystem/particleSystem.cpp)
+    # add_executable(lightCycle ${LIGHTCYCLE_SOURCE} ${IMGUI_SOURCE})
+    # target_include_directories(lightCycle PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
+    # target_link_libraries(lightCycle PRIVATE ImGui-SFML::ImGui-SFML engine2d)
 
-    add_executable(particleSystem ${PARTICLESYSTEM_SOURCE} ${IMGUI_SOURCE})
-    target_include_directories(particleSystem PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(particleSystem PRIVATE ImGui-SFML::ImGui-SFML)
+    # configure_file(src/demos/lightCycle/config/LC-Config.txt ${PROJECT_BINARY_DIR}/etc/LC-Config.txt)
 
     ## Shape Watcher Demo
     set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp
@@ -211,6 +213,21 @@ if (phys_build_demos)
     target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML engine2d)
 
     configure_file(src/demos/shapeWatcher/config/SW-Config.txt ${PROJECT_BINARY_DIR}/etc/SW-Config.txt)
+
+    ## Samples
+    set(LIGHTINGSYSTEM_SOURCE src/demos/samples/lightingSystem/main.cpp)
+
+    add_executable(lightingSystem ${LIGHTINGSYSTEM_SOURCE} ${IMGUI_SOURCE})
+    target_include_directories(lightingSystem PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/samples)
+    target_link_libraries(lightingSystem PRIVATE ImGui-SFML::ImGui-SFML)
+
+    set(PARTICLESYSTEM_SOURCE src/demos/samples/particleSystem/main.cpp
+                              src/demos/samples/particleSystem/particleSystem.cpp)
+
+    add_executable(particleSystem ${PARTICLESYSTEM_SOURCE} ${IMGUI_SOURCE})
+    target_include_directories(particleSystem PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/samples)
+    target_link_libraries(particleSystem PRIVATE ImGui-SFML::ImGui-SFML)
+
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 endif()
