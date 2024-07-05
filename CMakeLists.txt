@@ -51,6 +51,10 @@ else()
 endif()
 
 if (CMAKE_COMPILER_IS_GNUCXX)
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13.2)
+        message(FATAL_ERROR "GCC version must be at least 13.2! " ${CMAKE_CXX_COMPILER_VERSION})
+    endif()
+
     add_compile_options(-Wno-psabi)
 endif()
 

@@ -35,7 +35,10 @@ jobs:
 
       - name: Dependencies
         if: matrix.os == 'ubuntu-latest'
-        run: sudo apt install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
+        run: |
+            sudo apt-get install gcc-14 g++-14
+            sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 70 --slave /usr/bin/g++ g++ /usr/bin/g++-14
+            sudo apt install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
 
       - name: Configure
         run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -Dphys_build_all=ON
