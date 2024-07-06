@@ -1,5 +1,5 @@
 ### Top Level CMake Script for DryPhys ###
-cmake_minimum_required(VERSION 3.12.0)
+cmake_minimum_required(VERSION 3.15.0)
 project(DryPhys VERSION 1.0.0)
 
 
@@ -44,9 +44,7 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-if (WIN32)
-    # add_compile_options(/MD /WX)
-else()
+if (NOT WIN32)
     add_compile_options(-pedantic-errors -Wall -Werror -Wextra)
 endif()
 

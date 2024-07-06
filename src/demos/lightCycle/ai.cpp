@@ -8,9 +8,9 @@
 
 #include "lightCycle/ai.hpp"
 
+#include <bitset>
 #include <iostream>
 #include <memory>
-#include <queue>
 #include <vector>
 
 #include "lightCycle/components.hpp"
@@ -18,11 +18,119 @@
 
 namespace LightCycle
 {
-    std::size_t AI_Student::getAction(const ScenePlay&, ConcreteEntityPtr)
+    std::size_t AI_Bumpers::getAction(const ScenePlay& battle, ConcreteEntityPtr entity)
     {
-        std::size_t actionToTake {};
+        auto& eTransform = entity->getComponent<CTransform>();
 
-        return actionToTake;
+        static const std::vector<Direction> directions {
+            {-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
+
+        std::bitset<8> safe {0};
+        std::size_t current = eTransform.dir;
+
+        for (std::size_t i {}; i < directions.size(); ++i)
+        {
+            int newX = eTransform.pos[0] + directions[i].x;
+            int newY = eTransform.pos[1] + directions[i].y;
+
+            safe[i] = battle.isSafe(newX, newY);
+        }
+
+        // Full safe above
+        if (current != 1 && (safe[0] && safe[1] && safe[2]))
+        {
+            return 0;
+        }
+
+        // Full safe below
+        if (current != 0 && (safe[5] && safe[6] && safe[7]))
+        {
+            return 1;
+        }
+
+        // Full safe on left
+        if (current != 3 && (safe[0] && safe[3] && safe[5]))
+        {
+            return 2;
+        }
+
+        // Full safe on right
+        if (current != 2 && (safe[2] && safe[4] && safe[7]))
+        {
+            return 3;
+        }
+
+        // Check bumpers to determine direction change
+        switch (current)
+        {
+        case 0:
+        {
+            if (!safe[0])
+            {
+                return 3;
+            }
+
+            if (!safe[2])
+            {
+                return 2;
+            }
+
+            break;
+        }
+        case 1:
+        {
+            if (!safe[5])
+            {
+                return 3;
+            }
+
+            if (!safe[7])
+            {
+                return 2;
+            }
+
+            break;
+        }
+        case 2:
+        {
+            if (!safe[0])
+            {
+                return 1;
+            }
+
+            if (!safe[5])
+            {
+                return 0;
+            }
+
+            break;
+        }
+        case 3:
+        {
+            if (!safe[2])
+            {
+                return 1;
+            }
+
+            if (!safe[7])
+            {
+                return 0;
+            }
+
+            break;
+        }
+        default:
+            break;
+        }
+
+        if (safe[current])
+        {
+            return eTransform.dir;
+        }
+
+        // otherwise choose a random safe action index to perform using the existing AI
+        AI_RandomSafe randomSafe;
+        return randomSafe.getAction(battle, entity);
     }
 
     std::size_t AI_Random::getAction(const ScenePlay& battle, ConcreteEntityPtr entity)
@@ -88,7 +196,7 @@ namespace LightCycle
     std::shared_ptr<AI> AIFactory::create() const
     {
         if (name_ == "Student")
-            return std::make_shared<AI_Student>();
+            return std::make_shared<AI_Bumpers>();
 
         else if (name_ == "Random")
             return std::make_shared<AI_Random>();

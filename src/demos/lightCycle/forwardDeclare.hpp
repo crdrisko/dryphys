@@ -16,6 +16,8 @@
 
 namespace LightCycle
 {
+    struct Directions;
+
     class ScenePlay;
 
     class CTransform;

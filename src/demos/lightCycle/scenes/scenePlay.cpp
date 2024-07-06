@@ -74,9 +74,11 @@ namespace LightCycle
                 int b = std::stoi(splitRow[6]);
 
                 AIFactory factory {name};
+                std::size_t randomStart = rand() % directions_.size();
+
                 auto entity = entityManager_.addEntity("LightCycle");
 
-                entity->addComponent<CTransform>(DryPhys::Vector3D {x, y, 0});
+                entity->addComponent<CTransform>(DryPhys::Vector3D {x, y, 0}, randomStart);
                 entity->addComponent<CCycle>(sf::Color(r, g, b));
                 entity->addComponent<CAI>(factory.create());
 

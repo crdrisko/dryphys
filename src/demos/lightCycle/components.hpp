@@ -24,7 +24,7 @@ namespace LightCycle
         std::size_t dir {};
 
         CTransform() = default;
-        explicit CTransform(const DryPhys::Vector3D& p) : pos {p} {}
+        explicit CTransform(const DryPhys::Vector3D& p, std::size_t d = 0) : pos {p}, dir {d} {}
     };
 
     class CAI : public Engine2D::Component

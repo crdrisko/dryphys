@@ -32,50 +32,10 @@ namespace LightCycle
         virtual std::size_t getAction(const ScenePlay& battle, ConcreteEntityPtr entity) = 0;
     };
 
-    class AI_Student : public AI
+    class AI_Bumpers : public AI
     {
-    private:
-        /*
-         * Func Expand(node, problem)
-         * {
-         *     successors = {};
-         *
-         *     for (a : problem.actions(node))
-         *     {
-         *         s = Node { node.state.do_action(a) };
-         *         s.parent = node;
-         *         s.g = node.g + s.action.cost;
-         *         s.action = a;
-         *         s.depth = node.depth + 1;
-         *         successors.add(s);
-         *     }
-         *
-         *     return successors;
-         * }
-         */
-
-        /*
-         * Func TreeSearch(problem, bfs)
-         * {
-         *     fringe = Queue {Node(problem.initial_state)};
-         *
-         *     while (true)
-         *     {
-         *         if (fringe.empty())
-         *             return fail;
-         *
-         *         node = fringe.pop();
-         *
-         *         if (node.state == goal)
-         *             return solution;
-         *         else
-         *             fringe.push(Expand(node, problem));
-         *     }
-         * }
-         */
-
     public:
-        AI_Student() { name_ = "Student"; }
+        AI_Bumpers() { name_ = "Bumpers"; }
 
         std::size_t getAction(const ScenePlay& battle, ConcreteEntityPtr entity) override;
     };

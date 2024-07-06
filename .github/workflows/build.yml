@@ -24,17 +24,31 @@ jobs:
     #   - name: Test
     #     run: ctest --output-on-failure
 
-  nix-builds:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest]
+  macos-builds:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -Dphys_build_all=ON
+
+      - name: Build
+        run: cmake --build .
+
+      - name: Install
+        run: sudo cmake --build . --target install
+
+      - name: Test
+        run: ctest --output-on-failure
+
+  ubuntu-builds:
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Dependencies
-        if: matrix.os == 'ubuntu-latest'
         run: sudo apt install clang libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
 
       - name: Configure
