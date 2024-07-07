@@ -153,7 +153,7 @@ set(ENGINE2D_SOURCE src/engine2d/animation.cpp
 add_library(engine2d STATIC ${ENGINE2D_SOURCE})
 add_library(dryphys STATIC ${DRYPHYS_SOURCE})
 
-target_link_libraries(engine2d PRIVATE dryphys sfml-audio)
+target_link_libraries(engine2d PRIVATE dryphys sfml-audio m)
 
 set(LIBRARIES include/dryphys
               include/engine2d)
@@ -214,6 +214,16 @@ if (phys_build_demos)
     target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML engine2d)
 
     configure_file(src/demos/shapeWatcher/config/SW-Config.txt ${PROJECT_BINARY_DIR}/etc/SW-Config.txt)
+
+    ## SunnyLand Demo
+    # add_executable(spriteSheetMaker src/demos/sunnyLand/assets/Sprites/spriteSheetMaker.cpp ${IMGUI_SOURCE})
+    # target_link_libraries(spriteSheetMaker PRIVATE ImGui-SFML::ImGui-SFML)
+
+    add_executable(sunnyLand src/demos/sunnyLand/main.cpp ${IMGUI_SOURCE})
+    target_include_directories(sunnyLand PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
+    target_link_libraries(sunnyLand PRIVATE ImGui-SFML::ImGui-SFML engine2d)
+
+    configure_file(src/demos/sunnyLand/config/SL-Assets.txt ${PROJECT_BINARY_DIR}/etc/SL-Assets.txt)
 
     ## Samples
     set(LIGHTINGSYSTEM_SOURCE src/demos/samples/lightingSystem/main.cpp)
