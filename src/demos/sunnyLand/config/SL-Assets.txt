@@ -1,109 +1,109 @@
-TextureSheet	FX						${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/Fx/fx.png	
-TextureSheet	Items					${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/Items/items.png	
-TextureSheet	Props					${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/Props/props.png
-TextureSheet	TileSet					${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/tileset-sliced.png
+TextureSheet    FX                      ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/Fx/fx.png    
+TextureSheet    Items                   ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/Items/items.png    
+TextureSheet    Props                   ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/Props/props.png
+TextureSheet    TileSet                 ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/tileset-sliced.png
 
-Texture         Back					${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/back.png
-Texture         Middle					${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/middle.png
+Texture         Back                    ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/back.png
+Texture         Middle                  ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Sprites/middle.png
 
-Animation		EnemyDeath				FX		6	8	0	0	40	41
-Animation		ItemFeedback			FX		4	12	0	41	32	32
-Animation		Cherry					Items	7	10	0	0	21	21
-Animation		Gems					Items	5	14	0	21	15	13
-Animation		House					Props	1	0	0	0	87	108
-Animation		Palm					Props	1	0	87	0	79	176
-Animation		Pine					Props	1	0	166	0	82	130
-Animation		PlantHouse				Props	1	0	248	0	123	103
-Animation		TreeHouse				Props	1	0	371	0	119	144
-Animation		Tree2					Props	1	0	490	0	119	111
-Animation		Door					Props	1	0	0	176	22	33
-Animation		Rock1					Props	1	0	22	176	53	53
-Animation		Rock2					Props	1	0	75	176	66	57
-Animation		StrawHouse				Props	1	0	141	176	128	96
-Animation		Tree					Props	1	0	269	176	105	93
-Animation		WoodenHouse				Props	1	0	374	176	112	98
-Animation		BigCrate				Props	1	0	0	274	32	32
-Animation		BlockBig				Props	1	0	32	274	32	32
-Animation		Block					Props	1	0	64	274	16	16
-Animation		Bush					Props	1	0	80	274	46	28
-Animation		CrankDown				Props	1	0	126	274	22	16
-Animation		CrankUp					Props	1	0	148	274	22	16
-Animation		Crate					Props	1	0	170	274	16	16
-Animation		FaceBlock				Props	1	0	186	274	32	32
-Animation		PlatformLong			Props	1	0	218	274	32	16
-Animation		Rock					Props	1	0	250	274	28	15
-Animation		Shrooms					Props	1	0	278	274	16	15
-Animation		Sign					Props	1	0	294	274	18	20
-Animation		Skulls					Props	1	0	312	274	16	10
-Animation		SmallPlatform			Props	1	0	328	274	16	16
-Animation		SpikeSkull				Props	1	0	344	274	17	12
-Animation		SpikesTop				Props	1	0	361	274	15	9
-Animation		Spikes					Props	1	0	376	274	15	10
+Animation       EnemyDeath              FX          6   8   0   0   40  41
+Animation       ItemFeedback            FX          4   12  0   41  32  32
+Animation       Cherry                  Items       7   10  0   0   21  21
+Animation       Gems                    Items       5   14  0   21  15  13
+Animation       House                   Props       1   0   0   0   87  108
+Animation       Palm                    Props       1   0   87  0   79  176
+Animation       Pine                    Props       1   0   166 0   82  130
+Animation       PlantHouse              Props       1   0   248 0   123 103
+Animation       TreeHouse               Props       1   0   371 0   119 144
+Animation       Tree2                   Props       1   0   490 0   119 111
+Animation       Door                    Props       1   0   0   176 22  33
+Animation       Rock1                   Props       1   0   22  176 53  53
+Animation       Rock2                   Props       1   0   75  176 66  57
+Animation       StrawHouse              Props       1   0   141 176 128 96
+Animation       Tree                    Props       1   0   269 176 105 93
+Animation       WoodenHouse             Props       1   0   374 176 112 98
+Animation       BigCrate                Props       1   0   0   274 32  32
+Animation       BlockBig                Props       1   0   32  274 32  32
+Animation       Block                   Props       1   0   64  274 16  16
+Animation       Bush                    Props       1   0   80  274 46  28
+Animation       CrankDown               Props       1   0   126 274 22  16
+Animation       CrankUp                 Props       1   0   148 274 22  16
+Animation       Crate                   Props       1   0   170 274 16  16
+Animation       FaceBlock               Props       1   0   186 274 32  32
+Animation       PlatformLong            Props       1   0   218 274 32  16
+Animation       Rock                    Props       1   0   250 274 28  15
+Animation       Shrooms                 Props       1   0   278 274 16  15
+Animation       Sign                    Props       1   0   294 274 18  20
+Animation       Skulls                  Props       1   0   312 274 16  10
+Animation       SmallPlatform           Props       1   0   328 274 16  16
+Animation       SpikeSkull              Props       1   0   344 274 17  12
+Animation       SpikesTop               Props       1   0   361 274 15  9
+Animation       Spikes                  Props       1   0   376 274 15  10
 
-Animation		GrassyGround1			TileSet	1	0	X	X	X	X
-Animation		GrassyGround2			TileSet	1	0	X	X	X	X
-Animation		GrassyGrassy3			TileSet	1	0	X	X	X	X
-Animation		Ground					TileSet	1	0	X	X	X	X
-Animation		LongGroundLeft			TileSet	1	0	X	X	X	X
-Animation		GroundSlopeLeft30		TileSet	1	0	X	X	X	X
-Animation		GroundSlopeRight30		TileSet	1	0	X	X	X	X
-Animation		GrassySlopeLeft30		TileSet	1	0	X	X	X	X
-Animation		GrassySlopeRight30		TileSet	1	0	X	X	X	X
-Animation		GroundLeft1				TileSet	1	0	X	X	X	X
-Animation		GroundEmpty				TileSet	1	0	X	X	X	X
-Animation		GroundRight1			TileSet	1	0	X	X	X	X
-Animation		ShortGroundRight		TileSet	1	0	X	X	X	X
-Animation		ShortGroundLeft			TileSet	1	0	X	X	X	X
-Animation		GroundLeft1				TileSet	1	0	X	X	X	X
-Animation		GroundTop				TileSet	1	0	X	X	X	X
-Animation		GroundRight1			TileSet	1	0	X	X	X	X
-Animation		LongGroundRight			TileSet	1	0	X	X	X	X
-Animation		GroundSlopeLeft45		TileSet	1	0	X	X	X	X
-Animation		GroundSlopeRight45		TileSet	1	0	X	X	X	X
-Animation		GrassySlopeLeft45		TileSet	1	0	X	X	X	X
-Animation		GrassySlopeRight45		TileSet	1	0	X	X	X	X
-Animation		Grass1					TileSet	1	0	X	X	X	X
-Animation		Grass2					TileSet	1	0	X	X	X	X
-Animation		Pebble1					TileSet	1	0	X	X	X	X
-Animation		Pebble2					TileSet	1	0	X	X	X	X
-Animation		TwigLeft				TileSet	1	0	X	X	X	X
-Animation		TwigRight				TileSet	1	0	X	X	X	X
-Animation		WoodLeftTop				TileSet	1	0	X	X	X	X
-Animation		WoodMiddleTop			TileSet	1	0	X	X	X	X
-Animation		WoodRightTop			TileSet	1	0	X	X	X	X
-Animation		WoodLeft				TileSet	1	0	X	X	X	X
-Animation		WoodEmpty				TileSet	1	0	X	X	X	X
-Animation		WoodRight				TileSet	1	0	X	X	X	X
-Animation		WoodLeftBottom			TileSet	1	0	X	X	X	X
-Animation		WoodMiddleBottom		TileSet	1	0	X	X	X	X
-Animation		WoodRightBottom			TileSet	1	0	X	X	X	X
-Animation		CeilingSlopeRight		TileSet	1	0	X	X	X	X
-Animation		CeilingSlopeLeft		TileSet	1	0	X	X	X	X
-Animation		Ladder					TileSet	1	0	X	X	X	X
-Animation		Log1					TileSet	1	0	X	X	X	X
-Animation		Log2					TileSet	1	0	X	X	X	X
-Animation		Vine1					TileSet	1	0	X	X	X	X
-Animation		Vine2					TileSet	1	0	X	X	X	X
-Animation		CeilingRock				TileSet	1	0	X	X	X	X
-Animation		Ceiling					TileSet	1	0	X	X	X	X
-Animation		GrassyCeilingLeft		TileSet	1	0	X	X	X	X
-Animation		GrassyCeilingMiddle		TileSet	1	0	X	X	X	X
-Animation		GrassyCeilingRight		TileSet	1	0	X	X	X	X
-Animation		WallRight				TileSet	1	0	X	X	X	X
-Animation		WallLeft				TileSet	1	0	X	X	X	X
-Animation		BrickPillar				TileSet	1	0	X	X	X	X
-Animation		Cabinent				TileSet	1	0	X	X	X	X
-Animation		BricksLong				TileSet	1	0	X	X	X	X
-Animation		RocksDark				TileSet	1	0	X	X	X	X
-Animation		Brick					TileSet	1	0	X	X	X	X
-Animation		BrickEmpty				TileSet	1	0	X	X	X	X
-Animation		SpiralSmall				TileSet	1	0	X	X	X	X
-Animation		SpiralBig				TileSet	1	0	X	X	X	X
-Animation		BushRight				TileSet	1	0	X	X	X	X
-Animation		BushLeft				TileSet	1	0	X	X	X	X
-Animation		Flame					TileSet	1	0	X	X	X	X
+Animation       GrassyGround1           TileSet     1   0   16  16  16  16
+Animation       GrassyGround2           TileSet     1   0   48  16  16  16
+Animation       GrassyGrassy3           TileSet     1   0   80  16  16  16
+Animation       Ground                  TileSet     1   0   112 16  16  16
+Animation       LongGroundLeft          TileSet     1   0   144 16  48  16
+Animation       GroundSlopeLeft30       TileSet     1   0   208 16  32  32
+Animation       GroundSlopeRight30      TileSet     1   0   256 16  32  32
+Animation       GrassySlopeLeft30       TileSet     1   0   304 16  32  32
+Animation       GrassySlopeRight30      TileSet     1   0   352 16  32  32
+Animation       GroundLeft              TileSet     1   0   16  48  16  16
+Animation       GroundEmpty             TileSet     1   0   48  48  16  16
+Animation       GroundRight             TileSet     1   0   80  48  16  16
+Animation       ShortGroundRight        TileSet     1   0   112 48  32  16
+Animation       ShortGroundLeft         TileSet     1   0   160 48  32  16
+Animation       GroundLeftBottom        TileSet     1   0   16  80  16  16
+Animation       GroundMiddleBottom      TileSet     1   0   48  80  16  16
+Animation       GroundRightBottom       TileSet     1   0   80  80  16  16
+Animation       LongGroundRight         TileSet     1   0   112 80  48  16
+Animation       GroundSlopeLeft45       TileSet     1   0   224 64  16  32
+Animation       GroundSlopeRight45      TileSet     1   0   256 64  16  32
+Animation       GrassySlopeLeft45       TileSet     1   0   320 64  16  32
+Animation       GrassySlopeRight45      TileSet     1   0   352 64  16  32
+Animation       Grass1                  TileSet     1   0   16  112 16  16
+Animation       Grass2                  TileSet     1   0   48  112 16  16
+Animation       Pebble1                 TileSet     1   0   80  112 16  16
+Animation       Pebble2                 TileSet     1   0   112 112 16  16
+Animation       TwigLeft                TileSet     1   0   144 112 16  16
+Animation       TwigRight               TileSet     1   0   176 112 16  16
+Animation       WoodLeftTop             TileSet     1   0   240 112 16  16
+Animation       WoodMiddleTop           TileSet     1   0   272 112 16  16
+Animation       WoodRightTop            TileSet     1   0   304 112 16  16
+Animation       WoodLeft                TileSet     1   0   240 144 16  16
+Animation       WoodEmpty               TileSet     1   0   272 144 16  16
+Animation       WoodRight               TileSet     1   0   304 144 16  16
+Animation       WoodLeftBottom          TileSet     1   0   240 176 16  16
+Animation       WoodMiddleBottom        TileSet     1   0   272 176 16  16
+Animation       WoodRightBottom         TileSet     1   0   304 176 16  16
+Animation       CeilingSlopeRight       TileSet     1   0   16  160 32  32
+Animation       CeilingSlopeLeft        TileSet     1   0   64  160 32  32
+Animation       Ladder                  TileSet     1   0   112 160 16  16
+Animation       Log1                    TileSet     1   0   160 160 16  16
+Animation       Log2                    TileSet     1   0   176 160 16  16
+Animation       Vine1                   TileSet     1   0   112 208 16  32
+Animation       Vine2                   TileSet     1   0   144 208 16  48
+Animation       CeilingRock             TileSet     1   0   176 208 16  32
+Animation       Ceiling                 TileSet     1   0   208 208 16  16
+Animation       GrassyCeilingLeft       TileSet     1   0   240 224 16  16
+Animation       GrassyCeilingMiddle     TileSet     1   0   272 224 16  16
+Animation       GrassyCeilingRight      TileSet     1   0   304 224 16  16
+Animation       WallRight               TileSet     1   0   16  240 32  64
+Animation       WallLeft                TileSet     1   0   64  240 32  64
+Animation       BrickPillar             TileSet     1   0   160 256 48  48
+Animation       Cabinent                TileSet     1   0   224 256 32  48
+Animation       BricksLong              TileSet     1   0   272 256 48  16
+Animation       RocksDark               TileSet     1   0   272 288 16  16
+Animation       Brick                   TileSet     1   0   304 288 16  16
+Animation       BrickEmpty              TileSet     1   0   336 288 16  16
+Animation       SpiralSmall             TileSet     1   0   16  320 16  16
+Animation       SpiralBig               TileSet     1   0   48  320 32  32
+Animation       BushRight               TileSet     1   0   144 320 48  32
+Animation       BushLeft                TileSet     1   0   208 320 48  32
+Animation       Flame                   TileSet     1   0   272 320 16  16
 
-Music           HurtAndHeart			${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/hurt_and_heart.ogg
-Music           Maniac					${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/Maniac.ogg
-Music           UnderTheRainbow			${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/under_the_rainbow.ogg
-Music           UpAndRight				${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/up_and_right.ogg
+Music           HurtAndHeart            ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/hurt_and_heart.ogg
+Music           Maniac                  ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/Maniac.ogg
+Music           UnderTheRainbow         ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/under_the_rainbow.ogg
+Music           UpAndRight              ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/up_and_right.ogg

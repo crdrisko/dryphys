@@ -10,9 +10,20 @@ TextureSheet    Player1                 ${CMAKE_SOURCE_DIR}/src/demos/cybercity/
 TextureSheet    Player2                 ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Player/Player2/player2.png
 TextureSheet    Vehicles                ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Vehicles/vehicles.png
 
-Texture         Back                    ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/skyline-a.png
-Texture         Middle                  ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/buildings-bg.png
-Texture         Front                   ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/near-buildings-bg.png
+Texture         SkylineA                ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/skyline-a.png
+Texture         SkyLineB                ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/skyline-b.png
+Texture         Buildings               ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/buildings-bg.png
+Texture         NearBuildings           ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/near-buildings-bg.png
+Texture         Back                    ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment2/back.png
+Texture         Middle                  ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment2/middle.png
+Texture         Front                   ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment2/front.png
+Texture         FarBuildings            ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment3/far-buildings.png
+Texture         BackBuildings           ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment3/back-buildings.png
+Texture         Foreground              ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment3/foreground.png
+Texture         Back4                   ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment4/back.png
+Texture         Middle4                 ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment4/middle.png
+Texture         ForegroundEmpty         ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment4/foreground-empty.png
+Texture         ForegroundCars          ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment4/foreground.png
 
 Animation       EnemyExplosion          Effects         6       6       0       0       55      52
 Animation       EnemyShoot              Effects         3       8       0       52      12      12
@@ -68,6 +79,7 @@ Animation       PlatformCracked         Tiles2          1       0       272     
 Animation       Block                   Tiles2          1       0       361     16      85      96
 Animation       BlockWide               Tiles2          1       0       471     16      137     96
 Animation       PlatformEnd             Tiles2          1       0       185     80      85      43
+Animation       Player1Profile          Player1         1       0       30      86      16      16
 Animation       Player1Evade            Player1         7       8       0       0       71      67
 Animation       Player1Crouch           Player1         1       0       497     0       71      67
 Animation       Player1Hurt             Player1         1       0       568     0       71      67
@@ -78,6 +90,7 @@ Animation       Player1Jump             Player1         4       12      284     
 Animation       Player1Run              Player1         8       8       568     67      71      67
 Animation       Player1RunShoot         Player1         8       8       0       134     71      67
 Animation       Player1Walk             Player1         16      4       0       201     71      67
+Animation       Player2Profile          Player2         1       0       350     22      14      18
 Animation       Player2Evade            Player2         4       12      0       0       80      80
 Animation       Player2Crouch           Player2         4       12      0       0       80      80
 Animation       Player2Idle             Player2         4       10      320     0       80      80

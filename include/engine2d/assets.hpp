@@ -66,6 +66,9 @@ namespace Engine2D
         sf::Sound& getSound(const std::string& name);
         std::unique_ptr<sf::Music> getMusic(const std::string& name);
 
+        std::map<std::string, Animation> getAnimations() const { return animationMap_; }
+        std::map<std::string, std::string> getMusicMap() const { return musicMap_; }
+
         WindowConfig& getWindowConfig() { return config_; }
     };
 }   // namespace Engine2D

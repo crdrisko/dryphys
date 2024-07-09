@@ -1,3 +1,7 @@
+Env	    Back4           6
+Env	    Middle4         3
+Env	    ForegroundCars  1
+
 Tile PlatformBraced	 0 0
 Tile PlatformBraced  1 0
 Tile PlatformBraced  2 0

@@ -1,6 +1,6 @@
-Background		Back		6
-Middleground	Middle		3
-Foreground		Front		1
+Env	    SkylineA        6
+Env	    Buildings       3
+Env     NearBuildings   1
 
 Tile BlockWide	0 0
 Tile BlockWide  1 0

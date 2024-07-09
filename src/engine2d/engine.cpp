@@ -8,6 +8,11 @@
 
 #include "engine2d/engine.hpp"
 
+#ifdef USE_IMGUI
+    #include <imgui-SFML.h>
+    #include <imgui.h>
+#endif
+
 #include <iostream>
 #include <memory>
 #include <string>
@@ -32,6 +37,11 @@ namespace Engine2D
 
             window_.create(sf::VideoMode(width, height), name, (fullscreen + sf::Style::Default));
             window_.setFramerateLimit(fps);
+
+#ifdef USE_IMGUI
+            if (!ImGui::SFML::Init(window_))
+                std::exit(EXIT_FAILURE);
+#endif
         }
     }
 
@@ -48,6 +58,9 @@ namespace Engine2D
         currentScene()->simulate(simulationSpeed_);
         currentScene()->sRender();
 
+#ifdef USE_IMGUI
+        ImGui::SFML::Render(window_);
+#endif
         window_.display();
     }
 
@@ -160,8 +173,15 @@ namespace Engine2D
     {
         while (isRunning())
         {
+#ifdef USE_IMGUI
+            ImGui::SFML::Update(window_, deltaClock_.restart());
+#endif
             update();
         }
+
+#ifdef USE_IMGUI
+        ImGui::SFML::Shutdown();
+#endif
     }
 
     void Engine::quit() { running_ = false; }

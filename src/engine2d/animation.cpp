@@ -62,8 +62,8 @@ namespace Engine2D
         std::size_t frameCount,
         std::size_t speed,
         const sf::IntRect& startingFrame)
-        : name_ {name}, sprite_ {t.getTexture()}, frameCount_ {frameCount}, currentFrame_ {0},
-          gameFrame_ {0}, speed_ {speed}, startingFrame_ {startingFrame}
+        : name_ {name}, sprite_ {t.getTexture()}, frameCount_ {frameCount}, currentFrame_ {0}, gameFrame_ {0},
+          speed_ {speed}, startingFrame_ {startingFrame}
     {
         size_ = Vector3D {static_cast<float>(startingFrame_.width), static_cast<float>(startingFrame_.height), 0};
 
@@ -73,12 +73,12 @@ namespace Engine2D
 
     void Animation::update()
     {
-        std::size_t previousFrame {currentFrame_};
+        std::size_t nextFrame {currentFrame_};
 
         gameFrame_++;
 
         if (speed_)
-            currentFrame_ = (gameFrame_ / speed_) % frameCount_;
+            nextFrame = (gameFrame_ / speed_) % frameCount_;
 
         if (perRow_)
         {
@@ -89,12 +89,12 @@ namespace Engine2D
             }
 
             sprite_.setTextureRect(
-                sf::IntRect(static_cast<int>(size_[0] * ((previousFrame + framePosition.horizontalOffset) % perRow_)),
+                sf::IntRect(static_cast<int>(size_[0] * ((currentFrame_ + framePosition.horizontalOffset) % perRow_)),
                     static_cast<int>(size_[1] * framePosition.verticalOffset),
                     static_cast<int>(size_[0]),
                     static_cast<int>(size_[1])));
 
-            framePosition.lineTotal += currentFrame_ - previousFrame;
+            framePosition.lineTotal += nextFrame - currentFrame_;
         }
         else
         {
@@ -103,6 +103,8 @@ namespace Engine2D
                 static_cast<int>(startingFrame_.width),
                 static_cast<int>(startingFrame_.height)));
         }
+
+        currentFrame_ = nextFrame;
     }
 
     bool Animation::hasEnded()

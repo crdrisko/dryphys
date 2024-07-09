@@ -1,3 +1,7 @@
+Env	    Back        6
+Env	    Middle      3
+Env	    Front       1
+
 Tile PlatformBraced	 0 5
 Tile PlatformBraced  1 5
 Tile PlatformBraced  2 5

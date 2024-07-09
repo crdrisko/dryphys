@@ -154,6 +154,7 @@ add_library(engine2d STATIC ${ENGINE2D_SOURCE})
 add_library(dryphys STATIC ${DRYPHYS_SOURCE})
 
 target_link_libraries(engine2d PRIVATE dryphys sfml-audio m)
+set_target_properties(engine2d PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
 
 set(LIBRARIES include/dryphys
               include/engine2d)
@@ -172,6 +173,7 @@ if (phys_build_demos)
     add_executable(cyberCity ${CYBERCITY_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(cyberCity PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
     target_link_libraries(cyberCity PRIVATE ImGui-SFML::ImGui-SFML engine2d)
+    set_target_properties(cyberCity PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
 
     set(CYBERCITY_CONFIG_FILES CP-Assets.txt
                                CP-Level1.txt

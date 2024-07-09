@@ -67,15 +67,20 @@ namespace CyberCity
         void sCollision();
         void sAnimation();
         void sDragAndDrop();
+        void sGui();
 
         // Spawners
         void spawnPlayer();
         void spawnEnemy(const ConfigData& enemyConfig);
-        void spawnBullet(std::shared_ptr<Entity> spawner);
+        void spawnDecorations(const std::string& name);
+        void spawnBullet(std::shared_ptr<Entity> entity);
+        void spawnExplosion(std::shared_ptr<Entity> entity);
 
         DryPhys::Vector3D gridToMidPixel(float gridX, float gridY, std::shared_ptr<Entity> entity) const;
         DryPhys::Vector3D windowToWorld(const DryPhys::Vector3D& window) const;
         bool isInside(const DryPhys::Vector3D& pos, std::shared_ptr<Entity> e) const;
+        void drawEntityAnimations(const std::string& tag);
+        void generateGuiInformation(std::shared_ptr<Entity> entity) const;
 
     public:
         ScenePlay(Engine2D::Engine* gameEngine, const std::string& levelPath);

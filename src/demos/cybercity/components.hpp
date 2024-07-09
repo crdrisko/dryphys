@@ -92,6 +92,7 @@ namespace CyberCity
         bool dragging = false;
 
         CDraggable() = default;
+        explicit CDraggable(bool drag) : dragging {drag} {}
     };
 
     class CGravity : public Engine2D::Component

@@ -26,10 +26,12 @@ namespace Engine2D
 
     protected:
         sf::RenderWindow window_;
+        sf::Clock deltaClock_;
         Assets assets_;
         std::string currentScene_;
         SceneMap sceneMap_;
         std::size_t simulationSpeed_ = 1;
+
         bool running_ {true};
         bool createWindow_ {true};
 
