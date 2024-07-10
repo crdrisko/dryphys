@@ -23,6 +23,16 @@ int main(int argc, char** argv)
     Animation animation3 = assets.getAnimation("Cherry");
     Animation animation4 = assets.getAnimation("Gems");
 
+    std::vector<Animation> playerAnimations {};
+
+    playerAnimations.push_back(assets.getAnimation("PlayerClimb"));
+    playerAnimations.push_back(assets.getAnimation("PlayerCrouch"));
+    playerAnimations.push_back(assets.getAnimation("PlayerHurt"));
+    playerAnimations.push_back(assets.getAnimation("PlayerIdle"));
+    playerAnimations.push_back(assets.getAnimation("PlayerFall"));
+    playerAnimations.push_back(assets.getAnimation("PlayerJump"));
+    playerAnimations.push_back(assets.getAnimation("PlayerRun"));
+
     Animation back   = assets.getAnimation("Back");
     Animation middle = assets.getAnimation("Middle");
 
@@ -92,6 +102,21 @@ int main(int argc, char** argv)
         animation4.hasEnded();
 
         window.draw(animation4.getSprite());
+
+        // Player Animations
+        std::size_t i {150};
+
+        for (auto& animation : playerAnimations)
+        {
+            animation.getSprite().setPosition(i, 600);
+            animation.getSprite().setScale(4, 4);
+            animation.update();
+            animation.hasEnded();
+
+            window.draw(animation.getSprite());
+
+            i += 150;
+        }
 
         window.display();
     }
