@@ -11,7 +11,7 @@
 
 #include <memory>
 
-#include "cybercity/entity.hpp"
+#include "cybercity/forwardDeclare.hpp"
 #include "cybercity/states/playerStates.hpp"
 
 namespace CyberCity
@@ -19,14 +19,15 @@ namespace CyberCity
     class WalkingState : public PlayerState
     {
     private:
-        void walk(std::shared_ptr<Entity> player) override;
-        void run(std::shared_ptr<Entity> player) override;
-        void climb(std::shared_ptr<Entity> player) override;
-        void evade(std::shared_ptr<Entity> player) override;
-        void jump(std::shared_ptr<Entity> player) override;
-        void attack(std::shared_ptr<Entity> player) override;
-        void defend(std::shared_ptr<Entity> player) override;
-        void hurt(std::shared_ptr<Entity> player) override;
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
 
     public:
         static PlayerState* getInstance()
@@ -42,14 +43,15 @@ namespace CyberCity
     class RunningState : public PlayerState
     {
     private:
-        void walk(std::shared_ptr<Entity> player) override;
-        void run(std::shared_ptr<Entity> player) override;
-        void climb(std::shared_ptr<Entity> player) override;
-        void evade(std::shared_ptr<Entity> player) override;
-        void jump(std::shared_ptr<Entity> player) override;
-        void attack(std::shared_ptr<Entity> player) override;
-        void defend(std::shared_ptr<Entity> player) override;
-        void hurt(std::shared_ptr<Entity> player) override;
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
 
     public:
         static PlayerState* getInstance()
@@ -65,14 +67,15 @@ namespace CyberCity
     class ClimbingState : public PlayerState
     {
     private:
-        void walk(std::shared_ptr<Entity> player) override;
-        void run(std::shared_ptr<Entity> player) override;
-        void climb(std::shared_ptr<Entity> player) override;
-        void evade(std::shared_ptr<Entity> player) override;
-        void jump(std::shared_ptr<Entity> player) override;
-        void attack(std::shared_ptr<Entity> player) override;
-        void defend(std::shared_ptr<Entity> player) override;
-        void hurt(std::shared_ptr<Entity> player) override;
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
 
     public:
         static PlayerState* getInstance()
@@ -88,14 +91,15 @@ namespace CyberCity
     class EvadingState : public PlayerState
     {
     private:
-        void walk(std::shared_ptr<Entity> player) override;
-        void run(std::shared_ptr<Entity> player) override;
-        void climb(std::shared_ptr<Entity> player) override;
-        void evade(std::shared_ptr<Entity> player) override;
-        void jump(std::shared_ptr<Entity> player) override;
-        void attack(std::shared_ptr<Entity> player) override;
-        void defend(std::shared_ptr<Entity> player) override;
-        void hurt(std::shared_ptr<Entity> player) override;
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
 
     public:
         static PlayerState* getInstance()
@@ -111,14 +115,15 @@ namespace CyberCity
     class JumpingState : public PlayerState
     {
     private:
-        void walk(std::shared_ptr<Entity> player) override;
-        void run(std::shared_ptr<Entity> player) override;
-        void climb(std::shared_ptr<Entity> player) override;
-        void evade(std::shared_ptr<Entity> player) override;
-        void jump(std::shared_ptr<Entity> player) override;
-        void attack(std::shared_ptr<Entity> player) override;
-        void defend(std::shared_ptr<Entity> player) override;
-        void hurt(std::shared_ptr<Entity> player) override;
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
 
     public:
         static PlayerState* getInstance()
@@ -131,17 +136,42 @@ namespace CyberCity
         States queryState() const override { return Jumping; };
     };
 
+    class FallingState : public PlayerState
+    {
+    private:
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
+
+    public:
+        static PlayerState* getInstance()
+        {
+            static FallingState instance {};
+
+            return &instance;
+        }
+
+        States queryState() const override { return Falling; };
+    };
+
     class AttackingState : public PlayerState
     {
     private:
-        void walk(std::shared_ptr<Entity> player) override;
-        void run(std::shared_ptr<Entity> player) override;
-        void climb(std::shared_ptr<Entity> player) override;
-        void evade(std::shared_ptr<Entity> player) override;
-        void jump(std::shared_ptr<Entity> player) override;
-        void attack(std::shared_ptr<Entity> player) override;
-        void defend(std::shared_ptr<Entity> player) override;
-        void hurt(std::shared_ptr<Entity> player) override;
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
 
     public:
         static PlayerState* getInstance()
@@ -157,14 +187,15 @@ namespace CyberCity
     class DefendingState : public PlayerState
     {
     private:
-        void walk(std::shared_ptr<Entity> player) override;
-        void run(std::shared_ptr<Entity> player) override;
-        void climb(std::shared_ptr<Entity> player) override;
-        void evade(std::shared_ptr<Entity> player) override;
-        void jump(std::shared_ptr<Entity> player) override;
-        void attack(std::shared_ptr<Entity> player) override;
-        void defend(std::shared_ptr<Entity> player) override;
-        void hurt(std::shared_ptr<Entity> player) override;
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
 
     public:
         static PlayerState* getInstance()
@@ -180,14 +211,15 @@ namespace CyberCity
     class HurtingState : public PlayerState
     {
     private:
-        void walk(std::shared_ptr<Entity> player) override;
-        void run(std::shared_ptr<Entity> player) override;
-        void climb(std::shared_ptr<Entity> player) override;
-        void evade(std::shared_ptr<Entity> player) override;
-        void jump(std::shared_ptr<Entity> player) override;
-        void attack(std::shared_ptr<Entity> player) override;
-        void defend(std::shared_ptr<Entity> player) override;
-        void hurt(std::shared_ptr<Entity> player) override;
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
 
     public:
         static PlayerState* getInstance()

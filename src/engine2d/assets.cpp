@@ -106,6 +106,29 @@ namespace Engine2D
                  */
                 addAnimation(splitRow[1], getTextureSheet(splitRow[2]), std::stoul(splitRow[3]), std::stoul(splitRow[4]));
             }
+            else if (splitRow[0] == "NewAnimation")
+            {
+                Animation newAnimation = getAnimation(splitRow[2]);
+
+                if (splitRow[3] == "Rotate")
+                {
+                    newAnimation.getSprite().setRotation(std::stoi(splitRow[4]));
+                }
+                else if (splitRow[3] == "ReflectX")
+                {
+                    newAnimation.getSprite().setScale(-1, 1);
+                }
+                else if (splitRow[3] == "ReflectY")
+                {
+                    newAnimation.getSprite().setScale(1, -1);
+                }
+                else if (splitRow[3] == "ReflectXY")
+                {
+                    newAnimation.getSprite().setScale(-1, -1);
+                }
+
+                addAnimation(splitRow[1], newAnimation);
+            }
             else if (splitRow[0] == "Font")
             {
                 /*
@@ -147,6 +170,8 @@ namespace Engine2D
     {
         textureSheetMap_[name] = TextureSheet {name, path, perRow, perCol};
     }
+
+    void Assets::addAnimation(const std::string& name, const Animation& animation) { animationMap_[name] = animation; }
 
     void Assets::addAnimation(const std::string& name, TextureSheet& textureSheet)
     {

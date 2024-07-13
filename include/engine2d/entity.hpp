@@ -9,6 +9,7 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
+#include <string>
 #include <tuple>
 
 #include "engine2d/forwardDeclare.hpp"
@@ -21,9 +22,9 @@ namespace Engine2D
     private:
         friend class EntityManager<ComponentTypes...>;
 
-        std::size_t id_  = 0;
-        std::string tag_ = "default";
-        bool active_     = true;
+        std::size_t id_ {};
+        std::string tag_ {};
+        bool active_ {true};
         std::tuple<ComponentTypes...> components_;
 
         Entity(const std::size_t id, const std::string& tag) : id_ {id}, tag_ {tag} {}

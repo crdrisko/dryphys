@@ -44,6 +44,7 @@ namespace Engine2D
 
         void addTextureSheet(
             const std::string& name, const std::string& path, std::size_t perRow = 0, std::size_t perCol = 0);
+        void addAnimation(const std::string& name, const Animation& animation);
         void addAnimation(const std::string& name, TextureSheet& textureSheet);
         void addAnimation(const std::string& name, TextureSheet& textureSheet, std::size_t frameCount, std::size_t speed);
         void addAnimation(const std::string& name,

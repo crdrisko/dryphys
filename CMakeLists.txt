@@ -147,14 +147,17 @@ set(DRYPHYS_SOURCE src/dryphys/eulersMethod.cpp
 set(ENGINE2D_SOURCE src/engine2d/animation.cpp
                     src/engine2d/assets.cpp
                     src/engine2d/engine.cpp
+                    src/engine2d/physics.cpp
                     src/engine2d/scene.cpp
                     src/engine2d/textureSheet.cpp)
 
-add_library(engine2d STATIC ${ENGINE2D_SOURCE})
 add_library(dryphys STATIC ${DRYPHYS_SOURCE})
+add_library(engine2d STATIC ${ENGINE2D_SOURCE})
+add_library(engine2d_gui STATIC ${ENGINE2D_SOURCE})
 
-target_link_libraries(engine2d PRIVATE dryphys sfml-audio)
-set_target_properties(engine2d PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
+target_link_libraries(engine2d PRIVATE dryphys ImGui-SFML::ImGui-SFML sfml-audio)
+target_link_libraries(engine2d_gui PRIVATE dryphys ImGui-SFML::ImGui-SFML sfml-audio)
+set_target_properties(engine2d_gui PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
 
 set(LIBRARIES include/dryphys
               include/engine2d)
@@ -164,7 +167,7 @@ if (phys_build_demos)
 
     ## CyberCity Demo
     set(CYBERCITY_SOURCE src/demos/cybercity/main.cpp
-                         src/demos/cybercity/physics.cpp
+                         src/demos/cybercity/ai.cpp
                          src/demos/cybercity/scenes/sceneMenu.cpp
                          src/demos/cybercity/scenes/scenePlay.cpp
                          src/demos/cybercity/states/playerStates.cpp
@@ -172,7 +175,7 @@ if (phys_build_demos)
 
     add_executable(cyberCity ${CYBERCITY_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(cyberCity PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(cyberCity PRIVATE ImGui-SFML::ImGui-SFML engine2d)
+    target_link_libraries(cyberCity PRIVATE engine2d_gui)
     set_target_properties(cyberCity PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
 
     set(CYBERCITY_CONFIG_FILES CP-Assets.txt
@@ -191,10 +194,28 @@ if (phys_build_demos)
 
     add_executable(geometryWaves ${GEOMETRYWAVES_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(geometryWaves PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(geometryWaves PRIVATE ImGui-SFML::ImGui-SFML engine2d)
+    target_link_libraries(geometryWaves PRIVATE engine2d)
 
     configure_file(src/demos/geometryWaves/config/GW-Config.txt ${PROJECT_BINARY_DIR}/etc/GW-Config.txt)
 
+    ## HeroKnight Demo
+    # set(HEROKNIGHT_SOURCE src/demos/heroKnight/main.cpp
+    #                       src/demos/heroKnight/physics.cpp
+    #                       src/demos/heroKnight/scenes/scenePlay.cpp
+    #                       src/demos/heroKnight/states/playerStates.cpp
+    #                       src/demos/heroKnight/states/states.cpp)
+
+    # add_executable(heroKnight ${HEROKNIGHT_SOURCE} ${IMGUI_SOURCE})
+    # target_include_directories(heroKnight PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
+    # target_link_libraries(heroKnight PRIVATE engine2d_gui)
+    # set_target_properties(heroKnight PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
+
+    set(HEROKNIGHT_CONFIG_FILES HK-Assets.txt HK-Level1.txt)
+
+    foreach (FILE ${HEROKNIGHT_CONFIG_FILES})
+        configure_file(src/demos/heroKnight/config/${FILE} ${PROJECT_BINARY_DIR}/etc/${FILE})
+    endforeach()
+    
     ## Light Cycle Demo
     set(LIGHTCYCLE_SOURCE src/demos/lightCycle/main.cpp
                           src/demos/lightCycle/ai.cpp
@@ -202,7 +223,7 @@ if (phys_build_demos)
 
     add_executable(lightCycle ${LIGHTCYCLE_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(lightCycle PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(lightCycle PRIVATE ImGui-SFML::ImGui-SFML engine2d)
+    target_link_libraries(lightCycle PRIVATE engine2d)
 
     configure_file(src/demos/lightCycle/config/LC-Config.txt ${PROJECT_BINARY_DIR}/etc/LC-Config.txt)
 
@@ -213,19 +234,30 @@ if (phys_build_demos)
 
     add_executable(shapeWatcher ${SHAPEWATCHER_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(shapeWatcher PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(shapeWatcher PRIVATE ImGui-SFML::ImGui-SFML engine2d)
+    target_link_libraries(shapeWatcher PRIVATE engine2d)
 
     configure_file(src/demos/shapeWatcher/config/SW-Config.txt ${PROJECT_BINARY_DIR}/etc/SW-Config.txt)
 
     ## SunnyLand Demo
-    add_executable(spriteSheetMaker src/demos/sunnyLand/assets/Sprites/spriteSheetMaker.cpp ${IMGUI_SOURCE})
-    target_link_libraries(spriteSheetMaker PRIVATE ImGui-SFML::ImGui-SFML)
+    # add_executable(spriteSheetMaker src/demos/sunnyLand/assets/Sprites/spriteSheetMaker.cpp ${IMGUI_SOURCE})
+    # target_link_libraries(spriteSheetMaker PRIVATE ImGui-SFML::ImGui-SFML)
 
-    add_executable(sunnyLand src/demos/sunnyLand/main.cpp ${IMGUI_SOURCE})
-    target_include_directories(sunnyLand PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-    target_link_libraries(sunnyLand PRIVATE ImGui-SFML::ImGui-SFML engine2d)
+    # set(SUNNYLAND_SOURCE src/demos/sunnyLand/main.cpp
+    #                       src/demos/sunnyLand/physics.cpp
+    #                       src/demos/sunnyLand/scenes/scenePlay.cpp
+    #                       src/demos/sunnyLand/states/playerStates.cpp
+    #                       src/demos/sunnyLand/states/states.cpp)
 
-    configure_file(src/demos/sunnyLand/config/SL-Assets.txt ${PROJECT_BINARY_DIR}/etc/SL-Assets.txt)
+    # add_executable(sunnyLand ${SUNNYLAND_SOURCE} ${IMGUI_SOURCE})
+    # target_include_directories(sunnyLand PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
+    # target_link_libraries(sunnyLand PRIVATE engine2d_gui)
+    # set_target_properties(sunnyLand PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
+
+    set(SUNNYLAND_CONFIG_FILES SL-Assets.txt SL-Level1.txt)
+
+    foreach (FILE ${SUNNYLAND_CONFIG_FILES})
+        configure_file(src/demos/sunnyLand/config/${FILE} ${PROJECT_BINARY_DIR}/etc/${FILE})
+    endforeach()
 
     ## Samples
     set(LIGHTINGSYSTEM_SOURCE src/demos/samples/lightingSystem/main.cpp)
@@ -240,7 +272,6 @@ if (phys_build_demos)
     add_executable(particleSystem ${PARTICLESYSTEM_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(particleSystem PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/samples)
     target_link_libraries(particleSystem PRIVATE ImGui-SFML::ImGui-SFML)
-
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 endif()

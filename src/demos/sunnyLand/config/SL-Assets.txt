@@ -16,27 +16,27 @@ AnimationWrapped		PlayerIdle				Player		4	10
 AnimationWrapped		PlayerJump				Player		2	10
 AnimationWrapped		PlayerRun				Player		6	10
 Animation				PlayerFall				Player		1	10	33	32	33	32
-Animation				BatFly					Enemy		3	10	0	0	53	57
-Animation				BatIdle					Enemy		4	10	159	0	53	57
-Animation				BearIdle				Enemy		4	10	371	0	54	63
-Animation				PigIdle					Enemy		4	10	587	0	64	35
-Animation				BunnyIdle				Enemy		3	10	0	63	50	48
-Animation				SlimeAttack				Enemy		7	10	150	63	41	38
-Animation				SlimeIdle				Enemy		8	10	437	63	41	38
-Animation				EagleIdle				Enemy		4	10	0	111	40	41
-Animation				EagleDive				Enemy		2	10	160	111	40	41
-Animation				EagleHurt				Enemy		5	10	240	111	40	41
-Animation				Vulture					Enemy		4	10	440	111	39	39
-Animation				VultureIdle				Enemy		4	10	596	111	39	39
-Animation				BettleIdle				Enemy		4	10	0	152	36	39
-Animation				FrogJump				Enemy		2	10	144	152	35	32
-Animation				FrogFall				Enemy		1	10	179	152	35	32
-Animation				FrogIdle				Enemy		4	10	214	152	35	32
-Animation				OpossumIdle				Enemy		6	10	354	152	36	28
-Animation				DinoAttack				Enemy		7	10	0	191	32	26
-Animation				DinoIdle				Enemy		4	10	224	191	32	26
-Animation				DogAttack				Enemy		4	10	352	191	33	26
-Animation				DogIdle					Enemy		6	10	484	191	33	26
+Animation				BatFly					Enemies		3	10	0	0	53	57
+Animation				BatIdle					Enemies		4	10	159	0	53	57
+Animation				BearIdle				Enemies		4	10	371	0	54	63
+Animation				PigIdle					Enemies		4	10	587	0	64	35
+Animation				BunnyIdle				Enemies		3	10	0	63	50	48
+Animation				SlimeAttack				Enemies		7	10	150	63	41	38
+Animation				SlimeIdle				Enemies		8	10	437	63	41	38
+Animation				EagleIdle				Enemies		4	10	0	111	40	41
+Animation				EagleDive				Enemies		2	10	160	111	40	41
+Animation				EagleHurt				Enemies		5	10	240	111	40	41
+Animation				VultureFly				Enemies		4	10	440	111	39	39
+Animation				VultureIdle				Enemies		4	10	596	111	39	39
+Animation				BettleIdle				Enemies		4	10	0	152	36	39
+Animation				FrogIdle				Enemies		4	10	144	152	35	32
+Animation				FrogFall				Enemies		1	10	284	152	35	32
+Animation				FrogJump				Enemies		1	10	319	152	35	32
+Animation				OpossumIdle				Enemies		6	10	354	152	36	28
+Animation				DinoAttack				Enemies		7	10	0	191	32	26
+Animation				DinoIdle				Enemies		4	10	224	191	32	26
+Animation				DogAttack				Enemies		4	10	352	191	33	26
+Animation				DogIdle					Enemies		6	10	484	191	33	26
 Animation				EnemyDeath              FX          6   8   0   0   40  41
 Animation				ItemFeedback            FX          4   12  0   41  32  32
 Animation				Cherry                  Items       7   10  0   0   21  21
@@ -137,3 +137,5 @@ Music					HurtAndHeart            ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets
 Music					Maniac                  ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/Maniac.ogg
 Music					UnderTheRainbow         ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/under_the_rainbow.ogg
 Music					UpAndRight              ${CMAKE_SOURCE_DIR}/src/demos/sunnyLand/assets/Music/up_and_right.ogg
+
+Font                    Arial                   ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Fonts/arial.ttf

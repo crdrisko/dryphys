@@ -15,6 +15,7 @@
 #include <engine2d/animation.hpp>
 #include <engine2d/components.hpp>
 
+#include "cybercity/ai.hpp"
 #include "cybercity/states/playerStates.hpp"
 
 namespace CyberCity
@@ -69,6 +70,7 @@ namespace CyberCity
             RIGHT,
             SPRINT,
             JUMP,
+            FALL,
             EVADE,
             ATTACK,
             DEFEND,
@@ -77,13 +79,22 @@ namespace CyberCity
 
         using InputBitSet = std::bitset<ENDINDEX - BEGININDEX>;
 
-        InputBitSet inputs {0b000000000};
+        InputBitSet inputs {};
 
         bool canJump     = true;
         bool canMove     = true;
         bool facingRight = true;
 
         CInput() = default;
+    };
+
+    class CAI : public Engine2D::Component
+    {
+    public:
+        std::shared_ptr<AI> ai {};
+
+        CAI() = default;
+        explicit CAI(std::shared_ptr<AI> ai) : ai {ai} {}
     };
 
     class CDraggable : public Engine2D::Component

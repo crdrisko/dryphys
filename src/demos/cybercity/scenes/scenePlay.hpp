@@ -20,8 +20,7 @@
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>
 
-#include "cybercity/entity.hpp"
-#include "cybercity/entityManager.hpp"
+#include "cybercity/forwardDeclare.hpp"
 
 namespace CyberCity
 {
@@ -34,13 +33,13 @@ namespace CyberCity
         };
 
     private:
-        std::shared_ptr<Entity> player_;
-        EntityManager entityManager_;
+        ConcreteEntityPtr player_;
+        ConcreteEntityManager entityManager_;
         ConfigData playerConfig_;
 
         std::string levelPath_;
 
-        const DryPhys::Vector3D gridSize_ {64, 64, 0};
+        const float gridSize_ {64};
         sf::Text gridText_;
         sf::Text pauseText_;
 
@@ -62,6 +61,7 @@ namespace CyberCity
         void onEnd() override;
 
         // Systems
+        void sAI();
         void sMovement();
         void sLifespan();
         void sCollision();
@@ -73,14 +73,14 @@ namespace CyberCity
         void spawnPlayer();
         void spawnEnemy(const ConfigData& enemyConfig);
         void spawnDecorations(const std::string& name);
-        void spawnBullet(std::shared_ptr<Entity> entity);
-        void spawnExplosion(std::shared_ptr<Entity> entity);
+        void spawnBullet(ConcreteEntityPtr entity);
+        void spawnExplosion(ConcreteEntityPtr entity);
 
-        DryPhys::Vector3D gridToMidPixel(float gridX, float gridY, std::shared_ptr<Entity> entity) const;
+        DryPhys::Vector3D gridToMidPixel(float gridX, float gridY, ConcreteEntityPtr entity) const;
         DryPhys::Vector3D windowToWorld(const DryPhys::Vector3D& window) const;
-        bool isInside(const DryPhys::Vector3D& pos, std::shared_ptr<Entity> e) const;
+        bool isInside(const DryPhys::Vector3D& pos, ConcreteEntityPtr e) const;
         void drawEntityAnimations(const std::string& tag);
-        void generateGuiInformation(std::shared_ptr<Entity> entity) const;
+        void generateGuiInformation(ConcreteEntityPtr entity) const;
 
     public:
         ScenePlay(Engine2D::Engine* gameEngine, const std::string& levelPath);

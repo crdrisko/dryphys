@@ -15,24 +15,25 @@
 #include <engine2d/action.hpp>
 #include <engine2d/assets.hpp>
 
+#include "cybercity/forwardDeclare.hpp"
+
 namespace CyberCity
 {
-    class Entity;
-
     class PlayerState
     {
     protected:
-        void changeState(std::shared_ptr<Entity> player, PlayerState* state);
+        void changeState(ConcreteEntityPtr player, PlayerState* state);
 
         // Actions
-        virtual void walk(std::shared_ptr<Entity>) {}
-        virtual void run(std::shared_ptr<Entity>) {}
-        virtual void climb(std::shared_ptr<Entity>) {}
-        virtual void evade(std::shared_ptr<Entity>) {}
-        virtual void jump(std::shared_ptr<Entity>) {}
-        virtual void attack(std::shared_ptr<Entity>) {}
-        virtual void defend(std::shared_ptr<Entity>) {}
-        virtual void hurt(std::shared_ptr<Entity>) {}
+        virtual void walk(ConcreteEntityPtr) {}
+        virtual void run(ConcreteEntityPtr) {}
+        virtual void climb(ConcreteEntityPtr) {}
+        virtual void evade(ConcreteEntityPtr) {}
+        virtual void jump(ConcreteEntityPtr) {}
+        virtual void fall(ConcreteEntityPtr) {}
+        virtual void attack(ConcreteEntityPtr) {}
+        virtual void defend(ConcreteEntityPtr) {}
+        virtual void hurt(ConcreteEntityPtr) {}
 
     public:
         enum States
@@ -43,6 +44,7 @@ namespace CyberCity
             Climbing,
             Evading,
             Jumping,
+            Falling,
             Attacking,
             Defending,
             Hurting
@@ -50,9 +52,9 @@ namespace CyberCity
 
         virtual ~PlayerState() = default;
 
-        void handleActions(std::shared_ptr<Entity> player, const Engine2D::Action& action);
-        void handleInput(std::shared_ptr<Entity> player);
-        void handleAnimations(std::shared_ptr<Entity> player, Engine2D::Assets& assets, const std::string& prefix);
+        void handleActions(ConcreteEntityPtr player, const Engine2D::Action& action);
+        void handleInput(ConcreteEntityPtr player);
+        void handleAnimations(ConcreteEntityPtr player, Engine2D::Assets& assets, const std::string& prefix);
 
         virtual States queryState() const = 0;
     };
@@ -60,14 +62,15 @@ namespace CyberCity
     class IdlingState : public PlayerState
     {
     private:
-        void walk(std::shared_ptr<Entity> player) override;
-        void run(std::shared_ptr<Entity> player) override;
-        void climb(std::shared_ptr<Entity> player) override;
-        void evade(std::shared_ptr<Entity> player) override;
-        void jump(std::shared_ptr<Entity> player) override;
-        void attack(std::shared_ptr<Entity> player) override;
-        void defend(std::shared_ptr<Entity> player) override;
-        void hurt(std::shared_ptr<Entity> player) override;
+        void walk(ConcreteEntityPtr player) override;
+        void run(ConcreteEntityPtr player) override;
+        void climb(ConcreteEntityPtr player) override;
+        void evade(ConcreteEntityPtr player) override;
+        void jump(ConcreteEntityPtr player) override;
+        void fall(ConcreteEntityPtr player) override;
+        void attack(ConcreteEntityPtr player) override;
+        void defend(ConcreteEntityPtr player) override;
+        void hurt(ConcreteEntityPtr player) override;
 
     public:
         static PlayerState* getInstance()

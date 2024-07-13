@@ -21,10 +21,11 @@
 #include <engine2d/action.hpp>
 #include <engine2d/animation.hpp>
 #include <engine2d/engine.hpp>
+#include <engine2d/physics.hpp>
 #include <engine2d/scene.hpp>
 
 #include "cybercity/components.hpp"
-#include "cybercity/physics.hpp"
+#include "cybercity/forwardDeclare.hpp"
 #include "cybercity/scenes/sceneMenu.hpp"
 
 namespace CyberCity
@@ -46,6 +47,10 @@ namespace CyberCity
         registerAction(sf::Keyboard::S, "DEFEND");
         registerAction(sf::Keyboard::A, "LEFT");
         registerAction(sf::Keyboard::D, "RIGHT");
+        registerAction(sf::Keyboard::Up, "JUMP");
+        registerAction(sf::Keyboard::Down, "DEFEND");
+        registerAction(sf::Keyboard::Left, "LEFT");
+        registerAction(sf::Keyboard::Right, "RIGHT");
         registerAction(sf::Keyboard::Space, "EVADE");
         registerAction(sf::Keyboard::LShift, "SPRINT");
         registerAction(sf::Keyboard::Enter, "ATTACK");
@@ -63,7 +68,7 @@ namespace CyberCity
     void ScenePlay::loadLevel(const std::string& filename)
     {
         // Reset the entity manager every time we load a level
-        entityManager_ = EntityManager();
+        entityManager_ = ConcreteEntityManager();
 
         DryChem::FileParser parser {filename};
         auto rows = parser.parseDataFile(DryChem::AsRows());
@@ -81,19 +86,20 @@ namespace CyberCity
                  *  Grid X Pos:         GX      float
                  *  Grid Y Pos:         GY      float
                  */
-                std::shared_ptr<Entity> tileEntity = entityManager_.addEntity("tile");
+                auto tileEntity = entityManager_.addEntity("tile");
 
                 Engine2D::Animation& anim  = game_->assets().getAnimation(splitRow[1]);
                 DryPhys::Vector3D animSize = anim.getSize();
 
-                float scale = gridSize_[0] / std::min(animSize[0], animSize[1]);
+                float scale    = gridSize_ / std::min(animSize[0], animSize[1]);
+                auto animScale = anim.getSprite().getScale();
 
                 tileEntity->addComponent<CAnimation>(anim);
                 tileEntity->addComponent<CTransform>(
                     gridToMidPixel(std::stof(splitRow[2]), std::stof(splitRow[3]), tileEntity),
                     DryPhys::Vector3D {},
-                    DryPhys::Vector3D {scale, scale, 0},
-                    0.0f);
+                    DryPhys::Vector3D {scale * animScale.x, scale * animScale.y, 0},
+                    anim.getSprite().getRotation());
                 tileEntity->addComponent<CDraggable>();
                 tileEntity->addComponent<CBoundingBox>(game_->assets().getAnimation(splitRow[1]).getSize() * scale);
             }
@@ -105,7 +111,7 @@ namespace CyberCity
                  *  Grid X Pos:         GX      float
                  *  Grid Y Pos:         GY      float
                  */
-                std::shared_ptr<Entity> tileEntity = entityManager_.addEntity("dec");
+                auto tileEntity = entityManager_.addEntity("dec");
 
                 tileEntity->addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
                 tileEntity->addComponent<CTransform>(
@@ -113,7 +119,7 @@ namespace CyberCity
             }
             else if (splitRow[0] == "Env")
             {
-                std::shared_ptr<Entity> envEntity = entityManager_.addEntity("env");
+                auto envEntity = entityManager_.addEntity("env");
 
                 envEntity->addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
 
@@ -190,8 +196,11 @@ namespace CyberCity
             {
                 music_ = game_->assets().getMusic(splitRow[1]);
 
-                music_->setVolume(std::stof(splitRow[2]));
-                // music_->play();
+                if (music_)
+                {
+                    music_->setVolume(std::stof(splitRow[2]));
+                    music_->play();
+                }
             }
         }
 
@@ -204,6 +213,7 @@ namespace CyberCity
 
         if (!paused_)
         {
+            sAI();
             sMovement();
             sLifespan();
             sCollision();
@@ -300,7 +310,7 @@ namespace CyberCity
         // draw all Entity textures / animations
         if (drawTextures_)
         {
-            for (std::shared_ptr<Entity> entity : entityManager_.getEntities("env"))
+            for (auto entity : entityManager_.getEntities("env"))
             {
                 if (entity->hasComponent<CAnimation>())
                 {
@@ -325,12 +335,12 @@ namespace CyberCity
         // draw all Entity collision bounding boxes with a rectangle shape
         if (drawCollisions_)
         {
-            for (std::shared_ptr<Entity> e : entityManager_.getEntities())
+            for (auto entity : entityManager_.getEntities())
             {
-                if (e->hasComponent<CBoundingBox>())
+                if (entity->hasComponent<CBoundingBox>())
                 {
-                    auto& box       = e->getComponent<CBoundingBox>();
-                    auto& transform = e->getComponent<CTransform>();
+                    auto& box       = entity->getComponent<CBoundingBox>();
+                    auto& transform = entity->getComponent<CTransform>();
 
                     sf::RectangleShape rect;
                     rect.setSize(sf::Vector2f(box.size[0] - 1, box.size[1] - 1));
@@ -349,25 +359,25 @@ namespace CyberCity
         if (drawGrid_)
         {
             float leftX     = game_->window().getView().getCenter().x - width() / 2;
-            float rightX    = leftX + width() + gridSize_[0];
-            float nextGridX = leftX - ((int)leftX % (int)gridSize_[0]);
+            float rightX    = leftX + width() + gridSize_;
+            float nextGridX = leftX - ((int)leftX % (int)gridSize_);
 
-            for (float x = nextGridX; x < rightX; x += gridSize_[0])
+            for (float x = nextGridX; x < rightX; x += gridSize_)
             {
                 drawLine(DryPhys::Vector3D(x, 0.0f, 0), DryPhys::Vector3D(x, static_cast<float>(height()), 0));
             }
 
-            for (float y = 0; y < height(); y += gridSize_[1])
+            for (float y = 0; y < height(); y += gridSize_)
             {
                 drawLine(DryPhys::Vector3D(leftX, height() - y, 0), DryPhys::Vector3D(rightX, height() - y, 0));
 
-                for (float x = nextGridX; x < rightX; x += gridSize_[0])
+                for (float x = nextGridX; x < rightX; x += gridSize_)
                 {
-                    std::string xCell = std::to_string((int)x / (int)gridSize_[0]);
-                    std::string yCell = std::to_string((int)y / (int)gridSize_[1]);
+                    std::string xCell = std::to_string((int)x / (int)gridSize_);
+                    std::string yCell = std::to_string((int)y / (int)gridSize_);
 
                     gridText_.setString("(" + xCell + "," + yCell + ")");
-                    gridText_.setPosition(x + 3, height() - y - gridSize_[1] + 2);
+                    gridText_.setPosition(x + 3, height() - y - gridSize_ + 2);
 
                     game_->window().draw(gridText_);
                 }
@@ -387,54 +397,27 @@ namespace CyberCity
 
     void ScenePlay::onEnd()
     {
-        music_->stop();
+        if (music_)
+            music_->stop();
+
         game_->changeScene("MENU", std::make_shared<SceneMenu>(game_, levelPath_));
+    }
+
+    void ScenePlay::sAI()
+    {
+        // for (auto entity : entityManager_.getEntities("enemy"))
+        // {
+        //     auto& eTrans = entity->getComponent<CTransform>();
+
+        //     eTrans.vel = DryPhys::Vector3D {-2.0f, 0, 0};
+        // }
     }
 
     void ScenePlay::sMovement()
     {
-        auto& pInput     = player_->getComponent<CInput>();
-        auto& pTransform = player_->getComponent<CTransform>();
-
-        // Maintain y velocity from previous frame so gravity acts as an acceleration
-        pTransform.vel[0] = 0.0f;
-
-        float horizontalMoveSpeed {playerConfig_.SPEED};
-
-        if (pInput.inputs[CInput::SPRINT])
-            horizontalMoveSpeed *= 1.5;
-
-        if (pInput.inputs[CInput::LEFT])
-        {
-            if (pInput.facingRight)
-            {
-                pTransform.scale[0] *= -1.0f;
-                pInput.facingRight = false;
-            }
-
-            if (pInput.canMove)
-                pTransform.vel[0] = -horizontalMoveSpeed;
-        }
-        else if (pInput.inputs[CInput::RIGHT])
-        {
-            if (!pInput.facingRight)
-            {
-                pTransform.scale[0] *= -1.0f;
-                pInput.facingRight = true;
-            }
-
-            if (pInput.canMove)
-                pTransform.vel[0] = horizontalMoveSpeed;
-        }
-
-        if (pInput.canJump && pInput.inputs[CInput::JUMP])
-        {
-            pTransform.vel[1] += playerConfig_.JUMP;
-        }
-
         player_->getComponent<CState>().state->handleInput(player_);
 
-        for (std::shared_ptr<Entity> entity : entityManager_.getEntities())
+        for (auto entity : entityManager_.getEntities())
         {
             auto& transform    = entity->getComponent<CTransform>();
             auto& [vx, vy, vz] = transform.vel;
@@ -467,7 +450,7 @@ namespace CyberCity
 
     void ScenePlay::sLifespan()
     {
-        for (std::shared_ptr<Entity> entity : entityManager_.getEntities())
+        for (auto entity : entityManager_.getEntities())
         {
             if (entity->hasComponent<CLifespan>())
             {
@@ -507,14 +490,21 @@ namespace CyberCity
         if (px < pBoundingBox.halfSize[0])
             px = pBoundingBox.halfSize[0];
 
+        bool playerCollision {};
+
         for (auto tile : entityManager_.getEntities("tile"))
         {
-            DryPhys::Vector3D overlap = Physics::GetOverlap(tile, player_);
+            auto& tileTransform   = tile->getComponent<CTransform>();
+            auto& tileBoundingBox = tile->getComponent<CBoundingBox>();
+
+            DryPhys::Vector3D overlap = Engine2D::getAABBOverlap(
+                tileTransform.pos, tileBoundingBox.halfSize, pTransform.pos, pBoundingBox.halfSize);
 
             if (overlap[0] > 0 && overlap[1] > 0)
             {
                 // Overlap Detected...
-                DryPhys::Vector3D prevOverlap = Physics::GetPreviousOverlap(tile, player_);
+                DryPhys::Vector3D prevOverlap = Engine2D::getAABBOverlap(
+                    tileTransform.prevPos, tileBoundingBox.halfSize, pTransform.prevPos, pBoundingBox.halfSize);
 
                 if (prevOverlap[0] > 0)
                 {
@@ -525,7 +515,8 @@ namespace CyberCity
                         pTransform.vel[1] = 0.0f;
 
                         // Floor collisions determine whether or not we can jump
-                        pInput.canJump = true;
+                        pInput.canJump  = true;
+                        playerCollision = true;
                     }
                     else if (py < prev_py)
                     {
@@ -563,12 +554,14 @@ namespace CyberCity
                 // Nothing should have set the z component of these "2d"-vectors
                 assert(ez == static_cast<DryPhys::real>(0) && prev_ez == static_cast<DryPhys::real>(0));
 
-                DryPhys::Vector3D overlap = Physics::GetOverlap(tile, enemy);
+                DryPhys::Vector3D overlap = Engine2D::getAABBOverlap(
+                    tileTransform.pos, tileBoundingBox.halfSize, eTransform.pos, eBoundingBox.halfSize);
 
                 if (overlap[0] > 0 && overlap[1] > 0)
                 {
                     // Overlap Detected...
-                    DryPhys::Vector3D prevOverlap = Physics::GetPreviousOverlap(tile, enemy);
+                    DryPhys::Vector3D prevOverlap = Engine2D::getAABBOverlap(
+                        tileTransform.prevPos, tileBoundingBox.halfSize, eTransform.prevPos, eBoundingBox.halfSize);
 
                     if (prevOverlap[0] > 0)
                     {
@@ -603,7 +596,11 @@ namespace CyberCity
 
             for (auto bullet : entityManager_.getEntities("bullet"))
             {
-                DryPhys::Vector3D overlap = Physics::GetOverlap(tile, bullet);
+                auto& bTransform   = bullet->getComponent<CTransform>();
+                auto& bBoundingBox = bullet->getComponent<CBoundingBox>();
+
+                DryPhys::Vector3D overlap = Engine2D::getAABBOverlap(
+                    tileTransform.pos, tileBoundingBox.halfSize, bTransform.pos, bBoundingBox.halfSize);
 
                 if (overlap[0] > 0 && overlap[1] > 0)
                 {
@@ -613,16 +610,29 @@ namespace CyberCity
             }
         }
 
+        if (playerCollision)
+            pInput.inputs[CInput::FALL] = false;
+        else
+            pInput.inputs[CInput::FALL] = true;
+
         for (auto enemy : entityManager_.getEntities("enemy"))
         {
+            auto& eTransform   = enemy->getComponent<CTransform>();
+            auto& eBoundingBox = enemy->getComponent<CBoundingBox>();
+
             for (auto bullet : entityManager_.getEntities("bullet"))
             {
-                DryPhys::Vector3D overlap = Physics::GetOverlap(enemy, bullet);
+                auto& bTransform   = bullet->getComponent<CTransform>();
+                auto& bBoundingBox = bullet->getComponent<CBoundingBox>();
+
+                DryPhys::Vector3D overlap
+                    = Engine2D::getAABBOverlap(eTransform.pos, eBoundingBox.halfSize, bTransform.pos, bBoundingBox.halfSize);
 
                 if (overlap[0] > 0 && overlap[1] > 0)
                 {
                     spawnExplosion(enemy);
                     bullet->destroy();
+                    enemy->destroy();
                 }
             }
         }
@@ -633,7 +643,7 @@ namespace CyberCity
         auto pState = player_->getComponent<CState>().state;
         pState->handleAnimations(player_, game_->assets(), playerConfig_.AVATAR);
 
-        for (std::shared_ptr<Entity> entity : entityManager_.getEntities())
+        for (auto entity : entityManager_.getEntities())
         {
             if (!entity->hasComponent<CAnimation>())
                 continue;
@@ -649,7 +659,7 @@ namespace CyberCity
 
     void ScenePlay::sDragAndDrop()
     {
-        for (std::shared_ptr<Entity> entity : entityManager_.getEntities())
+        for (auto entity : entityManager_.getEntities())
         {
             if (entity->hasComponent<CDraggable>() && entity->getComponent<CDraggable>().dragging)
             {
@@ -660,7 +670,7 @@ namespace CyberCity
 
     void ScenePlay::sGui()
     {
-        ImGui::ShowDemoWindow();
+        // ImGui::ShowDemoWindow();
 
         ImGui::Begin("Scene Properties");
 
@@ -736,6 +746,9 @@ namespace CyberCity
 
                 for (const auto& [key, anim] : game_->assets().getAnimations())
                 {
+                    if (DryChem::foundSubstr("Player", key))
+                        continue;
+
                     if (count++ % 10)
                         ImGui::SameLine();
 
@@ -826,12 +839,24 @@ namespace CyberCity
 
         player_ = entityManager_.addEntity("player");
 
-        player_->addComponent<CAnimation>(game_->assets().getAnimation(playerConfig_.AVATAR + "Idle"));
-        player_->addComponent<CTransform>(gridToMidPixel(playerConfig_.X, playerConfig_.Y, player_));
+        auto& pAnim  = player_->addComponent<CAnimation>(game_->assets().getAnimation(playerConfig_.AVATAR + "Idle"));
+        auto& pTrans = player_->addComponent<CTransform>(gridToMidPixel(playerConfig_.X, playerConfig_.Y, player_));
 
-        float scale = gridSize_[0] / 50.0f;
+        DryPhys::Vector3D animSize = pAnim.animation.getSize();
 
-        player_->getComponent<CTransform>().scale = DryPhys::Vector3D {scale, scale, 0};
+        float scale;
+
+        if (animSize[0] < gridSize_ && animSize[1] < gridSize_)
+        {
+            scale        = gridSize_ / std::min(animSize[0], animSize[1]);
+            pTrans.scale = DryPhys::Vector3D {scale, scale, 0};
+        }
+        else
+        {
+            scale        = gridSize_ * 1.5f / std::min(animSize[0], animSize[1]);
+            pTrans.scale = DryPhys::Vector3D {scale, scale, 0};
+        }
+
         player_->addComponent<CBoundingBox>(DryPhys::Vector3D {25, 50, 0} * scale);   // Needs to shift down
         player_->addComponent<CInput>();
         player_->addComponent<CState>();
@@ -840,38 +865,41 @@ namespace CyberCity
 
     void ScenePlay::spawnEnemy(const ConfigData& enemyConfig)
     {
-        std::shared_ptr<Entity> enemyEntity = entityManager_.addEntity("enemy");
+        AIFactory factory {"Patrol"};
+
+        auto enemyEntity = entityManager_.addEntity("enemy");
 
         enemyEntity->addComponent<CAnimation>(game_->assets().getAnimation(enemyConfig.AVATAR + "Idle"));
         auto& enemyTrans = enemyEntity->addComponent<CTransform>(gridToMidPixel(enemyConfig.X, enemyConfig.Y, enemyEntity));
 
-        float scale      = gridSize_[0] / 50.0f;
+        float scale      = gridSize_ / 50.0f;
         enemyTrans.scale = DryPhys::Vector3D {scale, scale, 0};
 
         enemyEntity->addComponent<CBoundingBox>(DryPhys::Vector3D {25, 50, 0} * scale);   // Needs to shift down
         enemyEntity->addComponent<CGravity>(enemyConfig.GRAVITY);
+        enemyEntity->addComponent<CAI>(factory.create());
     }
 
     void ScenePlay::spawnDecorations(const std::string& name)
     {
-        std::shared_ptr<Entity> tileEntity = entityManager_.addEntity("dec");
+        auto tileEntity = entityManager_.addEntity("dec");
 
         Engine2D::Animation anim   = game_->assets().getAnimation(name);
         DryPhys::Vector3D animSize = anim.getSize();
 
-        float scale = gridSize_[0] / std::min(animSize[0], animSize[1]);
+        float scale = gridSize_ / std::min(animSize[0], animSize[1]);
 
-        tileEntity->addComponent<CAnimation>(anim);
+        tileEntity->addComponent<CAnimation>(game_->assets().getAnimation(name));
         tileEntity->addComponent<CTransform>(
             gridToMidPixel(mPos_[0], mPos_[1], tileEntity), DryPhys::Vector3D {}, DryPhys::Vector3D {scale, scale, 0}, 0.0f);
         tileEntity->addComponent<CDraggable>(true);
     }
 
-    void ScenePlay::spawnBullet(std::shared_ptr<Entity> entity)
+    void ScenePlay::spawnBullet(ConcreteEntityPtr entity)
     {
         auto& eTrans = entity->getComponent<CTransform>();
 
-        std::shared_ptr<Entity> bulletEntity = entityManager_.addEntity("bullet");
+        auto bulletEntity = entityManager_.addEntity("bullet");
 
         float scale = std::copysign(1.0f, eTrans.scale[0]);
 
@@ -885,17 +913,17 @@ namespace CyberCity
         bulletEntity->addComponent<CLifespan>(100, currentFrame_);
     }
 
-    void ScenePlay::spawnExplosion(std::shared_ptr<Entity> entity)
+    void ScenePlay::spawnExplosion(ConcreteEntityPtr entity)
     {
         auto& eTrans = entity->getComponent<CTransform>();
         auto& eAnim  = entity->getComponent<CAnimation>().animation;
 
-        std::shared_ptr<Entity> explosionEntity = entityManager_.addEntity("dec");
+        auto explosionEntity = entityManager_.addEntity("dec");
 
-        std::string explosion {(entity->tag() == "enemy") ? "EnemyExplosion" : "Explosion"};
+        std::string explosion {(entity->tag() == "enemy") ? "EnemyExplosion" : "ShotHit"};
         auto& anim = explosionEntity->addComponent<CAnimation>(game_->assets().getAnimation(explosion), false);
 
-        float maxSize = std::max(eAnim.getSize()[0], eAnim.getSize()[0]);
+        float maxSize = std::min(eAnim.getSize()[0], eAnim.getSize()[0]);
 
         float scaleX = maxSize / anim.animation.getSize()[0];
         float scaleY = maxSize / anim.animation.getSize()[1];
@@ -904,16 +932,14 @@ namespace CyberCity
             DryPhys::Vector3D {},
             DryPhys::Vector3D {scaleX, scaleY, 0},
             0);
-
-        entity->destroy();
     }
 
-    DryPhys::Vector3D ScenePlay::gridToMidPixel(float gridX, float gridY, std::shared_ptr<Entity> entity) const
+    DryPhys::Vector3D ScenePlay::gridToMidPixel(float gridX, float gridY, ConcreteEntityPtr entity) const
     {
-        DryPhys::Vector3D result {gridX * gridSize_[0], height() - (gridY * gridSize_[1]), 0};
+        DryPhys::Vector3D result {gridX * gridSize_, height() - (gridY * gridSize_), 0};
         DryPhys::Vector3D size {entity->getComponent<CAnimation>().animation.getSize()};
 
-        float scale = gridSize_[0] / std::min(size[0], size[1]);
+        float scale = gridSize_ / std::min(size[0], size[1]);
 
         result[0] += size[0] * scale / 2.0f;
         result[1] -= size[1] * scale / 2.0f;
@@ -931,7 +957,7 @@ namespace CyberCity
         return DryPhys::Vector3D {window[0] + worldX, window[1] + worldY, 0};
     }
 
-    bool ScenePlay::isInside(const DryPhys::Vector3D& pos, std::shared_ptr<Entity> e) const
+    bool ScenePlay::isInside(const DryPhys::Vector3D& pos, ConcreteEntityPtr e) const
     {
         auto ePos = e->getComponent<CTransform>().pos;
         auto size = e->getComponent<CAnimation>().animation.getSize();
@@ -944,7 +970,7 @@ namespace CyberCity
 
     void ScenePlay::drawEntityAnimations(const std::string& tag)
     {
-        for (std::shared_ptr<Entity> entity : entityManager_.getEntities(tag))
+        for (auto entity : entityManager_.getEntities(tag))
         {
             auto& transform = entity->getComponent<CTransform>();
 
@@ -961,7 +987,7 @@ namespace CyberCity
         }
     }
 
-    void ScenePlay::generateGuiInformation(std::shared_ptr<Entity> entity) const
+    void ScenePlay::generateGuiInformation(ConcreteEntityPtr entity) const
     {
         sf::Vector2f size {24.0f, 24.0f};
 

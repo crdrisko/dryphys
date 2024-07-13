@@ -1,3 +1,5 @@
+Window                  HeroKnight                  1856 960 60 0
+
 TextureSheetWrapped     HeroKnight                  ${CMAKE_SOURCE_DIR}/src/demos/heroKnight/assets/Sprites/HeroKnight.png                  10  9
 TextureSheetWrapped     HeroKnightDeathNoBlood      ${CMAKE_SOURCE_DIR}/src/demos/heroKnight/assets/Sprites/HeroKnight_DeathNoBlood.png     5   2
 TextureSheetWrapped     HeroKnightBlockNoEffect     ${CMAKE_SOURCE_DIR}/src/demos/heroKnight/assets/Sprites/HeroKnight_BlockNoEffect.png    5   1
@@ -6,6 +8,8 @@ TextureSheetWrapped     BlockFlash                  ${CMAKE_SOURCE_DIR}/src/demo
 TextureSheetWrapped     EnvironmentTiles            ${CMAKE_SOURCE_DIR}/src/demos/heroKnight/assets/Sprites/EnvironmentTiles.png            2   2
 TextureSheetWrapped     HeavyBandit                 ${CMAKE_SOURCE_DIR}/src/demos/heroKnight/assets/Sprites/HeavyBandit.png                 8   5
 TextureSheetWrapped     LightBandit                 ${CMAKE_SOURCE_DIR}/src/demos/heroKnight/assets/Sprites/LightBandit.png                 8   5
+
+Texture                 Background                  ${CMAKE_SOURCE_DIR}/src/demos/heroKnight/assets/Sprites/background.png
 
 AnimationWrapped        PlayerIdle                  HeroKnight                  8   10
 AnimationWrapped        PlayerRun                   HeroKnight                  10  10
@@ -45,5 +49,10 @@ AnimationWrapped        LightBanditRecover          LightBandit                 
 AnimationWrapped        LightBanditHurt             LightBandit                 2   10
 AnimationWrapped        LightBanditJump             LightBandit                 1   10
 AnimationWrapped        LightBanditDeath            LightBandit                 1   10
+
+NewAnimation            Platform                    Wall                        Rotate      270
+NewAnimation            PlatformEndLeft             WallEnd                     Rotate      270
+NewAnimation            PlatformEndRight            WallEnd                     ReflectXY
+NewAnimation            GroundEndRight              GroundEnd                   ReflectX
 
 Font                    Arial                       ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Fonts/arial.ttf

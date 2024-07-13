@@ -155,9 +155,9 @@ Tile BlockWide  73 6
 
 Tile PlatformEnd  78 6
 
-Player 10 10 48 48 5 -5 20 0.75 Player1 PlayerShoot
+Player 10 10 48 48 5 -5 20 0.75 Player1 Shot
 
-Enemy 16 1 48 48 5 -5 20 0.75 Cop EnemyShoot
+Enemy 16 3 48 48 5 -5 20 0.75 Cop EnemyShoot
 Enemy 79 7 48 48 5 -5 20 0.75 Cop EnemyShoot
 
 Music CyberCity1 20

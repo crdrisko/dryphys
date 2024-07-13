@@ -87,6 +87,7 @@ Animation       Player1Shoot            Player1         1       0       639     
 Animation       Player1Climb            Player1         6       10      710     0       71      67
 Animation       Player1Idle             Player1         4       10      0       67      71      67
 Animation       Player1Jump             Player1         4       12      284     67      71      67
+Animation       Player1Fall             Player1         1       0       497     67      71      67
 Animation       Player1Run              Player1         8       8       568     67      71      67
 Animation       Player1RunShoot         Player1         8       8       0       134     71      67
 Animation       Player1Walk             Player1         16      4       0       201     71      67
@@ -95,6 +96,7 @@ Animation       Player2Evade            Player2         4       12      0       
 Animation       Player2Crouch           Player2         4       12      0       0       80      80
 Animation       Player2Idle             Player2         4       10      320     0       80      80
 Animation       Player2Jump             Player2         7       7       0       80      80      80
+Animation       Player2Fall             Player2         1       0       480     80      80      80
 Animation       Player2Run              Player2         8       8       0       160     80      80
 Animation       Player2Walk             Player2         8       8       0       160     80      80
 Animation       Player2Shoot            Player2         3       12      0       240     80      80

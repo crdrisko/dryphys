@@ -1,0 +1,62 @@
+Env	    Back           1
+Env	    Middle         3
+
+Tile Ground	 0 0
+Tile Ground  1 0
+Tile Ground  2 0
+Tile Ground  3 0
+Tile Ground  4 0
+Tile Ground  5 0
+Tile Ground  6 0
+Tile Ground  7 0
+Tile Ground  8 0
+Tile Ground  9 0
+Tile Ground 10 0
+Tile Ground 11 0
+Tile Ground 12 0
+Tile Ground 13 0
+Tile Ground 14 0
+Tile Ground 15 0
+Tile Ground 16 0
+Tile Ground 17 0
+Tile Ground 18 0
+Tile Ground 19 0
+Tile Ground 20 0
+Tile Ground 21 0
+Tile Ground 22 0
+Tile Ground 23 0
+Tile Ground 24 0
+Tile Ground 24 0
+Tile Ground 25 0
+Tile Ground 26 0
+Tile Ground 27 0
+Tile Ground 28 0
+Tile Ground 29 0
+Tile Ground 30 0
+Tile Ground 31 0
+Tile Ground 32 0
+Tile Ground 33 0
+Tile Ground 34 0
+Tile Ground 35 0
+Tile Ground 36 0
+Tile Ground 37 0
+Tile Ground 38 0
+Tile Ground 39 0
+Tile Ground 40 0
+
+Player 10 10 48 48 5 -5 20 0.75 Player PlayerShoot
+
+Enemy   3   1   48  48  5   -5  20  0.75    Bat	        EnemyShoot
+Enemy   6   1   48  48  5   -5  20  0.75    Bear        EnemyShoot
+Enemy   9   1   48  48  5   -5  20  0.75    Pig	        EnemyShoot
+Enemy   12  1   48  48  5   -5  20  0.75    Bunny       EnemyShoot
+Enemy   15  1   48  48  5   -5  20  0.75    Slime       EnemyShoot
+Enemy   18  1   48  48  5   -5  20  0.75    Eagle		EnemyShoot
+Enemy   21  1   48  48  5   -5  20  0.75    Vulture     EnemyShoot
+Enemy   24  1   48  48  5   -5  20  0.75    Bettle      EnemyShoot
+Enemy   27  1   48  48  5   -5  20  0.75    Frog        EnemyShoot
+Enemy   30  1   48  48  5   -5  20  0.75    Opossum     EnemyShoot
+Enemy   33  1   48  48  5   -5  20  0.75    Dino        EnemyShoot
+Enemy   36  1   48  48  5   -5  20  0.75    Dog         EnemyShoot
+
+Music HurtAndHeart 20

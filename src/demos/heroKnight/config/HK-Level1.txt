@@ -1,11 +1,6 @@
-Background Background
-
 Tile Ground  0 0
 Tile Ground  1 0
 Tile Ground  2 0
-
-Dec  Bush    1 1
-
 Tile Ground  3 0
 Tile Ground  4 0
 Tile Ground  5 0
@@ -20,7 +15,6 @@ Tile Ground 15 0
 Tile Ground 21 0
 Tile Ground 13 0
 Tile Ground 14 0
-
 Tile Ground 15 0
 Tile Ground 16 0
 Tile Ground 17 0
@@ -29,46 +23,50 @@ Tile Ground 19 0
 Tile Ground 20 0
 Tile Ground 21 0
 Tile Ground 22 0
-
 Tile Ground 23 0
 Tile Ground 24 0
-Tile Ground 25 0
+Tile GroundEndRight 25 0
 
-Tile WallEnd		4	3
-Tile Platform		5	3
-Tile Platform		6	3
-Tile Platform		7	3
-Tile Platform		8	3
-Tile Platform		9	3
-Tile Platform		10	3
-Tile Platform		11	3
-Tile PlatformEnd	12	3
-Tile WallEnd		6	6
-Tile Platform		7	6
-Tile Platform		8	6
-Tile Platform		9	6
-Tile PlatformEnd	10	6
-Tile WallEnd		7	9
-Tile Platform		8	9
-Tile PlatformEnd	9	9
+Tile PlatformEndLeft	4	3
+Tile Platform	        5	3
+Tile Platform	        6	3
+Tile Platform	        7	3
+Tile Platform	        8	3
+Tile Platform	        9	3
+Tile Platform	        10	3
+Tile Platform	        11	3
+Tile PlatformEndRight	12	3
+Tile PlatformEndLeft	6	6
+Tile Platform       	7	6
+Tile Platform       	8	6
+Tile Platform       	9	6
+Tile PlatformEndRight	10	6
+Tile PlatformEndLeft	7	9
+Tile Platform	        8	9
+Tile PlatformEndRight	9	9
 
-Tile Ground 24 1
-Tile Ground 25 1
-Tile Ground 25 2
-Tile Ground 28 1
-Tile Ground 28 2
+Tile GroundEnd          22  1
+Tile Ground             23  1
+Tile Ground             24  1
+Tile GroundEndRight     25  1
+Tile GroundEnd          23  2
+Tile Ground             24  2
+Tile GroundEndRight     25  2
 
-Tile Ground 29 1
-Tile Ground 28 0
+Tile GroundEnd          28  1
+Tile Ground             29  1
+Tile Ground             30  1
+Tile GroundEndRight     31  1
+Tile GroundEnd          28  2
+Tile Ground             29  2
+Tile GroundEndRight     30  2
+
+Tile GroundEnd 28 0
 Tile Ground 29 0
 Tile Ground 30 0
 Tile Ground 31 0
-
 Tile Ground 32 0
 Tile Ground 33 0
-
-Dec  Bush   33 1
-
 Tile Ground 34 0
 Tile Ground 35 0
 Tile Ground 36 0
@@ -76,27 +74,26 @@ Tile Ground 37 0
 Tile Ground 38 0
 Tile Ground 39 0
 Tile Ground 40 0
-
-Tile WallEnd		39	3
-Tile Platform		40	3
-Tile Platform		41	3
-Tile Platform		42	3 
-Tile Platform		43	3
-Tile Platform		44	3
-Tile PlatformEnd	45	3
-Tile WallEnd		39	6
-Tile Platform		40	6
-Tile Platform		41	6
-Tile Platform		42	6
-Tile Platform		43	6
-Tile Platform		44	6
-Tile PlatformEnd	45	6
-Tile WallEnd		40	9
-Tile Platform		41	9
-Tile PlatformEnd	42	9
-Tile WallEnd		42	9
-Tile Platform		43	9
-Tile PlatformEnd	44	9
+Tile Ground	39	3
+Tile Ground	40	3
+Tile Ground	41	3
+Tile Ground	42	3 
+Tile Ground	43	3
+Tile Ground	44	3
+Tile Ground	45	3
+Tile Ground	39	6
+Tile Ground	40	6
+Tile Ground	41	6
+Tile Ground	42	6
+Tile Ground	43	6
+Tile Ground	44	6
+Tile Ground	45	6
+Tile Ground	40	9
+Tile Ground	41	9
+Tile Ground	42	9
+Tile Ground	42	9
+Tile Ground	43	9
+Tile Ground	44	9
 
 Tile Ground 41 0
 Tile Ground 42 0
@@ -114,22 +111,23 @@ Tile Ground 50 0
 Tile Ground 50 0
 Tile Ground 50 0
 
-Tile WallEnd		47	6
-Tile Platform		48	6
-Tile PlatformEnd	49	6
-Tile WallEnd		52	7
-Tile Wall			52	6
-Tile Wall			52	5
-Tile Wall			52	4
-Tile Wall			52	3
-Tile Wall			52	2
-Tile Wall			52	1
-Tile WallEnd		51	9
-Tile Platform		52	9
-Tile PlatformEnd	53	9
+Tile Platform	47	6
+Tile Platform	48	6
+Tile Platform	49	6
+Tile Wall	52	7
+Tile Wall	52	6
+Tile Wall	52	5
+Tile Wall	52	4
+Tile Wall	52	3
+Tile Wall	52	2
+Tile Wall	52	1
+Tile Platform	51	9
+Tile Platform	52	9
+Tile Platform	53	9
 
-Tile Ground 56 3
-Tile Ground 60 3
+Tile Platform 56 3
+Tile Platform 60 3
+
 Tile Ground 63 0
 Tile Ground 64 0
 Tile Ground 65 0
@@ -192,6 +190,8 @@ Tile Wall 83 3
 Tile Wall 83 4
 Tile Wall 83 5
 Tile Wall 83 6
-Tile WallEnd 83 7
+Tile Wall 83 7
 
-Player 10 10 48 48 5 -20 20 0.75 Buster
+Player 10 10 48 48 5 -5 20 0.75 Player PlayerShoot
+
+Music CyberCity1 20
