@@ -6,9 +6,8 @@
 // Date: 06/22/2024-06:57:19
 // Description: Provides ~100% unit test coverage over all Force Generator functions
 
-#include <dryphys/forceGenerators/particleSprings.hpp>
 #include <dryphys/particle.hpp>
-#include <dryphys/pfgen.hpp>
+#include <dryphys/particleSystems.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(testForceGeneratorFunctions, test1)

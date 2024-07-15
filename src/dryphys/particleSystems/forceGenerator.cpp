@@ -1,12 +1,12 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: pfgen.cpp
+// Name: forceGenerator.cpp
 // Author: crdrisko
 // Date: 06/15/2024-06:20:12
 // Description:
 
-#include "dryphys/pfgen.hpp"
+#include "dryphys/particleSystems/forceGenerator.hpp"
 
 #include <config.h>
 

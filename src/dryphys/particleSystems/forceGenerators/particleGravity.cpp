@@ -6,7 +6,7 @@
 // Date: 06/16/2024-05:53:22
 // Description:
 
-#include "dryphys/forceGenerators/particleGravity.hpp"
+#include "dryphys/particleSystems/forceGenerators/particleGravity.hpp"
 
 #include <config.h>
 

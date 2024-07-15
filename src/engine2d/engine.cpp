@@ -13,6 +13,7 @@
     #include <imgui.h>
 #endif
 
+#include <chrono>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -54,7 +55,7 @@ namespace Engine2D
             return;
         }
 
-        sUserInput();
+        processInput();
         currentScene()->simulate(simulationSpeed_);
         currentScene()->sRender();
 
@@ -64,7 +65,7 @@ namespace Engine2D
         window_.display();
     }
 
-    void Engine::sUserInput()
+    void Engine::processInput()
     {
         sf::Event event;
         while (window_.pollEvent(event))
@@ -171,11 +172,19 @@ namespace Engine2D
 
     void Engine::run()
     {
+        // auto previous = std::chrono::high_resolution_clock::now();
+        // long long lag {};
+
         while (isRunning())
         {
 #ifdef USE_IMGUI
             ImGui::SFML::Update(window_, deltaClock_.restart());
 #endif
+            // auto current = std::chrono::high_resolution_clock::now();
+            // auto elapsed = current - previous;
+            // previous     = current;
+            // lag += std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+
             update();
         }
 

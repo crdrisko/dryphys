@@ -6,7 +6,7 @@
 // Date: 06/22/2024-06:44:57
 // Description:
 
-#include "dryphys/forceGenerators/particleSprings.hpp"
+#include "dryphys/particleSystems/forceGenerators/particleSprings.hpp"
 
 #include <config.h>
 

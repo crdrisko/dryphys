@@ -16,7 +16,7 @@
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>
 
-#include "shapeWatcher/entityManager.hpp"
+#include "shapeWatcher/forwardDeclare.hpp"
 
 namespace ShapeWatcher
 {
@@ -37,7 +37,7 @@ namespace ShapeWatcher
         };
 
     private:
-        EntityManager entityManager_;
+        ConcreteEntityManager entityManager_ {};
 
         sf::Text text_;
         int currentFrame_ {};
@@ -53,7 +53,7 @@ namespace ShapeWatcher
         void sCollision();
 
     public:
-        ScenePlay(Engine2D::Engine* gameEngine, const std::string& config) : Engine2D::Scene {gameEngine} { init(config); }
+        ScenePlay(Engine2D::Engine* gameEngine, const std::string& config);
     };
 }   // namespace ShapeWatcher
 

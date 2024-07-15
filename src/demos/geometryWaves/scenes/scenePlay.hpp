@@ -19,8 +19,7 @@
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 
-#include "geometryWaves/entity.hpp"
-#include "geometryWaves/entityManager.hpp"
+#include "geometryWaves/forwardDeclare.hpp"
 
 namespace GeometryWaves
 {
@@ -48,8 +47,8 @@ namespace GeometryWaves
         };
 
     private:
-        std::shared_ptr<Entity> player_;
-        EntityManager entities_;
+        ConcreteEntityPtr player_;
+        ConcreteEntityManager entityManager_;
         PlayerConfig playerConfig_;
         EnemyConfig enemyConfig_;
         BulletConfig bulletConfig_;
@@ -79,12 +78,12 @@ namespace GeometryWaves
         // Spawners
         void spawnPlayer();
         void spawnEnemy();
-        void spawnSmallEnemies(std::shared_ptr<Entity> entity);
-        void spawnBullet(std::shared_ptr<Entity> entity, const DryPhys::Vector3D& mousePos);
-        void spawnSpecialWeapon(std::shared_ptr<Entity> entity);
+        void spawnSmallEnemies(ConcreteEntityPtr entity);
+        void spawnBullet(ConcreteEntityPtr entity, const DryPhys::Vector3D& mousePos);
+        void spawnSpecialWeapon(ConcreteEntityPtr entity);
 
     public:
-        ScenePlay(Engine2D::Engine* gameEngine, const std::string& config) : Engine2D::Scene {gameEngine} { init(config); }
+        ScenePlay(Engine2D::Engine* gameEngine, const std::string& config);
     };
 }   // namespace GeometryWaves
 

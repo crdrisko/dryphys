@@ -17,7 +17,7 @@ namespace DryPhys
 {
     class Particle
     {
-    protected:
+    private:
         Vector3D position_;           //! Linear position of the particle in world space
         Vector3D velocity_;           //! Linear velocity of the particle in world space
         Vector3D acceleration_;       //! Acceleration of the particle
@@ -32,6 +32,14 @@ namespace DryPhys
         DRYPHYS_CONSTEXPR bool hasFiniteMass() const { return inverseMass_ > 0; }
         DRYPHYS_CONSTEXPR void addForce(const Vector3D& force) { forceAccumulator_ += force; }
         DRYPHYS_CONSTEXPR void clearAccumulator() { forceAccumulator_.clear(); }
+
+        //! Perform movement in one step rather than calling get and set positions
+        DRYPHYS_CONSTEXPR void move(const Vector3D& offset) { position_ += offset; }
+        DRYPHYS_CONSTEXPR void move(real x, real y, real z) { position_ += Vector3D {x, y, z}; }
+
+        //! Perform velocity kick in one step rather than calling get and set velocities
+        DRYPHYS_CONSTEXPR void kick(const Vector3D& offset) { velocity_ += offset; }
+        DRYPHYS_CONSTEXPR void kick(real x, real y, real z) { velocity_ += Vector3D {x, y, z}; }
 
         //! Accessors
         DRYPHYS_CONSTEXPR void setPosition(const Vector3D& position) { position_ = position; }

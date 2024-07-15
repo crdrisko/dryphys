@@ -8,8 +8,8 @@
 
 #include <limits>
 
-#include <dryphys/integrators/eulersMethod.hpp>
 #include <dryphys/particle.hpp>
+#include <dryphys/particleSystems.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(testParticleFunctions, settersSetAndGettersGet)
@@ -49,6 +49,48 @@ GTEST_TEST(testParticleFunctions, additionalElementWiseSettersExistForVectorMemb
     ASSERT_EQ(particle.getPosition(), DryPhys::Vector3D(10.0f, 5.0f, 12.0f));
     ASSERT_EQ(particle.getVelocity(), DryPhys::Vector3D(3.0f, 2.0f, 1.0f));
     ASSERT_EQ(particle.getAcceleration(), DryPhys::Vector3D(0.0f, 0.5f, 0.0f));
+}
+
+GTEST_TEST(testParticleFunctions, particleMovementCanBePerformedInOneFunctionCall)
+{
+    DryPhys::Vector3D pos {10.0f, 5.0f, 12.0f};
+    DryPhys::Vector3D offset {3.0f, -2.0f, 1.0f};
+
+    DryPhys::Particle particle1;
+    DryPhys::Particle particle2;
+
+    particle1.setPosition(pos);
+    particle2.setPosition(pos);
+
+    particle1.move(offset);
+    particle2.setPosition(particle2.getPosition() + offset);
+
+    ASSERT_EQ(particle1.getPosition(), particle2.getPosition());
+
+    particle1.move(-4.0f, 8.0f, 3.7f);
+
+    ASSERT_EQ(particle1.getPosition(), DryPhys::Vector3D(9.0f, 11.0f, 16.7f));
+}
+
+GTEST_TEST(testParticleFunctions, particleVelocityKicksCanBePerformedInOneFunctionCall)
+{
+    DryPhys::Vector3D vel {10.0f, 5.0f, 12.0f};
+    DryPhys::Vector3D offset {0.0f, 0.5f, 0.0f};
+
+    DryPhys::Particle particle1;
+    DryPhys::Particle particle2;
+
+    particle1.setVelocity(vel);
+    particle2.setVelocity(vel);
+
+    particle1.kick(offset);
+    particle2.setVelocity(particle2.getVelocity() + offset);
+
+    ASSERT_EQ(particle1.getVelocity(), particle2.getVelocity());
+
+    particle1.kick(3.0f, 2.0f, 1.0f);
+
+    ASSERT_EQ(particle1.getVelocity(), DryPhys::Vector3D(13.0f, 7.5f, 13.0f));
 }
 
 GTEST_TEST(testParticleFunctions, additionalGettersExistForVectorMembersForInPlacePointerAssignment)

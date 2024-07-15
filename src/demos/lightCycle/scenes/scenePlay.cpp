@@ -233,21 +233,6 @@ namespace LightCycle
         }
     }
 
-    void ScenePlay::drawLine(float x1, float y1, float x2, float y2, sf::Color color)
-    {
-        sf::VertexArray lines(sf::LinesStrip, 2);
-
-        lines[0].position.x = x1;
-        lines[0].position.y = y1;
-        lines[0].color      = color;
-
-        lines[1].position.x = x2;
-        lines[1].position.y = y2;
-        lines[1].color      = color;
-
-        game_->window().draw(lines);
-    }
-
     bool ScenePlay::isLegalAction(ConcreteEntityPtr entity, std::size_t action) const
     {
         const Direction& oldDir = directions_[entity->getComponent<CTransform>().dir];

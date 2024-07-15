@@ -33,6 +33,11 @@ namespace CyberCity
     ScenePlay::ScenePlay(Engine2D::Engine* gameEngine, const std::string& levelPath)
         : Engine2D::Scene {gameEngine}, levelPath_ {levelPath}
     {
+        auto windowSize = game_->window().getSize();
+
+        width_  = static_cast<float>(windowSize.x);
+        height_ = static_cast<float>(windowSize.y);
+
         init();
     }
 
@@ -126,10 +131,10 @@ namespace CyberCity
                 auto& envAnim = envEntity->getComponent<CAnimation>().animation;
 
                 auto size = envAnim.getSize();
-                const sf::IntRect sizes {0, 0, static_cast<int>(width()), static_cast<int>(height())};
+                const sf::IntRect sizes {0, 0, static_cast<int>(width_), static_cast<int>(height_)};
 
-                float scaleX = static_cast<float>(width()) / size[0] / std::stoi(splitRow[2]);
-                float scaleY = static_cast<float>(height()) / size[1];
+                float scaleX = width_ / size[0] / std::stoi(splitRow[2]);
+                float scaleY = height_ / size[1];
 
                 envAnim.getSprite().setScale(scaleX, scaleY);
                 envAnim.getSprite().setTextureRect(sizes);
@@ -292,16 +297,16 @@ namespace CyberCity
             pauseText_.setString("Paused");
 
             sf::FloatRect textBoundingBox = pauseText_.getGlobalBounds();
-            pauseText_.setPosition(0.5f * (width() - textBoundingBox.width), 0.5f * (height() - textBoundingBox.height));
+            pauseText_.setPosition(0.5f * (width_ - textBoundingBox.width), 0.5f * (height_ - textBoundingBox.height));
 
             game_->window().draw(pauseText_);
         }
 
         // set the viewport of the window to be centered on the player if it's far enough right
         auto& pPos          = player_->getComponent<CTransform>().pos;
-        float windowCenterX = std::max(game_->window().getSize().x / 2.0f, pPos[0]);
+        float windowCenterX = std::max(width_ / 2.0f, pPos[0]);
         sf::View view       = game_->window().getView();
-        view.setCenter(windowCenterX, game_->window().getSize().y - view.getCenter().y);
+        view.setCenter(windowCenterX, height_ - view.getCenter().y);
         game_->window().setView(view);
 
         for (auto& [key, value] : envViews)
@@ -358,18 +363,18 @@ namespace CyberCity
         // draw the grid for easy debugging
         if (drawGrid_)
         {
-            float leftX     = game_->window().getView().getCenter().x - width() / 2;
-            float rightX    = leftX + width() + gridSize_;
+            float leftX     = game_->window().getView().getCenter().x - width_ / 2;
+            float rightX    = leftX + width_ + gridSize_;
             float nextGridX = leftX - ((int)leftX % (int)gridSize_);
 
             for (float x = nextGridX; x < rightX; x += gridSize_)
             {
-                drawLine(DryPhys::Vector3D(x, 0.0f, 0), DryPhys::Vector3D(x, static_cast<float>(height()), 0));
+                drawLine(DryPhys::Vector3D(x, 0.0f, 0), DryPhys::Vector3D(x, height_, 0));
             }
 
-            for (float y = 0; y < height(); y += gridSize_)
+            for (float y = 0; y < height_; y += gridSize_)
             {
-                drawLine(DryPhys::Vector3D(leftX, height() - y, 0), DryPhys::Vector3D(rightX, height() - y, 0));
+                drawLine(DryPhys::Vector3D(leftX, height_ - y, 0), DryPhys::Vector3D(rightX, height_ - y, 0));
 
                 for (float x = nextGridX; x < rightX; x += gridSize_)
                 {
@@ -377,7 +382,7 @@ namespace CyberCity
                     std::string yCell = std::to_string((int)y / (int)gridSize_);
 
                     gridText_.setString("(" + xCell + "," + yCell + ")");
-                    gridText_.setPosition(x + 3, height() - y - gridSize_ + 2);
+                    gridText_.setPosition(x + 3, height_ - y - gridSize_ + 2);
 
                     game_->window().draw(gridText_);
                 }
@@ -484,7 +489,7 @@ namespace CyberCity
         // Nothing should have set the z component of these "2d"-vectors
         assert(pz == static_cast<DryPhys::real>(0) && prev_pz == static_cast<DryPhys::real>(0));
 
-        if (py > height())
+        if (py > height_)
             spawnPlayer();
 
         if (px < pBoundingBox.halfSize[0])
@@ -936,7 +941,7 @@ namespace CyberCity
 
     DryPhys::Vector3D ScenePlay::gridToMidPixel(float gridX, float gridY, ConcreteEntityPtr entity) const
     {
-        DryPhys::Vector3D result {gridX * gridSize_, height() - (gridY * gridSize_), 0};
+        DryPhys::Vector3D result {gridX * gridSize_, height_ - (gridY * gridSize_), 0};
         DryPhys::Vector3D size {entity->getComponent<CAnimation>().animation.getSize()};
 
         float scale = gridSize_ / std::min(size[0], size[1]);
@@ -951,8 +956,8 @@ namespace CyberCity
     {
         auto view = game_->window().getView();
 
-        float worldX = view.getCenter().x - game_->window().getSize().x / 2.0f;
-        float worldY = view.getCenter().y - game_->window().getSize().y / 2.0f;
+        float worldX = view.getCenter().x - width_ / 2.0f;
+        float worldY = view.getCenter().y - height_ / 2.0f;
 
         return DryPhys::Vector3D {window[0] + worldX, window[1] + worldY, 0};
     }

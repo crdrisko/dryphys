@@ -24,20 +24,20 @@ namespace Engine2D
     {
         using SceneMap = std::map<std::string, std::shared_ptr<Scene>>;
 
-    protected:
+    private:
         sf::RenderWindow window_;
         sf::Clock deltaClock_;
         Assets assets_;
         std::string currentScene_;
         SceneMap sceneMap_;
-        std::size_t simulationSpeed_ = 1;
+        std::size_t simulationSpeed_ {1};
 
         bool running_ {true};
         bool createWindow_ {true};
 
         void init(const std::string& assets);
         void update();
-        void sUserInput();
+        void processInput();
 
         std::shared_ptr<Scene> currentScene() { return sceneMap_[currentScene_]; }
 

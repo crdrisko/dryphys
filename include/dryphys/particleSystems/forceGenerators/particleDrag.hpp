@@ -6,13 +6,13 @@
 // Date: 06/16/2024-05:48:52
 // Description:
 
-#ifndef DRYPHYS_INCLUDE_DRYPHYS_FORCEGENERATORS_PARTICLEDRAG_HPP
-#define DRYPHYS_INCLUDE_DRYPHYS_FORCEGENERATORS_PARTICLEDRAG_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEDRAG_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEDRAG_HPP
 
 #include <config.h>
 
 #include "dryphys/particle.hpp"
-#include "dryphys/pfgen.hpp"
+#include "dryphys/particleSystems/forceGenerator.hpp"
 
 namespace DryPhys
 {

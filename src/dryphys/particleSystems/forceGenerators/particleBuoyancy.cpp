@@ -6,7 +6,7 @@
 // Date: 06/23/2024-08:13:01
 // Description:
 
-#include "dryphys/forceGenerators/particleBuoyancy.hpp"
+#include "dryphys/particleSystems/forceGenerators/particleBuoyancy.hpp"
 
 #include "dryphys/particle.hpp"
 #include "dryphys/vector3d.hpp"

@@ -6,7 +6,7 @@
 // Date: 06/17/2024-07:01:28
 // Description:
 
-#include "dryphys/integrator.hpp"
+#include "dryphys/particleSystems/integrator.hpp"
 
 #include <config.h>
 

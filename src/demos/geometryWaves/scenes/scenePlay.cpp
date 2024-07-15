@@ -18,8 +18,16 @@
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 
+#include "geometryWaves/components.hpp"
+#include "geometryWaves/forwardDeclare.hpp"
+
 namespace GeometryWaves
 {
+    ScenePlay::ScenePlay(Engine2D::Engine* gameEngine, const std::string& config) : Engine2D::Scene {gameEngine}
+    {
+        init(config);
+    }
+
     void ScenePlay::init(const std::string& config)
     {
         registerAction(sf::Keyboard::W, "UP");
@@ -156,12 +164,14 @@ namespace GeometryWaves
         std::random_device rd;
         gen_ = std::mt19937(rd());
 
+        entityManager_ = ConcreteEntityManager {};
+
         spawnPlayer();
     }
 
     void ScenePlay::update()
     {
-        entities_.update();
+        entityManager_.update();
 
         if (!paused_)
         {
@@ -176,6 +186,8 @@ namespace GeometryWaves
 
     void ScenePlay::sDoAction(const Engine2D::Action& action)
     {
+        auto& pInput = player_->getComponent<CInput>();
+
         if (action.type() == "START")
         {
             if (action.name() == "LEFT_CLICK")
@@ -185,19 +197,19 @@ namespace GeometryWaves
             }
             else if (action.name() == "UP")
             {
-                player_->cInput->up = true;
+                pInput.up = true;
             }
             else if (action.name() == "DOWN")
             {
-                player_->cInput->down = true;
+                pInput.down = true;
             }
             else if (action.name() == "LEFT")
             {
-                player_->cInput->left = true;
+                pInput.left = true;
             }
             else if (action.name() == "RIGHT")
             {
-                player_->cInput->right = true;
+                pInput.right = true;
             }
             else if (action.name() == "PAUSE")
             {
@@ -213,19 +225,19 @@ namespace GeometryWaves
         {
             if (action.name() == "UP")
             {
-                player_->cInput->up = false;
+                pInput.up = false;
             }
             else if (action.name() == "DOWN")
             {
-                player_->cInput->down = false;
+                pInput.down = false;
             }
             else if (action.name() == "LEFT")
             {
-                player_->cInput->left = false;
+                pInput.left = false;
             }
             else if (action.name() == "RIGHT")
             {
-                player_->cInput->right = false;
+                pInput.right = false;
             }
         }
     }
@@ -237,15 +249,18 @@ namespace GeometryWaves
         text_.setString("Score: " + std::to_string(score_));
         game_->window().draw(text_);
 
-        for (auto entity : entities_.getEntities())
+        for (auto entity : entityManager_.getEntities())
         {
-            entity->cShape->circle.setPosition(entity->cTransform->position[0], entity->cTransform->position[1]);
+            auto& eTrans = entity->getComponent<CTransform>();
+            auto& eShape = entity->getComponent<CShape>();
 
-            entity->cTransform->angle += 1.0f;
+            eShape.circle.setPosition(eTrans.position[0], eTrans.position[1]);
 
-            entity->cShape->circle.setRotation(entity->cTransform->angle);
+            eTrans.angle += 1.0f;
 
-            game_->window().draw(entity->cShape->circle);
+            eShape.circle.setRotation(eTrans.angle);
+
+            game_->window().draw(eShape.circle);
         }
     }
 
@@ -272,149 +287,160 @@ namespace GeometryWaves
         float width  = static_cast<float>(windowSize.x);
         float height = static_cast<float>(windowSize.y);
 
+        auto& pPos    = player_->getComponent<CTransform>().position;
+        auto& pRadius = player_->getComponent<CCollision>().radius;
+        auto& pInput  = player_->getComponent<CInput>();
+
+
         DryPhys::Vector3D tempVec;
 
         // Enemy Collisions
-        for (auto enemy : entities_.getEntities("enemy"))
+        for (auto enemy : entityManager_.getEntities("enemy"))
         {
-            DryPhys::Vector3D ePos = enemy->cTransform->position;
+            auto& eTrans  = enemy->getComponent<CTransform>();
+            auto& eRadius = enemy->getComponent<CCollision>().radius;
 
             // Enemy-Bullet Collisions
-            for (auto bullet : entities_.getEntities("bullet"))
+            for (auto bullet : entityManager_.getEntities("bullet"))
             {
-                float radiusSum = enemy->cCollision->radius + bullet->cCollision->radius;
+                auto& bPos    = bullet->getComponent<CTransform>().position;
+                auto& bRadius = bullet->getComponent<CCollision>().radius;
 
-                tempVec = bullet->cTransform->position - ePos;
+                float radiusSum = eRadius + bRadius;
+
+                tempVec = bPos - eTrans.position;
 
                 if (tempVec.magnitudeSquared() < radiusSum * radiusSum)
                 {
-                    score_ += enemy->cScore->score;
+                    score_ += enemy->getComponent<CScore>().score;
 
                     bullet->destroy();
                     enemy->destroy();
 
                     // Don't spawn small enemies from small enemies
-                    if (!enemy->cLifespan)
+                    if (!enemy->hasComponent<CLifespan>())
                         spawnSmallEnemies(enemy);
                 }
             }
 
             // Enemy-Player Collisions
-            float radiusSum = enemy->cCollision->radius + player_->cCollision->radius;
+            float radiusSum = eRadius + pRadius;
 
-            tempVec = player_->cTransform->position - ePos;
+            tempVec = pPos - eTrans.position;
 
             if (tempVec.magnitudeSquared() < radiusSum * radiusSum)
             {
-                // Should this count towards score??
-                //score_ += enemy->cScore->score;
+                score_ -= enemy->getComponent<CScore>().score;
 
                 enemy->destroy();
 
                 float mx = windowSize.x / 2.0f;
                 float my = windowSize.y / 2.0f;
 
-                player_->cTransform->position = DryPhys::Vector3D(mx, my, 0);
+                pPos = DryPhys::Vector3D(mx, my, 0);
 
                 // Don't spawn small enemies from small enemies
-                if (!enemy->cLifespan)
+                if (!enemy->hasComponent<CLifespan>())
                     spawnSmallEnemies(enemy);
             }
 
             // Enemy-World Collisions
-            if (enemy->cTransform->position[0] < enemy->cCollision->radius
-                || enemy->cTransform->position[0] > width - enemy->cCollision->radius)
+            if (eTrans.position[0] < eRadius || eTrans.position[0] > width - eRadius)
             {
-                enemy->cTransform->velocity[0] *= -1.0F;
+                eTrans.velocity[0] *= -1.0F;
             }
 
-            if (enemy->cTransform->position[1] < enemy->cCollision->radius
-                || enemy->cTransform->position[1] > height - enemy->cCollision->radius)
+            if (eTrans.position[1] < eRadius || eTrans.position[1] > height - eRadius)
             {
-                enemy->cTransform->velocity[1] *= -1.0F;
+                eTrans.velocity[1] *= -1.0F;
             }
         }
 
         // Bullet Collisions
-        for (auto bullet : entities_.getEntities("bullet"))
+        for (auto bullet : entityManager_.getEntities("bullet"))
         {
-            if (bullet->cTransform->position[0] < bullet->cCollision->radius
-                || bullet->cTransform->position[1] < bullet->cCollision->radius
-                || bullet->cTransform->position[0] > width - bullet->cCollision->radius
-                || bullet->cTransform->position[1] > height - bullet->cCollision->radius)
+            auto& bPos    = bullet->getComponent<CTransform>().position;
+            auto& bRadius = bullet->getComponent<CCollision>().radius;
+
+            if (bPos[0] < bRadius || bPos[1] < bRadius || bPos[0] > width - bRadius || bPos[1] > height - bRadius)
             {
                 bullet->destroy();
             }
         }
 
         // Player Collisions
-        if (player_->cTransform->position[0] < player_->cCollision->radius)
+        if (pPos[0] < pRadius)
         {
-            player_->cInput->left = false;
+            pInput.left = false;
         }
-
-        if (player_->cTransform->position[1] < player_->cCollision->radius)
+        if (pPos[1] < pRadius)
         {
-            player_->cInput->up = false;
+            pInput.up = false;
         }
-
-        if (player_->cTransform->position[0] > width - player_->cCollision->radius)
+        if (pPos[0] > width - pRadius)
         {
-            player_->cInput->right = false;
+            pInput.right = false;
         }
-
-        if (player_->cTransform->position[1] > height - player_->cCollision->radius)
+        if (pPos[1] > height - pRadius)
         {
-            player_->cInput->down = false;
+            pInput.down = false;
         }
     }
 
     void ScenePlay::sMovement()
     {
-        player_->cTransform->velocity = {0.0f, 0.0f, 0.0f};
+        auto& pTrans = player_->getComponent<CTransform>();
+        auto& pInput = player_->getComponent<CInput>();
 
-        if (player_->cInput->up)
+        pTrans.velocity = {0.0f, 0.0f, 0.0f};
+
+        if (pInput.up)
         {
-            player_->cTransform->velocity[1] = -playerConfig_.S;
+            pTrans.velocity[1] = -playerConfig_.S;
         }
-        if (player_->cInput->left)
+        if (pInput.left)
         {
-            player_->cTransform->velocity[0] = -playerConfig_.S;
+            pTrans.velocity[0] = -playerConfig_.S;
         }
-        if (player_->cInput->down)
+        if (pInput.down)
         {
-            player_->cTransform->velocity[1] = playerConfig_.S;
+            pTrans.velocity[1] = playerConfig_.S;
         }
-        if (player_->cInput->right)
+        if (pInput.right)
         {
-            player_->cTransform->velocity[0] = playerConfig_.S;
+            pTrans.velocity[0] = playerConfig_.S;
         }
 
-        for (auto entity : entities_.getEntities())
+        for (auto entity : entityManager_.getEntities())
         {
-            entity->cTransform->position += entity->cTransform->velocity;
+            auto& eTrans = entity->getComponent<CTransform>();
+
+            eTrans.position += eTrans.velocity;
         }
     }
 
     void ScenePlay::sLifespan()
     {
-        for (auto entity : entities_.getEntities())
+        for (auto entity : entityManager_.getEntities())
         {
-            if (entity->cLifespan)
+            if (entity->hasComponent<CLifespan>())
             {
-                sf::Color fill    = entity->cShape->circle.getFillColor();
-                sf::Color outline = entity->cShape->circle.getOutlineColor();
+                auto& eShape    = entity->getComponent<CShape>().circle;
+                auto& eLifespan = entity->getComponent<CLifespan>();
 
-                sf::Uint8 alpha = static_cast<sf::Uint8>(255.0f * static_cast<float>(entity->cLifespan->remaining)
-                                                         / static_cast<float>(entity->cLifespan->total));
+                sf::Color fill    = eShape.getFillColor();
+                sf::Color outline = eShape.getOutlineColor();
+
+                sf::Uint8 alpha = static_cast<sf::Uint8>(
+                    255.0f * static_cast<float>(eLifespan.remaining) / static_cast<float>(eLifespan.total));
 
                 fill.a    = alpha;
                 outline.a = alpha;
 
-                entity->cShape->circle.setFillColor(fill);
-                entity->cShape->circle.setOutlineColor(outline);
+                eShape.setFillColor(fill);
+                eShape.setOutlineColor(outline);
 
-                if (!entity->cLifespan->remaining--)
+                if (!eLifespan.remaining--)
                 {
                     entity->destroy();
                 }
@@ -425,25 +451,23 @@ namespace GeometryWaves
     void ScenePlay::spawnPlayer()
     {
         auto windowSize = game_->window().getSize();
-        auto player     = entities_.addEntity("player");
+        player_         = entityManager_.addEntity("player");
 
         sf::Color fill {playerConfig_.FR, playerConfig_.FG, playerConfig_.FB};
         sf::Color outline {playerConfig_.OR, playerConfig_.OG, playerConfig_.OB};
 
         DryPhys::Vector3D position {windowSize.x / 2.0f, windowSize.y / 2.0f, 0};
 
-        player->cTransform = std::make_shared<CTransform>(position, DryPhys::Vector3D {}, 0.0);
-        player->cShape     = std::make_shared<CShape>(playerConfig_.SR, playerConfig_.V, fill, outline, playerConfig_.OT);
-        player->cCollision = std::make_shared<CCollision>(playerConfig_.CR);
-        player->cInput     = std::make_shared<CInput>();
-
-        player_ = player;
+        player_->addComponent<CTransform>(position, DryPhys::Vector3D {}, 0.0);
+        player_->addComponent<CShape>(playerConfig_.SR, playerConfig_.V, fill, outline, playerConfig_.OT);
+        player_->addComponent<CCollision>(playerConfig_.CR);
+        player_->addComponent<CInput>();
     }
 
     void ScenePlay::spawnEnemy()
     {
         auto windowSize = game_->window().getSize();
-        auto enemy      = entities_.addEntity("enemy");
+        auto enemy      = entityManager_.addEntity("enemy");
 
         std::uniform_int_distribution<> verticiesDistr(enemyConfig_.VMIN, enemyConfig_.VMAX);
         std::uniform_int_distribution<> colorDistr(0, 255);
@@ -469,56 +493,58 @@ namespace GeometryWaves
 
         DryPhys::Vector3D velocity {speed * std::cos(angle), speed * std::sin(angle), 0};
 
-        enemy->cTransform = std::make_shared<CTransform>(position, velocity, angle);
-        enemy->cShape     = std::make_shared<CShape>(enemyConfig_.SR, verticies, fill, outline, enemyConfig_.OT);
-        enemy->cCollision = std::make_shared<CCollision>(enemyConfig_.CR);
-        enemy->cScore     = std::make_shared<CScore>(100 * verticies);
+        enemy->addComponent<CTransform>(position, velocity, angle);
+        enemy->addComponent<CShape>(enemyConfig_.SR, verticies, fill, outline, enemyConfig_.OT);
+        enemy->addComponent<CCollision>(enemyConfig_.CR);
+        enemy->addComponent<CScore>(100 * verticies);
 
         lastEnemySpawnTime_ = currentFrame_;
     }
 
-    void ScenePlay::spawnSmallEnemies(std::shared_ptr<Entity> entity)
+    void ScenePlay::spawnSmallEnemies(ConcreteEntityPtr entity)
     {
-        DryPhys::Vector3D position = entity->cTransform->position;
+        DryPhys::Vector3D position = entity->getComponent<CTransform>().position;
 
-        int verticies  = static_cast<int>(entity->cShape->circle.getPointCount());
-        sf::Color fill = entity->cShape->circle.getFillColor();
+        int verticies  = static_cast<int>(entity->getComponent<CShape>().circle.getPointCount());
+        sf::Color fill = entity->getComponent<CShape>().circle.getFillColor();
         sf::Color outline {enemyConfig_.OR, enemyConfig_.OG, enemyConfig_.OB};
 
         float angle = 6.28 / static_cast<float>(verticies);
 
         for (int i {}; i < verticies; ++i)
         {
-            auto smallEnemy = entities_.addEntity("enemy");
+            auto smallEnemy = entityManager_.addEntity("enemy");
 
             DryPhys::Vector3D velocity {enemyConfig_.SMAX * std::cos(i * angle), enemyConfig_.SMAX * std::sin(i * angle), 0};
 
-            smallEnemy->cTransform = std::make_shared<CTransform>(position, velocity, angle);
-            smallEnemy->cShape = std::make_shared<CShape>(enemyConfig_.SR / 2.0f, verticies, fill, outline, enemyConfig_.OT);
-            smallEnemy->cCollision = std::make_shared<CCollision>(enemyConfig_.CR / 2.0f);
-            smallEnemy->cScore     = std::make_shared<CScore>(200 * verticies);
-            smallEnemy->cLifespan  = std::make_shared<CLifespan>(enemyConfig_.L);
+            smallEnemy->addComponent<CTransform>(position, velocity, angle);
+            smallEnemy->addComponent<CShape>(enemyConfig_.SR / 2.0f, verticies, fill, outline, enemyConfig_.OT);
+            smallEnemy->addComponent<CCollision>(enemyConfig_.CR / 2.0f);
+            smallEnemy->addComponent<CScore>(200 * verticies);
+            smallEnemy->addComponent<CLifespan>(enemyConfig_.L);
         }
     }
 
-    void ScenePlay::spawnBullet(std::shared_ptr<Entity> entity, const DryPhys::Vector3D& mousePos)
+    void ScenePlay::spawnBullet(ConcreteEntityPtr entity, const DryPhys::Vector3D& mousePos)
     {
-        auto bullet = entities_.addEntity("bullet");
+        auto& ePos = entity->getComponent<CTransform>().position;
+
+        auto bullet = entityManager_.addEntity("bullet");
 
         sf::Color fill {bulletConfig_.FR, bulletConfig_.FG, bulletConfig_.FB};
         sf::Color outline {bulletConfig_.OR, bulletConfig_.OG, bulletConfig_.OB};
 
-        DryPhys::Vector3D position = mousePos - entity->cTransform->position;
+        DryPhys::Vector3D position = mousePos - ePos;
 
         float angle = std::atan2(position[1], position[0]);
 
         DryPhys::Vector3D velocity {bulletConfig_.S * std::cos(angle), bulletConfig_.S * std::sin(angle), 0};
 
-        bullet->cTransform = std::make_shared<CTransform>(entity->cTransform->position, velocity, angle);
-        bullet->cShape     = std::make_shared<CShape>(bulletConfig_.SR, bulletConfig_.V, fill, outline, bulletConfig_.OT);
-        bullet->cCollision = std::make_shared<CCollision>(bulletConfig_.CR);
-        bullet->cLifespan  = std::make_shared<CLifespan>(bulletConfig_.L);
+        bullet->addComponent<CTransform>(ePos, velocity, angle);
+        bullet->addComponent<CShape>(bulletConfig_.SR, bulletConfig_.V, fill, outline, bulletConfig_.OT);
+        bullet->addComponent<CCollision>(bulletConfig_.CR);
+        bullet->addComponent<CLifespan>(bulletConfig_.L);
     }
 
-    void ScenePlay::spawnSpecialWeapon(std::shared_ptr<Entity>) {}
+    void ScenePlay::spawnSpecialWeapon(ConcreteEntityPtr) {}
 }   // namespace GeometryWaves

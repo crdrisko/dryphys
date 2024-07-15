@@ -58,8 +58,6 @@ namespace LightCycle
         void sMovement();
         void sStatus();
 
-        void drawLine(float x1, float y1, float x2, float y2, sf::Color color);
-
         std::size_t battleWidth() const { return gridSize_ * gridWidth_; }
         std::size_t battleHeight() const { return gridSize_ * gridHeight_; }
 

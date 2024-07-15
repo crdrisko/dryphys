@@ -135,14 +135,17 @@ configure_file("${PROJECT_SOURCE_DIR}/include/config.h.cmake" "${PROJECT_BINARY_
 
 include_directories("${PROJECT_BINARY_DIR}" include)
 
-set(DRYPHYS_SOURCE src/dryphys/eulersMethod.cpp
-                   src/dryphys/integrator.cpp
-                   src/dryphys/particle.cpp
-                   src/dryphys/particleBuoyancy.cpp
-                   src/dryphys/particleDrag.cpp
-                   src/dryphys/particleGravity.cpp
-                   src/dryphys/particleSprings.cpp
-                   src/dryphys/pfgen.cpp)
+set(DRYPHYS_SOURCE src/dryphys/particle.cpp
+                   src/dryphys/particleSystems/collisions.cpp
+                   src/dryphys/particleSystems/collisionGenerators/links.cpp
+                   src/dryphys/particleSystems/forceGenerator.cpp
+                   src/dryphys/particleSystems/forceGenerators/particleBuoyancy.cpp
+                   src/dryphys/particleSystems/forceGenerators/particleDrag.cpp
+                   src/dryphys/particleSystems/forceGenerators/particleGravity.cpp
+                   src/dryphys/particleSystems/forceGenerators/particleSprings.cpp
+                   src/dryphys/particleSystems/integrator.cpp
+                   src/dryphys/particleSystems/integrators/eulersMethod.cpp
+                   src/dryphys/particleSystems/world.cpp)
 
 set(ENGINE2D_SOURCE src/engine2d/animation.cpp
                     src/engine2d/assets.cpp
@@ -189,7 +192,6 @@ if (phys_build_demos)
 
     ## Geometry Waves Demo
     set(GEOMETRYWAVES_SOURCE src/demos/geometryWaves/main.cpp
-                             src/demos/geometryWaves/entityManager.cpp
                              src/demos/geometryWaves/scenes/scenePlay.cpp)
 
     add_executable(geometryWaves ${GEOMETRYWAVES_SOURCE} ${IMGUI_SOURCE})
@@ -229,7 +231,6 @@ if (phys_build_demos)
 
     ## Shape Watcher Demo
     set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp
-                            src/demos/shapeWatcher/entityManager.cpp
                             src/demos/shapeWatcher/scenes/scenePlay.cpp)
 
     add_executable(shapeWatcher ${SHAPEWATCHER_SOURCE} ${IMGUI_SOURCE})

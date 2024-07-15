@@ -6,7 +6,7 @@
 // Date: 06/17/2024-07:05:15
 // Description:
 
-#include "dryphys/integrators/eulersMethod.hpp"
+#include "dryphys/particleSystems/integrators/eulersMethod.hpp"
 
 #include <config.h>
 

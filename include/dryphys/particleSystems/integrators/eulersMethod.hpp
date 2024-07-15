@@ -6,15 +6,13 @@
 // Date: 06/17/2024-06:29:05
 // Description:
 
-#ifndef EULERSMETHOD_HPP
-#define EULERSMETHOD_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_INTEGRATORS_EULERSMETHOD_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_INTEGRATORS_EULERSMETHOD_HPP
 
 #include <config.h>
 
-#include <cassert>
-
-#include "dryphys/integrator.hpp"
 #include "dryphys/particle.hpp"
+#include "dryphys/particleSystems/integrator.hpp"
 
 namespace DryPhys
 {

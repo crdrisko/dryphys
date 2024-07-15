@@ -6,13 +6,13 @@
 // Date: 06/23/2024-08:12:49
 // Description:
 
-#ifndef PARTICLEBUOYANCY_HPP
-#define PARTICLEBUOYANCY_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEBUOYANCY_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEBUOYANCY_HPP
 
 #include <config.h>
 
 #include "dryphys/particle.hpp"
-#include "dryphys/pfgen.hpp"
+#include "dryphys/particleSystems/forceGenerator.hpp"
 #include "dryphys/vector3d.hpp"
 
 namespace DryPhys

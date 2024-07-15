@@ -16,8 +16,16 @@
 #include <common-utils/files.hpp>
 #include <common-utils/strings.hpp>
 
+#include "shapeWatcher/components.hpp"
+#include "shapeWatcher/forwardDeclare.hpp"
+
 namespace ShapeWatcher
 {
+    ScenePlay::ScenePlay(Engine2D::Engine* gameEngine, const std::string& config) : Engine2D::Scene {gameEngine}
+    {
+        init(config);
+    }
+
     void ScenePlay::init(const std::string& config)
     {
         registerAction(sf::Keyboard::Escape, "QUIT");
@@ -187,6 +195,8 @@ namespace ShapeWatcher
 
     void ScenePlay::sCollision()
     {
+        const auto windowSize = game_->window().getSize();
+
         for (auto entity : entityManager_.getEntities())
         {
             auto& [vx, vy, vz] = entity->getComponent<CTransform>().velocity;
@@ -196,12 +206,12 @@ namespace ShapeWatcher
 
             auto bb_pos = boundingBox.getPosition();
 
-            if (bb_pos.x < 0.0f || bb_pos.x + boundingBox.width > static_cast<float>(width()))
+            if (bb_pos.x <= 0.0f || bb_pos.x + boundingBox.width > static_cast<float>(windowSize.x))
             {
                 vx *= -1.0f;
             }
 
-            if (bb_pos.y < 0.0f || bb_pos.y + boundingBox.height > static_cast<float>(height()))
+            if (bb_pos.y <= 0.0f || bb_pos.y + boundingBox.height > static_cast<float>(windowSize.y))
             {
                 vy *= -1.0f;
             }

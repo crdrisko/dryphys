@@ -18,10 +18,6 @@
 
 namespace Engine2D
 {
-    Scene::Scene() : currentFrame_ {0} {}
-
-    Scene::Scene(Engine* gameEngine) : game_ {gameEngine}, currentFrame_ {0} {}
-
     void Scene::doAction(const Action& action) { sDoAction(action); }
 
     void Scene::simulate(const std::size_t frames)
@@ -40,7 +36,18 @@ namespace Engine2D
         game_->window().draw(line, 2, sf::Lines);
     }
 
-    std::size_t Scene::width() const { return game_->window().getSize().x; }
+    void Scene::drawLine(float x1, float y1, float x2, float y2, sf::Color color)
+    {
+        sf::VertexArray lines(sf::LinesStrip, 2);
 
-    std::size_t Scene::height() const { return game_->window().getSize().y; }
+        lines[0].position.x = x1;
+        lines[0].position.y = y1;
+        lines[0].color      = color;
+
+        lines[1].position.x = x2;
+        lines[1].position.y = y2;
+        lines[1].color      = color;
+
+        game_->window().draw(lines);
+    }
 }   // namespace Engine2D

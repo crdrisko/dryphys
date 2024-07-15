@@ -128,7 +128,7 @@ namespace CyberCity
         menuText_.setString("UP:W  DOWN:S  PLAY:ENTER  BACK:ESC");
         menuText_.setFillColor(sf::Color(0, 0, 0));
         menuText_.setCharacterSize(32);
-        menuText_.setPosition(5.0f, static_cast<float>(height() - 64.0f));
+        menuText_.setPosition(5.0f, static_cast<float>(game_->window().getSize().y - 64.0f));
 
         game_->window().draw(menuText_);
     }

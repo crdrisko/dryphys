@@ -6,76 +6,83 @@
 // Date: 06/19/2024-05:35:13
 // Description:
 
-#ifndef COMPONENTS_HPP
-#define COMPONENTS_HPP
+#ifndef DRYPHYS_SRC_DEMOS_GEOMETRYWAVES_COMPONENTS_HPP
+#define DRYPHYS_SRC_DEMOS_GEOMETRYWAVES_COMPONENTS_HPP
 
 #include <SFML/Graphics.hpp>
 #include <dryphys/vector3d.hpp>
+#include <engine2d/components.hpp>
 
-class CTransform
+namespace GeometryWaves
 {
-public:
-    DryPhys::Vector3D position {};
-    DryPhys::Vector3D velocity {};
-    float angle {};
-
-    CTransform(const DryPhys::Vector3D& pos, const DryPhys::Vector3D& vel, float ang)
-        : position {pos}, velocity {vel}, angle {ang}
+    class CTransform : public Engine2D::Component
     {
-    }
-};
+    public:
+        DryPhys::Vector3D position {};
+        DryPhys::Vector3D velocity {};
+        float angle {};
 
-class CShape
-{
-public:
-    sf::CircleShape circle;
+        CTransform() = default;
+        CTransform(const DryPhys::Vector3D& pos, const DryPhys::Vector3D& vel, float ang)
+            : position {pos}, velocity {vel}, angle {ang}
+        {
+        }
+    };
 
-    CShape(float radius, std::size_t points, const sf::Color& fill, const sf::Color& outline, float thickness)
-        : circle {radius, points}
+    class CShape : public Engine2D::Component
     {
-        circle.setFillColor(fill);
-        circle.setOutlineColor(outline);
-        circle.setOutlineThickness(thickness);
-        circle.setOrigin(radius, radius);
-    }
-};
+    public:
+        sf::CircleShape circle;
 
-class CCollision
-{
-public:
-    float radius {};
+        CShape() = default;
+        CShape(float radius, std::size_t points, const sf::Color& fill, const sf::Color& outline, float thickness)
+            : circle {radius, points}
+        {
+            circle.setFillColor(fill);
+            circle.setOutlineColor(outline);
+            circle.setOutlineThickness(thickness);
+            circle.setOrigin(radius, radius);
+        }
+    };
 
-    explicit CCollision(float rad) : radius {rad} {}
-};
+    class CCollision : public Engine2D::Component
+    {
+    public:
+        float radius {};
 
-class CInput
-{
-public:
-    bool up {};
-    bool left {};
-    bool right {};
-    bool down {};
-    //bool shoot {};
-    //bool special {};
+        CCollision() = default;
+        explicit CCollision(float rad) : radius {rad} {}
+    };
 
-    CInput() = default;
-};
+    class CInput : public Engine2D::Component
+    {
+    public:
+        bool up {};
+        bool left {};
+        bool right {};
+        bool down {};
 
-class CScore
-{
-public:
-    int score {};
+        CInput() = default;
+    };
 
-    explicit CScore(int s) : score {s} {}
-};
+    class CScore : public Engine2D::Component
+    {
+    public:
+        int score {};
 
-class CLifespan
-{
-public:
-    int remaining {};
-    int total {};
+        CScore() = default;
+        explicit CScore(int s) : score {s} {}
+    };
 
-    explicit CLifespan(int tot) : remaining {tot}, total {tot} {}
-};
+    class CLifespan : public Engine2D::Component
+    {
+    public:
+        int remaining {};
+        int total {};
+
+        CLifespan() = default;
+        explicit CLifespan(int tot) : remaining {tot}, total {tot} {}
+    };
+}   // namespace GeometryWaves
 
 #endif

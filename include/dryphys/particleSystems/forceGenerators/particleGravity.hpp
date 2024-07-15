@@ -6,11 +6,11 @@
 // Date: 06/16/2024-05:49:03
 // Description:
 
-#ifndef DRYPHYS_INCLUDE_DRYPHYS_FORCEGENERATORS_PARTICLEGRAVITY_HPP
-#define DRYPHYS_INCLUDE_DRYPHYS_FORCEGENERATORS_PARTICLEGRAVITY_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEGRAVITY_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEGRAVITY_HPP
 
 #include "dryphys/particle.hpp"
-#include "dryphys/pfgen.hpp"
+#include "dryphys/particleSystems/forceGenerator.hpp"
 #include "dryphys/vector3d.hpp"
 
 namespace DryPhys

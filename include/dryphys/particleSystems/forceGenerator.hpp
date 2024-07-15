@@ -1,13 +1,13 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: pfgen.hpp
+// Name: forceGenerator.hpp
 // Author: crdrisko
 // Date: 06/14/2024-19:00:13
 // Description:
 
-#ifndef DRYPHYS_INCLUDE_DRYPHYS_PFGEN_HPP
-#define DRYPHYS_INCLUDE_DRYPHYS_PFGEN_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATOR_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATOR_HPP
 
 #include <vector>
 
