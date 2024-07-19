@@ -12,6 +12,7 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include <dryphys/particleSystems.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>
@@ -38,6 +39,7 @@ namespace ShapeWatcher
 
     private:
         ConcreteEntityManager entityManager_ {};
+        float width_ {}, height_ {};
 
         sf::Text text_;
         int currentFrame_ {};
@@ -49,8 +51,8 @@ namespace ShapeWatcher
         void onEnd() override;
 
         // Systems
-        void sMovement();
         void sCollision();
+        void sMovement();
 
     public:
         ScenePlay(Engine2D::Engine* gameEngine, const std::string& config);

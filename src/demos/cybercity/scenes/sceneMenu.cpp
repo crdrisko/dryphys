@@ -14,11 +14,14 @@
 #include <memory>
 
 #include <SFML/Graphics.hpp>
+#include <dryphys/utilities/utils.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>
 
 #include "cybercity/scenes/scenePlay.hpp"
+
+using namespace DryPhys::Literals;
 
 namespace fs = std::filesystem;
 
@@ -62,31 +65,30 @@ namespace CyberCity
 
     void SceneMenu::sDoAction(const Engine2D::Action& action)
     {
-        if (action.type() == "START")
+        if (auto atype = action.type(); atype == Engine2D::Action::START)
         {
-            if (action.name() == "UP")
+            switch (action.sid())
             {
+            case "UP"_sid:
                 if (selectedMenuIndex_ > 0)
-                {
                     selectedMenuIndex_--;
-                }
                 else
-                {
                     selectedMenuIndex_ = menuStrings_.size() - 1;
-                }
-            }
-            else if (action.name() == "DOWN")
-            {
+                break;
+            case "DOWN"_sid:
                 selectedMenuIndex_ = (selectedMenuIndex_ + 1) % menuStrings_.size();
-            }
-            else if (action.name() == "PLAY")
-            {
-                music_->stop();
+                break;
+            case "PLAY"_sid:
+                if (music_)
+                    music_->stop();
+
                 game_->changeScene("PLAY", std::make_shared<ScenePlay>(game_, levelPaths_[selectedMenuIndex_]));
-            }
-            else if (action.name() == "QUIT")
-            {
+                break;
+            case "QUIT"_sid:
                 onEnd();
+                break;
+            default:
+                break;
             }
         }
     }

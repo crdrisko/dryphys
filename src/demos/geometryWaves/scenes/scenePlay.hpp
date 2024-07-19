@@ -80,7 +80,7 @@ namespace GeometryWaves
         void spawnEnemy();
         void spawnSmallEnemies(ConcreteEntityPtr entity);
         void spawnBullet(ConcreteEntityPtr entity, const DryPhys::Vector3D& mousePos);
-        void spawnSpecialWeapon(ConcreteEntityPtr entity);
+        void spawnSpecialWeapon(ConcreteEntityPtr entity, const DryPhys::Vector3D& mousePos);
 
     public:
         ScenePlay(Engine2D::Engine* gameEngine, const std::string& config);

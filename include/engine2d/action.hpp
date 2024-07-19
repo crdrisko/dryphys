@@ -14,33 +14,44 @@
 #include <sstream>
 #include <string>
 
+#include "dryphys/utilities/utils.hpp"
 #include "dryphys/vector3d.hpp"
 
 namespace Engine2D
 {
     class Action
     {
+    public:
+        enum Types
+        {
+            START,
+            END
+        };
+
     private:
-        std::string name_ = "NONE";
-        std::string type_ = "NONE";
+        std::string name_ {};
+        DryPhys::StringID sid_ {};
+        Types type_ {};
         DryPhys::Vector3D mpos_ {};
 
     public:
         Action() = default;
-        Action(const std::string& name, const std::string& type) : name_ {name}, type_ {type} {}
-        Action(const std::string& name, const std::string& type, const DryPhys::Vector3D& mousePos)
-            : name_ {name}, type_ {type}, mpos_ {mousePos}
+        Action(const std::string& name, Types type) : name_ {name}, sid_ {DryPhys::djb2Hash(name.c_str())}, type_ {type} {}
+        Action(const std::string& name, Types type, const DryPhys::Vector3D& mousePos)
+            : name_ {name}, sid_ {DryPhys::djb2Hash(name.c_str())}, type_ {type}, mpos_ {mousePos}
         {
         }
 
-        const std::string& name() const { return name_; }
-        const std::string& type() const { return type_; }
-        const DryPhys::Vector3D& pos() const { return mpos_; }
+        std::string name() const { return name_; }
+        DryPhys::StringID sid() const { return sid_; }
+        Types type() const { return type_; }
+        DryPhys::Vector3D pos() const { return mpos_; }
 
         std::string toString() const
         {
             std::stringstream ss;
-            ss << name_ << " " << type_ << " " << static_cast<int>(mpos_[0]) << " " << static_cast<int>(mpos_[1]);
+            ss << name_ << " " << ((type_ == START) ? "START" : "END") << " " << static_cast<int>(mpos_.x) << " "
+               << static_cast<int>(mpos_.y);
             return ss.str();
         }
     };

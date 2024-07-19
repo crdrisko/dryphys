@@ -80,16 +80,14 @@ namespace Engine2D
 
             if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
             {
-                // if the current scene does not have an action associated with this key, skip the event
+                // If the current scene does not have an action associated with this key, skip the event
                 if (currentScene()->getActionMap().find(event.key.code) == currentScene()->getActionMap().end())
                 {
                     continue;
                 }
 
-                // determine start or end action by whether it was a key press or release
-                const std::string actionType = (event.type == sf::Event::KeyPressed) ? "START" : "END";
+                const Action::Types actionType = (event.type == sf::Event::KeyPressed) ? Action::START : Action::END;
 
-                // look up the action and send the action to the scene
                 currentScene()->doAction(Action(currentScene()->getActionMap().at(event.key.code), actionType));
             }
 
@@ -102,17 +100,17 @@ namespace Engine2D
                 {
                 case sf::Mouse::Left:
                 {
-                    currentScene()->doAction(Action {"LEFT_CLICK", "START", mpos});
+                    currentScene()->doAction(Action {"LEFT_CLICK", Action::START, mpos});
                     break;
                 }
                 case sf::Mouse::Middle:
                 {
-                    currentScene()->doAction(Action {"MIDDLE_CLICK", "START", mpos});
+                    currentScene()->doAction(Action {"MIDDLE_CLICK", Action::START, mpos});
                     break;
                 }
                 case sf::Mouse::Right:
                 {
-                    currentScene()->doAction(Action {"RIGHT_CLICK", "START", mpos});
+                    currentScene()->doAction(Action {"RIGHT_CLICK", Action::START, mpos});
                     break;
                 }
                 default:
@@ -126,17 +124,17 @@ namespace Engine2D
                 {
                 case sf::Mouse::Left:
                 {
-                    currentScene()->doAction(Action {"LEFT_CLICK", "END", mpos});
+                    currentScene()->doAction(Action {"LEFT_CLICK", Action::END, mpos});
                     break;
                 }
                 case sf::Mouse::Middle:
                 {
-                    currentScene()->doAction(Action {"MIDDLE_CLICK", "END", mpos});
+                    currentScene()->doAction(Action {"MIDDLE_CLICK", Action::END, mpos});
                     break;
                 }
                 case sf::Mouse::Right:
                 {
-                    currentScene()->doAction(Action {"RIGHT_CLICK", "END", mpos});
+                    currentScene()->doAction(Action {"RIGHT_CLICK", Action::END, mpos});
                     break;
                 }
                 default:
@@ -149,7 +147,7 @@ namespace Engine2D
                 DryPhys::Vector3D mouseMoved {
                     static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y), 0};
 
-                currentScene()->doAction(Action {"MOUSE_MOVE", "START", mouseMoved});
+                currentScene()->doAction(Action {"MOUSE_MOVE", Action::START, mouseMoved});
             }
         }
     }

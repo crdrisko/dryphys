@@ -38,10 +38,10 @@ namespace CyberCity
         ConfigData playerConfig_;
 
         std::string levelPath_;
-        
+
         float width_ {}, height_ {};
         const float gridSize_ {64};
-        
+
         sf::Text gridText_;
         sf::Text pauseText_;
 

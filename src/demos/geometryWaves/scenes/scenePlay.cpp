@@ -15,11 +15,14 @@
 
 #include <common-utils/files.hpp>
 #include <common-utils/strings.hpp>
+#include <dryphys/utilities/utils.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 
 #include "geometryWaves/components.hpp"
 #include "geometryWaves/forwardDeclare.hpp"
+
+using namespace DryPhys::Literals;
 
 namespace GeometryWaves
 {
@@ -188,56 +191,58 @@ namespace GeometryWaves
     {
         auto& pInput = player_->getComponent<CInput>();
 
-        if (action.type() == "START")
+        if (auto atype = action.type(); atype == Engine2D::Action::START)
         {
-            if (action.name() == "LEFT_CLICK")
+            switch (action.sid())
             {
+            case "LEFT_CLICK"_sid:
                 if (!paused_)
                     spawnBullet(player_, action.pos());
-            }
-            else if (action.name() == "UP")
-            {
+                break;
+            case "RIGHT_CLICK"_sid:
+                if (!paused_)
+                    spawnSpecialWeapon(player_, action.pos());
+                break;
+            case "UP"_sid:
                 pInput.up = true;
-            }
-            else if (action.name() == "DOWN")
-            {
+                break;
+            case "DOWN"_sid:
                 pInput.down = true;
-            }
-            else if (action.name() == "LEFT")
-            {
+                break;
+            case "LEFT"_sid:
                 pInput.left = true;
-            }
-            else if (action.name() == "RIGHT")
-            {
+                break;
+            case "RIGHT"_sid:
                 pInput.right = true;
-            }
-            else if (action.name() == "PAUSE")
-            {
+                break;
+            case "PAUSE"_sid:
                 setPaused(!paused_);
-            }
-            else if (action.name() == "QUIT")
-            {
+                break;
+            case "QUIT"_sid:
                 onEnd();
+                break;
+            default:
+                break;
             }
         }
-
-        if (action.type() == "END")
+        else if (atype == Engine2D::Action::END)
         {
-            if (action.name() == "UP")
+            switch (action.sid())
             {
+            case "UP"_sid:
                 pInput.up = false;
-            }
-            else if (action.name() == "DOWN")
-            {
+                break;
+            case "DOWN"_sid:
                 pInput.down = false;
-            }
-            else if (action.name() == "LEFT")
-            {
+                break;
+            case "LEFT"_sid:
                 pInput.left = false;
-            }
-            else if (action.name() == "RIGHT")
-            {
+                break;
+            case "RIGHT"_sid:
                 pInput.right = false;
+                break;
+            default:
+                break;
             }
         }
     }
@@ -546,5 +551,5 @@ namespace GeometryWaves
         bullet->addComponent<CLifespan>(bulletConfig_.L);
     }
 
-    void ScenePlay::spawnSpecialWeapon(ConcreteEntityPtr) {}
+    void ScenePlay::spawnSpecialWeapon(ConcreteEntityPtr, const DryPhys::Vector3D&) {}
 }   // namespace GeometryWaves

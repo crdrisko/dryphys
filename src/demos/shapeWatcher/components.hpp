@@ -10,6 +10,7 @@
 #define DRYPHYS_SRC_DEMOS_SHAPEWATCHER_COMPONENTS_HPP
 
 #include <SFML/Graphics.hpp>
+#include <dryphys/particle.hpp>
 #include <dryphys/vector3d.hpp>
 #include <engine2d/components.hpp>
 
@@ -18,11 +19,16 @@ namespace ShapeWatcher
     class CTransform : public Engine2D::Component
     {
     public:
-        DryPhys::Vector3D position {};
-        DryPhys::Vector3D velocity {};
+        DryPhys::Particle particle {};
 
         CTransform() = default;
-        CTransform(const DryPhys::Vector3D& pos, const DryPhys::Vector3D& vel) : position {pos}, velocity {vel} {}
+        CTransform(const DryPhys::Vector3D& pos, const DryPhys::Vector3D& vel)
+        {
+            particle.setPosition(pos);
+            particle.setVelocity(vel);
+            particle.setMass(2.0f);
+            particle.setDamping(1.0f);
+        }
     };
 
     class CShape : public Engine2D::Component

@@ -158,7 +158,7 @@ namespace LightCycle
 
     void ScenePlay::sDoAction(const Engine2D::Action& action)
     {
-        if (action.type() == "START")
+        if (auto atype = action.type(); atype == Engine2D::Action::START)
         {
             if (action.name() == "QUIT")
             {

@@ -12,10 +12,13 @@
 #include <memory>
 
 #include <common-utils/strings.hpp>
+#include <dryphys/utilities/utils.hpp>
 #include <engine2d/action.hpp>
 
 #include "cybercity/components.hpp"
 #include "cybercity/forwardDeclare.hpp"
+
+using namespace DryPhys::Literals;
 
 namespace CyberCity
 {
@@ -29,86 +32,78 @@ namespace CyberCity
     {
         auto& pInput = player->getComponent<CInput>();
 
-        if (action.type() == "START")
+        if (auto atype = action.type(); atype == Engine2D::Action::START)
         {
-            if (action.name() == "UP")
+            switch (action.sid())
             {
+            case "UP"_sid:
                 pInput.inputs.set(CInput::UP, true);
-            }
-            else if (action.name() == "DOWN")
-            {
+                break;
+            case "DOWN"_sid:
                 pInput.inputs.set(CInput::DOWN, true);
-            }
-            else if (action.name() == "LEFT")
-            {
+                break;
+            case "LEFT"_sid:
                 pInput.inputs.set(CInput::LEFT, true);
-            }
-            else if (action.name() == "RIGHT")
-            {
+                break;
+            case "RIGHT"_sid:
                 pInput.inputs.set(CInput::RIGHT, true);
-            }
-            else if (action.name() == "SPRINT")
-            {
+                break;
+            case "SPRINT"_sid:
                 pInput.inputs.set(CInput::SPRINT, true);
-            }
-            else if (action.name() == "JUMP")
-            {
+                break;
+            case "JUMP"_sid:
                 pInput.inputs.set(CInput::JUMP, true);
                 pInput.canJump = false;
-            }
-            else if (action.name() == "EVADE")
-            {
+                break;
+            case "EVADE"_sid:
                 pInput.inputs.set(CInput::EVADE, true);
-            }
-            else if (action.name() == "ATTACK")
-            {
+                break;
+            case "ATTACK"_sid:
                 pInput.inputs.set(CInput::ATTACK, true);
-            }
-            else if (action.name() == "DEFEND")
-            {
+                break;
+            case "DEFEND"_sid:
                 pInput.inputs.set(CInput::DEFEND, true);
                 pInput.canMove = false;
+                break;
+            default:
+                break;
             }
         }
-        else if (action.type() == "END")
+        else if (atype == Engine2D::Action::END)
         {
-            if (action.name() == "UP")
+            switch (action.sid())
             {
+            case "UP"_sid:
                 pInput.inputs.set(CInput::UP, false);
-            }
-            else if (action.name() == "DOWN")
-            {
+                break;
+            case "DOWN"_sid:
                 pInput.inputs.set(CInput::DOWN, false);
-            }
-            else if (action.name() == "LEFT")
-            {
+                break;
+            case "LEFT"_sid:
                 pInput.inputs.set(CInput::LEFT, false);
-            }
-            else if (action.name() == "RIGHT")
-            {
+                break;
+            case "RIGHT"_sid:
                 pInput.inputs.set(CInput::RIGHT, false);
-            }
-            else if (action.name() == "SPRINT")
-            {
+                break;
+            case "SPRINT"_sid:
                 pInput.inputs.set(CInput::SPRINT, false);
-            }
-            else if (action.name() == "JUMP")
-            {
+                break;
+            case "JUMP"_sid:
                 pInput.inputs.set(CInput::JUMP, false);
-            }
-            else if (action.name() == "EVADE")
-            {
+                break;
+            case "EVADE"_sid:
                 pInput.inputs.set(CInput::EVADE, false);
-            }
-            else if (action.name() == "ATTACK")
-            {
+                break;
+            case "ATTACK"_sid:
                 pInput.inputs.set(CInput::ATTACK, false);
                 pInput.canMove = true;
-            }
-            else if (action.name() == "DEFEND")
-            {
+                break;
+            case "DEFEND"_sid:
                 pInput.inputs.set(CInput::DEFEND, false);
                 pInput.canMove = true;
+                break;
+            default:
+                break;
             }
         }
     }
@@ -119,7 +114,7 @@ namespace CyberCity
         auto& pTransform = player->getComponent<CTransform>();
 
         // Maintain y velocity from previous frame so gravity acts as an acceleration
-        pTransform.vel[0] = 0.0f;
+        pTransform.vel.x = 0.0f;
 
         float horizontalMoveSpeed {5};
 
@@ -130,28 +125,28 @@ namespace CyberCity
         {
             if (pInput.facingRight)
             {
-                pTransform.scale[0] *= -1.0f;
+                pTransform.scale.x *= -1.0f;
                 pInput.facingRight = false;
             }
 
             if (pInput.canMove)
-                pTransform.vel[0] = -horizontalMoveSpeed;
+                pTransform.vel.x = -horizontalMoveSpeed;
         }
         else if (pInput.inputs[CInput::RIGHT])
         {
             if (!pInput.facingRight)
             {
-                pTransform.scale[0] *= -1.0f;
+                pTransform.scale.x *= -1.0f;
                 pInput.facingRight = true;
             }
 
             if (pInput.canMove)
-                pTransform.vel[0] = horizontalMoveSpeed;
+                pTransform.vel.x = horizontalMoveSpeed;
         }
 
         if (pInput.canJump && pInput.inputs[CInput::JUMP])
         {
-            pTransform.vel[1] += -5;
+            pTransform.vel.y += -5;
 
             jump(player);
             return;
