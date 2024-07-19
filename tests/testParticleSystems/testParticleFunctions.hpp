@@ -1,15 +1,17 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: testAllParticleFunctions.cpp
+// Name: testParticleFunctions.hpp
 // Author: crdrisko
-// Date: 06/14/2024-06:19:00
+// Date: 07/18/2024-06:37:44
 // Description: Provides ~100% unit test coverage over all Particle functions
+
+#ifndef DRYPHYS_TESTS_TESTPARTICLESYSTEMS_TESTPARTICLEFUNCTIONS_HPP
+#define DRYPHYS_TESTS_TESTPARTICLESYSTEMS_TESTPARTICLEFUNCTIONS_HPP
 
 #include <limits>
 
 #include <dryphys/particle.hpp>
-#include <dryphys/particleSystems.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(testParticleFunctions, settersSetAndGettersGet)
@@ -167,14 +169,7 @@ GTEST_TEST(testParticleFunctions, integratePropogatesPositionsAndVelocitiesAccor
     particle.setDamping(1.0f);
     particle.setInverseMass(15.0f);
 
-    // particle.integrate(2.0f);
-
-    DryPhys::IntegratorRegistry reg;
-    DryPhys::Integrator* integrator = new DryPhys::EulersMethod {};
-
-    reg.add(&particle, integrator);
-
-    reg.integrate(2.0f);
+    particle.integrate(2.0f);
 
     ASSERT_EQ(particle.getPosition(), DryPhys::Vector3D(16.0f, 9.0f, 14.0f));
     ASSERT_EQ(particle.getVelocity(), DryPhys::Vector3D(3.0f, 3.0f, 1.0f));
@@ -214,8 +209,4 @@ GTEST_TEST(testParticleFunctions, hasFiniteMassReturnsTrueForInverseMassesThatAr
     ASSERT_FALSE(particle.hasFiniteMass());
 }
 
-int main(int argc, char** argv)
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+#endif

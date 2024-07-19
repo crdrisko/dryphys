@@ -14,23 +14,18 @@
 #include <vector>
 
 #include <SFML/Graphics.hpp>
+#include <dryphys/particle.hpp>
 
 class ParticleSystem
 {
 private:
-    struct Particle
-    {
-        sf::Vector2f velocity;
-        float lifetime = 0;
-    };
+    std::vector<std::pair<DryPhys::Particle, float>> particles_;
+    sf::VertexArray vertices_;
+    sf::Vector2u windowSize_;
 
-    std::vector<Particle> m_particles;
-    sf::VertexArray m_vertices;
-    sf::Vector2u m_windowSize;
-
-    int m_size  = 8;
-    int m_count = 1024;
-    ImVec4 m_color {0.0f, 0.5f, 0.65f, 0.78f};
+    int size_  = 8;
+    int count_ = 1024;
+    ImVec4 color_ {0.0f, 0.5f, 0.65f, 0.78f};
 
     void resetParticles();
     void resetParticle(std::size_t index, bool first = false);
@@ -42,9 +37,9 @@ public:
     void update();
     void draw(sf::RenderWindow& window) const;
 
-    int* size() { return &m_size; }
-    int* count() { return &m_count; }
-    float* color() { return (float*)&m_color; }
+    int* size() { return &size_; }
+    int* count() { return &count_; }
+    float* color() { return (float*)&color_; }
 };
 
 #endif

@@ -1,10 +1,13 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: testAllVector3DFunctions.cpp
+// Name: testVector3DFunctions.hpp
 // Author: crdrisko
-// Date: 06/12/2024-06:32:33
+// Date: 07/18/2024-06:30:43
 // Description: Provides ~100% unit test coverage over all Vector3D functions
+
+#ifndef DRYPHYS_TESTS_TESTMATHEMATICS_TESTVECTOR3DFUNCTIONS_HPP
+#define DRYPHYS_TESTS_TESTMATHEMATICS_TESTVECTOR3DFUNCTIONS_HPP
 
 #include <iostream>
 
@@ -57,6 +60,23 @@ GTEST_TEST(testVector3DFunctions, overloadedComparsionOperatorsPerformElementwis
     ASSERT_TRUE(value1 >= value4);
     ASSERT_TRUE(value3 >= value2);
     ASSERT_FALSE(value2 >= value4);
+}
+
+GTEST_TEST(testVector3DFunctions, theInternalDataIsAccessibleWithoutFunctionCalls)
+{
+    DryPhys::Vector3D coordinates {1.0f, -3.0f, 5.0f};
+
+    ASSERT_FLOAT_EQ(1.0f, coordinates.x);
+    ASSERT_FLOAT_EQ(-3.0f, coordinates.y);
+    ASSERT_FLOAT_EQ(5.0f, coordinates.z);
+
+    coordinates.x += 4.0f;
+    coordinates.y += 4.0f;
+    coordinates.z += 4.0f;
+
+    ASSERT_FLOAT_EQ(5.0f, coordinates.x);
+    ASSERT_FLOAT_EQ(1.0f, coordinates.y);
+    ASSERT_FLOAT_EQ(9.0f, coordinates.z);
 }
 
 GTEST_TEST(testVector3DFunctions, subscriptOperatorsCanReturnAndSetTheInternalData)
@@ -233,8 +253,4 @@ GTEST_TEST(testVector3DFunctions, ourTupleLikeAPIProvidesWriteAccessToTheElement
     ASSERT_FLOAT_EQ(z, 4.2f);
 }
 
-int main(int argc, char** argv)
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+#endif

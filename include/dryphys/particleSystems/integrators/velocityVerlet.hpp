@@ -18,10 +18,14 @@ namespace DryPhys
 {
     class VelocityVerlet : public Integrator
     {
+    private:
+        void moveA(Particle* particle, real dt);
+        void moveB(Particle* particle, real dt);
+
     public:
         VelocityVerlet() = default;
 
-        void integrate(Particle* particle, real timestep) override;
+        void integrate(std::vector<Particle>& particles, real timestep) override;
     };
 }   // namespace DryPhys
 

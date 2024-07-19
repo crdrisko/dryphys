@@ -143,8 +143,8 @@ set(DRYPHYS_SOURCE src/dryphys/particle.cpp
                    src/dryphys/particleSystems/forceGenerators/particleDrag.cpp
                    src/dryphys/particleSystems/forceGenerators/particleGravity.cpp
                    src/dryphys/particleSystems/forceGenerators/particleSprings.cpp
-                   src/dryphys/particleSystems/integrator.cpp
                    src/dryphys/particleSystems/integrators/eulersMethod.cpp
+                   src/dryphys/particleSystems/integrators/velocityVerlet.cpp
                    src/dryphys/particleSystems/world.cpp)
 
 set(ENGINE2D_SOURCE src/engine2d/animation.cpp
@@ -272,7 +272,7 @@ if (phys_build_demos)
 
     add_executable(particleSystem ${PARTICLESYSTEM_SOURCE} ${IMGUI_SOURCE})
     target_include_directories(particleSystem PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/samples)
-    target_link_libraries(particleSystem PRIVATE ImGui-SFML::ImGui-SFML)
+    target_link_libraries(particleSystem PRIVATE ImGui-SFML::ImGui-SFML dryphys)
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 endif()

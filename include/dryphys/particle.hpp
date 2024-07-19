@@ -31,6 +31,7 @@ namespace DryPhys
 
         DRYPHYS_CONSTEXPR bool hasFiniteMass() const { return inverseMass_ > 0; }
         DRYPHYS_CONSTEXPR void addForce(const Vector3D& force) { forceAccumulator_ += force; }
+        DRYPHYS_CONSTEXPR void applyForces() { acceleration_ = forceAccumulator_ * inverseMass_; }
         DRYPHYS_CONSTEXPR void clearAccumulator() { forceAccumulator_.clear(); }
 
         //! Perform movement in one step rather than calling get and set positions

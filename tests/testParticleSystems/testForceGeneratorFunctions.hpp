@@ -1,10 +1,13 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: testAllForceGenerators.cpp
+// Name: testForceGeneratorFunctions.hpp
 // Author: crdrisko
 // Date: 06/22/2024-06:57:19
 // Description: Provides ~100% unit test coverage over all Force Generator functions
+
+#ifndef DRYPHYS_TESTS_TESTPARTICLESYSTEMS_TESTFORCEGENERATORFUNCTIONS_HPP
+#define DRYPHYS_TESTS_TESTPARTICLESYSTEMS_TESTFORCEGENERATORFUNCTIONS_HPP
 
 #include <dryphys/particle.hpp>
 #include <dryphys/particleSystems.hpp>
@@ -31,8 +34,4 @@ GTEST_TEST(testForceGeneratorFunctions, test2)
     registry.add(&a, &ps_b2a);
 }
 
-int main(int argc, char** argv)
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+#endif

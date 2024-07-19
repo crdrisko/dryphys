@@ -39,6 +39,9 @@ namespace DryPhys
         unsigned generateCollisions();
         void integrate(real duration);
         void runPhysics(real duration);
+
+        Particles& getParticles() { return particles_; }
+        const Particles& getParticles() const { return particles_; }
     };
 }   // namespace DryPhys
 

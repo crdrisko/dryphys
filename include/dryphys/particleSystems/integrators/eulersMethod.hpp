@@ -24,7 +24,7 @@ namespace DryPhys
     public:
         explicit EulersMethod(real damping = 1.0f) : damping_ {damping} {}
 
-        void integrate(Particle* particle, real timestep) override;
+        void integrate(std::vector<Particle>& particles, real timestep) override;
     };
 }   // namespace DryPhys
 

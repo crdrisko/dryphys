@@ -26,11 +26,12 @@ namespace DryPhys
      */
     class Vector3D : private DryChem::EqualityComparable<Vector3D>
     {
-    private:
+    public:
         real x {};
         real y {};
         real z {};
 
+    private:
 #ifdef phys_four_word_alignment
         //! Padding to ensure four word alignment
         [[maybe_unused]] real pad;

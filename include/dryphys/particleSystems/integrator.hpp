@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "dryphys/particle.hpp"
+#include "dryphys/particleSystems/forceGenerator.hpp"
 
 namespace DryPhys
 {
@@ -23,39 +24,15 @@ namespace DryPhys
     class Integrator
     {
     protected:
-        Vector3D forceAccumulator_;   //! Accumulated forces acting on this particle
+        ParticleForceRegistry registry_;
 
     public:
-        ~Integrator() = default;
+        virtual ~Integrator() = default;
 
-        DRYPHYS_CONSTEXPR void addForce(const Vector3D& force) { forceAccumulator_ += force; }
-        DRYPHYS_CONSTEXPR void clearAccumulator() { forceAccumulator_.clear(); }
+        virtual void integrate(std::vector<Particle>& particles, real timestep) = 0;
 
-        virtual void integrate(Particle* particle, real timestep) = 0;
-    };
-
-    /*!
-     *
-     */
-    class IntegratorRegistry
-    {
-    protected:
-        struct IntegratorRegistration
-        {
-            Particle* particle;
-            Integrator* integrator;
-        };
-
-        using Registry = std::vector<IntegratorRegistration>;
-        Registry registrations_;
-
-    public:
-        void integrate(real timestep);
-
-        void add(Particle* particle, Integrator* integrator);
-        void remove(Particle* particle, Integrator* integrator);
-
-        void clear() { registrations_.clear(); }
+        ParticleForceRegistry& getForceRegistry() { return registry_; }
+        const ParticleForceRegistry& getForceRegistry() const { return registry_; }
     };
 }   // namespace DryPhys
 

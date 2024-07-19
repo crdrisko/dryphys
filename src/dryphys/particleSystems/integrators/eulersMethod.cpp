@@ -16,38 +16,20 @@
 
 namespace DryPhys
 {
-    void EulersMethod::integrate(Particle* particle, real timestep)
+    void EulersMethod::integrate(std::vector<Particle>& particles, real timestep)
     {
-        DryPhys::Vector3D pos;
-        DryPhys::Vector3D vel;
-        DryPhys::Vector3D acc;
+        registry_.updateForces(timestep);
 
-        particle->getPosition(&pos);
-        particle->getVelocity(&vel);
-        particle->getAcceleration(&acc);
+        Vector3D vel;
 
-        assert(timestep > 0.0f);
+        for (auto& particle : particles)
+        {
+            particle.integrate(timestep);
 
-        // We don't integrate things with infinite mass
-        if (!particle->hasFiniteMass())
-            return;
-
-        // Update linear position
-        particle->setPosition(particle->getPosition() + (particle->getVelocity() * timestep));
-
-        // Work out the acceleration from the force
-        Vector3D resultingAcc = acc;
-        resultingAcc += forceAccumulator_ * particle->getInverseMass();
-
-        // Update linear velocity from the acceleration
-        // vel += resultingAcc * timestep;
-        particle->setVelocity(particle->getVelocity() + (resultingAcc * timestep));
-
-        // Impose drag
-        // vel *= std::pow(damping_, timestep);
-        particle->setVelocity(particle->getVelocity() * std::pow(damping_, timestep));
-
-        // Clear the forces
-        clearAccumulator();
+            // // Apply drag
+            particle.getVelocity(&vel);
+            vel *= std::pow(damping_, timestep);
+            particle.setVelocity(vel);
+        }
     }
 }   // namespace DryPhys
