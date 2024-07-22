@@ -13,6 +13,8 @@
 #include <cassert>
 #include <limits>
 
+#include "dryphys/math/vector3d.hpp"
+
 namespace DryPhys
 {
     void Particle::integrate(real duration)

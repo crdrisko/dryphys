@@ -14,7 +14,7 @@
 #include <memory>
 
 #include <SFML/Graphics.hpp>
-#include <dryphys/utilities/utils.hpp>
+#include <dryphys/utilities.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>
@@ -63,28 +63,28 @@ namespace CyberCity
 
     void SceneMenu::update() {}
 
-    void SceneMenu::sDoAction(const Engine2D::Action& action)
+    void SceneMenu::doActionImpl(const Engine2D::Action& action)
     {
         if (auto atype = action.type(); atype == Engine2D::Action::START)
         {
             switch (action.sid())
             {
-            case "UP"_sid:
+            case "UP"_sID:
                 if (selectedMenuIndex_ > 0)
                     selectedMenuIndex_--;
                 else
                     selectedMenuIndex_ = menuStrings_.size() - 1;
                 break;
-            case "DOWN"_sid:
+            case "DOWN"_sID:
                 selectedMenuIndex_ = (selectedMenuIndex_ + 1) % menuStrings_.size();
                 break;
-            case "PLAY"_sid:
+            case "PLAY"_sID:
                 if (music_)
                     music_->stop();
 
                 game_->changeScene("PLAY", std::make_shared<ScenePlay>(game_, levelPaths_[selectedMenuIndex_]));
                 break;
-            case "QUIT"_sid:
+            case "QUIT"_sID:
                 onEnd();
                 break;
             default:
@@ -93,7 +93,7 @@ namespace CyberCity
         }
     }
 
-    void SceneMenu::sRender()
+    void SceneMenu::render()
     {
         game_->window().clear(sf::Color(51, 51, 255));
 

@@ -4,7 +4,7 @@
 // Name: particleSystems.hpp
 // Author: crdrisko
 // Date: 07/13/2024-09:00:43
-// Description: The public API for the ParticleSystem section of the DyPhys library.
+// Description: The public API for the ParticleSystem section of the DryPhys library.
 //   This header file should be included in all user programs using these utilities.
 //
 // Note: The internal implementation details associated with this API should not be used in any

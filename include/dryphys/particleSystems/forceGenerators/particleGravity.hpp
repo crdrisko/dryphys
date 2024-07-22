@@ -9,9 +9,9 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEGRAVITY_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEGRAVITY_HPP
 
+#include "dryphys/math/vector3d.hpp"
 #include "dryphys/particle.hpp"
 #include "dryphys/particleSystems/forceGenerator.hpp"
-#include "dryphys/vector3d.hpp"
 
 namespace DryPhys
 {

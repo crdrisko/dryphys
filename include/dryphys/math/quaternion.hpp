@@ -16,10 +16,15 @@
 
 #include <common-utils/utilities.hpp>
 
-#include "dryphys/vector3d.hpp"
+#include "dryphys/math/vector3d.hpp"
 
 namespace DryPhys
 {
+    /*!
+     * A class representing an orientational quaternion with a scalar value w and vector with three 
+     *  dimensions: x, y, z. The type is defined using the tuple-like API so it can be used
+     *  with structured bindings.
+     */
     class Quaternion : private DryChem::EqualityComparable<Quaternion>
     {
     public:
@@ -90,6 +95,73 @@ namespace DryPhys
             z *= dist;
         }
     };
+
+    /*!
+     * Specific getters for use in the tuple-like API, allows for the structured binding of a \c Quaternion
+     */
+    template<std::size_t Index>
+    decltype(auto) get(Quaternion& q)
+    {
+        static_assert(Index < 4, "Index must be within 0 and 3, inclusive.");
+
+        if constexpr (Index == 0)
+            return q.w;
+        else if constexpr (Index == 1)
+            return q.x;
+        else if constexpr (Index == 2)
+            return q.y;
+        else
+            return q.z;
+    }
+
+    /*!
+     * \overload
+     */
+    template<std::size_t Index>
+    decltype(auto) get(const Quaternion& q)
+    {
+        static_assert(Index < 4, "Index must be within 0 and 3, inclusive.");
+
+        if constexpr (Index == 0)
+            return q.w;
+        else if constexpr (Index == 1)
+            return q.x;
+        else if constexpr (Index == 2)
+            return q.y;
+        else
+            return q.z;
+    }
+
+    /*!
+     * \overload
+     */
+    template<std::size_t Index>
+    decltype(auto) get(Quaternion&& q)
+    {
+        static_assert(Index < 4, "Index must be within 0 and 3, inclusive.");
+
+        if constexpr (Index == 0)
+            return std::move(q.w);
+        else if constexpr (Index == 1)
+            return std::move(q.x);
+        else if constexpr (Index == 2)
+            return std::move(q.y);
+        else
+            return std::move(q.z);
+    }
 }   // namespace DryPhys
+
+//! Specializations of the remaining requirements for access to the tuple-like API
+template<>
+struct std::tuple_size<DryPhys::Quaternion>
+{
+    static constexpr int value = 4;
+};
+
+template<std::size_t Index>
+struct std::tuple_element<Index, DryPhys::Quaternion>
+{
+    using type = DryPhys::real;
+};
 
 #endif

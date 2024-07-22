@@ -19,8 +19,8 @@
 
 #include <common-utils/files.hpp>
 #include <common-utils/strings.hpp>
-#include <dryphys/utilities/utils.hpp>
-#include <dryphys/vector3d.hpp>
+#include <dryphys/math.hpp>
+#include <dryphys/utilities.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/animation.hpp>
 #include <engine2d/engine.hpp>
@@ -104,14 +104,14 @@ namespace CyberCity
                 float scale    = gridSize_ / std::min(animSize.x, animSize.y);
                 auto animScale = anim.getSprite().getScale();
 
-                tileEntity->addComponent<CAnimation>(anim);
-                tileEntity->addComponent<CTransform>(
+                tileEntity.addComponent<CAnimation>(anim);
+                tileEntity.addComponent<CTransform>(
                     gridToMidPixel(std::stof(splitRow[2]), std::stof(splitRow[3]), tileEntity),
                     DryPhys::Vector3D {},
                     DryPhys::Vector3D {scale * animScale.x, scale * animScale.y, 0},
                     anim.getSprite().getRotation());
-                tileEntity->addComponent<CDraggable>();
-                tileEntity->addComponent<CBoundingBox>(game_->assets().getAnimation(splitRow[1]).getSize() * scale);
+                tileEntity.addComponent<CDraggable>();
+                tileEntity.addComponent<CBoundingBox>(game_->assets().getAnimation(splitRow[1]).getSize() * scale);
             }
             else if (splitRow[0] == "Dec")
             {
@@ -121,19 +121,19 @@ namespace CyberCity
                  *  Grid X Pos:         GX      float
                  *  Grid Y Pos:         GY      float
                  */
-                auto tileEntity = entityManager_.addEntity("dec");
+                auto decEntity = entityManager_.addEntity("dec");
 
-                tileEntity->addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
-                tileEntity->addComponent<CTransform>(
-                    gridToMidPixel(std::stof(splitRow[2]), std::stof(splitRow[3]), tileEntity));
+                decEntity.addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
+                decEntity.addComponent<CTransform>(
+                    gridToMidPixel(std::stof(splitRow[2]), std::stof(splitRow[3]), decEntity));
             }
             else if (splitRow[0] == "Env")
             {
                 auto envEntity = entityManager_.addEntity("env");
 
-                envEntity->addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
+                envEntity.addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
 
-                auto& envAnim = envEntity->getComponent<CAnimation>().animation;
+                auto& envAnim = envEntity.getComponent<CAnimation>().animation;
 
                 auto size = envAnim.getSize();
                 const sf::IntRect sizes {0, 0, static_cast<int>(width_), static_cast<int>(height_)};
@@ -235,46 +235,46 @@ namespace CyberCity
         }
     }
 
-    void ScenePlay::sDoAction(const Engine2D::Action& action)
+    void ScenePlay::doActionImpl(const Engine2D::Action& action)
     {
         if (auto atype = action.type(); atype == Engine2D::Action::START)
         {
             switch (action.sid())
             {
-            case "TOGGLE_TEXTURE"_sid:
+            case "TOGGLE_TEXTURE"_sID:
                 drawTextures_ = !drawTextures_;
                 break;
-            case "TOGGLE_COLLISIONS"_sid:
+            case "TOGGLE_COLLISIONS"_sID:
                 drawCollisions_ = !drawCollisions_;
                 break;
-            case "TOGGLE_GRID"_sid:
+            case "TOGGLE_GRID"_sID:
                 drawGrid_ = !drawGrid_;
                 break;
-            case "PAUSE"_sid:
+            case "PAUSE"_sID:
                 setPaused(!paused_);
                 break;
-            case "QUIT"_sid:
+            case "QUIT"_sID:
                 onEnd();
                 break;
-            case "ATTACK"_sid:
-                spawnBullet(player_);
+            case "ATTACK"_sID:
+                spawnBullet(*player_);
                 break;
-            case "LEFT_CLICK"_sid:
+            case "LEFT_CLICK"_sID:
             {
                 auto worldPos = windowToWorld(action.pos());
 
-                for (auto e : entityManager_.getEntities())
+                for (auto& entity : entityManager_.getEntities())
                 {
-                    if (e->hasComponent<CDraggable>() && isInside(worldPos, e))
+                    if (entity.hasComponent<CDraggable>() && isInside(worldPos, entity))
                     {
-                        auto& drag = e->getComponent<CDraggable>().dragging;
+                        auto& drag = entity.getComponent<CDraggable>().dragging;
 
                         drag = !drag;
                     }
                 }
                 break;
             }
-            case "MOUSE_MOVE"_sid:
+            case "MOUSE_MOVE"_sID:
                 mPos_ = action.pos();
                 break;
             default:
@@ -285,7 +285,7 @@ namespace CyberCity
         player_->getComponent<CState>().state->handleActions(player_, action);
     }
 
-    void ScenePlay::sRender()
+    void ScenePlay::render()
     {
         // color the background darker so you know that the game is paused
         if (!paused_)
@@ -317,11 +317,11 @@ namespace CyberCity
         // draw all Entity textures / animations
         if (drawTextures_)
         {
-            for (auto entity : entityManager_.getEntities("env"))
+            for (auto& entity : entityManager_.getEntities("env"))
             {
-                if (entity->hasComponent<CAnimation>())
+                if (entity.hasComponent<CAnimation>())
                 {
-                    auto& animation = entity->getComponent<CAnimation>().animation;
+                    auto& animation = entity.getComponent<CAnimation>().animation;
 
                     game_->window().setView(envViews[animation.getName()]);
                     envViews[animation.getName()] = view;
@@ -342,12 +342,12 @@ namespace CyberCity
         // draw all Entity collision bounding boxes with a rectangle shape
         if (drawCollisions_)
         {
-            for (auto entity : entityManager_.getEntities())
+            for (auto& entity : entityManager_.getEntities())
             {
-                if (entity->hasComponent<CBoundingBox>())
+                if (entity.hasComponent<CBoundingBox>())
                 {
-                    auto& box       = entity->getComponent<CBoundingBox>();
-                    auto& transform = entity->getComponent<CTransform>();
+                    auto& box       = entity.getComponent<CBoundingBox>();
+                    auto& transform = entity.getComponent<CTransform>();
 
                     sf::RectangleShape rect;
                     rect.setSize(sf::Vector2f(box.size.x - 1, box.size.y - 1));
@@ -407,14 +407,16 @@ namespace CyberCity
         if (music_)
             music_->stop();
 
+        entityManager_.clearEntities();
+
         game_->changeScene("MENU", std::make_shared<SceneMenu>(game_, levelPath_));
     }
 
     void ScenePlay::sAI()
     {
-        // for (auto entity : entityManager_.getEntities("enemy"))
+        // for (auto& entity : entityManager_.getEntities("enemy"))
         // {
-        //     auto& eTrans = entity->getComponent<CTransform>();
+        //     auto& eTrans = entity.getComponent<CTransform>();
 
         //     eTrans.vel = DryPhys::Vector3D {-2.0f, 0, 0};
         // }
@@ -424,14 +426,14 @@ namespace CyberCity
     {
         player_->getComponent<CState>().state->handleInput(player_);
 
-        for (auto entity : entityManager_.getEntities())
+        for (auto& entity : entityManager_.getEntities())
         {
-            auto& transform    = entity->getComponent<CTransform>();
+            auto& transform    = entity.getComponent<CTransform>();
             auto& [vx, vy, vz] = transform.vel;
             assert(vz == static_cast<DryPhys::real>(0));
 
-            if (entity->hasComponent<CGravity>())
-                vy += entity->getComponent<CGravity>().gravity;
+            if (entity.hasComponent<CGravity>())
+                vy += entity.getComponent<CGravity>().gravity;
 
             // Cap the entity's speed so it doesn't go infinite
             if (std::fabs(vx) > playerConfig_.MAXSPEED)
@@ -457,16 +459,16 @@ namespace CyberCity
 
     void ScenePlay::sLifespan()
     {
-        for (auto entity : entityManager_.getEntities())
+        for (auto& entity : entityManager_.getEntities())
         {
-            if (entity->hasComponent<CLifespan>())
+            if (entity.hasComponent<CLifespan>())
             {
-                auto& lifespan  = entity->getComponent<CLifespan>();
+                auto& lifespan  = entity.getComponent<CLifespan>();
                 int framesAlive = static_cast<int>(currentFrame_) - lifespan.frameCreated;
 
                 if (framesAlive >= lifespan.lifespan)
                 {
-                    entity->destroy();
+                    entity.destroy();
                 }
             }
         }
@@ -501,8 +503,8 @@ namespace CyberCity
 
         for (auto tile : entityManager_.getEntities("tile"))
         {
-            auto& tileTransform   = tile->getComponent<CTransform>();
-            auto& tileBoundingBox = tile->getComponent<CBoundingBox>();
+            auto& tileTransform   = tile.getComponent<CTransform>();
+            auto& tileBoundingBox = tile.getComponent<CBoundingBox>();
 
             DryPhys::Vector3D overlap = Engine2D::getAABBOverlap(
                 tileTransform.pos, tileBoundingBox.halfSize, pTransform.pos, pBoundingBox.halfSize);
@@ -547,10 +549,10 @@ namespace CyberCity
                 }
             }
 
-            for (auto enemy : entityManager_.getEntities("enemy"))
+            for (auto& enemy : entityManager_.getEntities("enemy"))
             {
-                auto& eTransform   = enemy->getComponent<CTransform>();
-                auto& eBoundingBox = enemy->getComponent<CBoundingBox>();
+                auto& eTransform   = enemy.getComponent<CTransform>();
+                auto& eBoundingBox = enemy.getComponent<CBoundingBox>();
 
                 auto& [ex, ey, ez]                = eTransform.pos;
                 auto& [prev_ex, prev_ey, prev_ez] = eTransform.prevPos;
@@ -601,10 +603,10 @@ namespace CyberCity
                 }
             }
 
-            for (auto bullet : entityManager_.getEntities("bullet"))
+            for (auto& bullet : entityManager_.getEntities("bullet"))
             {
-                auto& bTransform   = bullet->getComponent<CTransform>();
-                auto& bBoundingBox = bullet->getComponent<CBoundingBox>();
+                auto& bTransform   = bullet.getComponent<CTransform>();
+                auto& bBoundingBox = bullet.getComponent<CBoundingBox>();
 
                 DryPhys::Vector3D overlap = Engine2D::getAABBOverlap(
                     tileTransform.pos, tileBoundingBox.halfSize, bTransform.pos, bBoundingBox.halfSize);
@@ -612,25 +614,22 @@ namespace CyberCity
                 if (overlap.x > 0 && overlap.y > 0)
                 {
                     spawnExplosion(tile);
-                    bullet->destroy();
+                    bullet.destroy();
                 }
             }
         }
 
-        if (playerCollision)
-            pInput.inputs[CInput::FALL] = false;
-        else
-            pInput.inputs[CInput::FALL] = true;
+        pInput.inputs[CInput::FALL] = !playerCollision;
 
-        for (auto enemy : entityManager_.getEntities("enemy"))
+        for (auto& enemy : entityManager_.getEntities("enemy"))
         {
-            auto& eTransform   = enemy->getComponent<CTransform>();
-            auto& eBoundingBox = enemy->getComponent<CBoundingBox>();
+            auto& eTransform   = enemy.getComponent<CTransform>();
+            auto& eBoundingBox = enemy.getComponent<CBoundingBox>();
 
             for (auto bullet : entityManager_.getEntities("bullet"))
             {
-                auto& bTransform   = bullet->getComponent<CTransform>();
-                auto& bBoundingBox = bullet->getComponent<CBoundingBox>();
+                auto& bTransform   = bullet.getComponent<CTransform>();
+                auto& bBoundingBox = bullet.getComponent<CBoundingBox>();
 
                 DryPhys::Vector3D overlap
                     = Engine2D::getAABBOverlap(eTransform.pos, eBoundingBox.halfSize, bTransform.pos, bBoundingBox.halfSize);
@@ -638,8 +637,8 @@ namespace CyberCity
                 if (overlap.x > 0 && overlap.y > 0)
                 {
                     spawnExplosion(enemy);
-                    bullet->destroy();
-                    enemy->destroy();
+                    bullet.destroy();
+                    enemy.destroy();
                 }
             }
         }
@@ -650,27 +649,27 @@ namespace CyberCity
         auto pState = player_->getComponent<CState>().state;
         pState->handleAnimations(player_, game_->assets(), playerConfig_.AVATAR);
 
-        for (auto entity : entityManager_.getEntities())
+        for (auto& entity : entityManager_.getEntities())
         {
-            if (!entity->hasComponent<CAnimation>())
+            if (!entity.hasComponent<CAnimation>())
                 continue;
 
-            auto& anim = entity->getComponent<CAnimation>();
+            auto& anim = entity.getComponent<CAnimation>();
 
             if (anim.animation.hasEnded() && !anim.repeat)
-                entity->destroy();
-            else if (entity->tag() != "env")
+                entity.destroy();
+            else if (entity.tag() != "env")
                 anim.animation.update();
         }
     }
 
     void ScenePlay::sDragAndDrop()
     {
-        for (auto entity : entityManager_.getEntities())
+        for (auto& entity : entityManager_.getEntities())
         {
-            if (entity->hasComponent<CDraggable>() && entity->getComponent<CDraggable>().dragging)
+            if (entity.hasComponent<CDraggable>() && entity.getComponent<CDraggable>().dragging)
             {
-                entity->getComponent<CTransform>().pos = windowToWorld(mPos_);
+                entity.getComponent<CTransform>().pos = windowToWorld(mPos_);
             }
         }
     }
@@ -785,6 +784,14 @@ namespace CyberCity
 
                 if (ImGui::CollapsingHeader("Entitites by Tag"))
                 {
+                    if (ImGui::TreeNode("Bullets"))
+                    {
+                        for (auto entity : entityManager_.getEntities("bullet"))
+                            generateGuiInformation(entity);
+
+                        ImGui::TreePop();
+                    }
+
                     if (ImGui::TreeNode("Decorations"))
                     {
                         for (auto entity : entityManager_.getEntities("dec"))
@@ -843,13 +850,11 @@ namespace CyberCity
 
     void ScenePlay::spawnPlayer()
     {
-        if (player_)
-            player_->destroy();
-
-        player_ = entityManager_.addEntity("player");
+        if (!player_)
+            player_ = std::make_shared<ConcreteEntity>(entityManager_.addEntity("player"));
 
         auto& pAnim  = player_->addComponent<CAnimation>(game_->assets().getAnimation(playerConfig_.AVATAR + "Idle"));
-        auto& pTrans = player_->addComponent<CTransform>(gridToMidPixel(playerConfig_.X, playerConfig_.Y, player_));
+        auto& pTrans = player_->addComponent<CTransform>(gridToMidPixel(playerConfig_.X, playerConfig_.Y, *player_));
 
         DryPhys::Vector3D animSize = pAnim.animation.getSize();
 
@@ -878,15 +883,15 @@ namespace CyberCity
 
         auto enemyEntity = entityManager_.addEntity("enemy");
 
-        enemyEntity->addComponent<CAnimation>(game_->assets().getAnimation(enemyConfig.AVATAR + "Idle"));
-        auto& enemyTrans = enemyEntity->addComponent<CTransform>(gridToMidPixel(enemyConfig.X, enemyConfig.Y, enemyEntity));
+        enemyEntity.addComponent<CAnimation>(game_->assets().getAnimation(enemyConfig.AVATAR + "Idle"));
+        auto& enemyTrans = enemyEntity.addComponent<CTransform>(gridToMidPixel(enemyConfig.X, enemyConfig.Y, enemyEntity));
 
         float scale      = gridSize_ / 50.0f;
         enemyTrans.scale = DryPhys::Vector3D {scale, scale, 0};
 
-        enemyEntity->addComponent<CBoundingBox>(DryPhys::Vector3D {25, 50, 0} * scale);   // Needs to shift down
-        enemyEntity->addComponent<CGravity>(enemyConfig.GRAVITY);
-        enemyEntity->addComponent<CAI>(factory.create());
+        enemyEntity.addComponent<CBoundingBox>(DryPhys::Vector3D {25, 50, 0} * scale);   // Needs to shift down
+        enemyEntity.addComponent<CGravity>(enemyConfig.GRAVITY);
+        enemyEntity.addComponent<CAI>(factory.create());
     }
 
     void ScenePlay::spawnDecorations(const std::string& name)
@@ -898,39 +903,39 @@ namespace CyberCity
 
         float scale = gridSize_ / std::min(animSize.x, animSize.y);
 
-        tileEntity->addComponent<CAnimation>(game_->assets().getAnimation(name));
-        tileEntity->addComponent<CTransform>(
+        tileEntity.addComponent<CAnimation>(game_->assets().getAnimation(name));
+        tileEntity.addComponent<CTransform>(
             gridToMidPixel(mPos_.x, mPos_.y, tileEntity), DryPhys::Vector3D {}, DryPhys::Vector3D {scale, scale, 0}, 0.0f);
-        tileEntity->addComponent<CDraggable>(true);
+        tileEntity.addComponent<CDraggable>(true);
     }
 
-    void ScenePlay::spawnBullet(ConcreteEntityPtr entity)
+    void ScenePlay::spawnBullet(ConcreteEntity entity)
     {
-        auto& eTrans = entity->getComponent<CTransform>();
+        auto& eTrans = entity.getComponent<CTransform>();
 
         auto bulletEntity = entityManager_.addEntity("bullet");
 
         float scale = std::copysign(1.0f, eTrans.scale.x);
 
-        auto& anim = bulletEntity->addComponent<CAnimation>(game_->assets().getAnimation(playerConfig_.WEAPON));
+        auto& anim = bulletEntity.addComponent<CAnimation>(game_->assets().getAnimation(playerConfig_.WEAPON));
 
-        bulletEntity->addComponent<CTransform>(DryPhys::Vector3D {eTrans.pos.x + (scale * 20), eTrans.pos.y - 7, 0},
+        bulletEntity.addComponent<CTransform>(DryPhys::Vector3D {eTrans.pos.x + (scale * 20), eTrans.pos.y - 7, 0},
             DryPhys::Vector3D {scale * 10, 0, 0},
             DryPhys::Vector3D {scale, 1, 0},
             0);
-        bulletEntity->addComponent<CBoundingBox>(anim.animation.getSize());
-        bulletEntity->addComponent<CLifespan>(100, currentFrame_);
+        bulletEntity.addComponent<CBoundingBox>(anim.animation.getSize());
+        bulletEntity.addComponent<CLifespan>(100, currentFrame_);
     }
 
-    void ScenePlay::spawnExplosion(ConcreteEntityPtr entity)
+    void ScenePlay::spawnExplosion(ConcreteEntity entity)
     {
-        auto& eTrans = entity->getComponent<CTransform>();
-        auto& eAnim  = entity->getComponent<CAnimation>().animation;
+        auto& eTrans = entity.getComponent<CTransform>();
+        auto& eAnim  = entity.getComponent<CAnimation>().animation;
 
         auto explosionEntity = entityManager_.addEntity("dec");
 
-        std::string explosion {(entity->tag() == "enemy") ? "EnemyExplosion" : "ShotHit"};
-        auto& anim = explosionEntity->addComponent<CAnimation>(game_->assets().getAnimation(explosion), false);
+        std::string explosion {(entity.tag() == "enemy") ? "EnemyExplosion" : "ShotHit"};
+        auto& anim = explosionEntity.addComponent<CAnimation>(game_->assets().getAnimation(explosion), false);
 
         auto& animSize  = anim.animation.getSize();
         auto& eAnimSize = eAnim.getSize();
@@ -940,16 +945,16 @@ namespace CyberCity
         float scaleX = (maxSize / animSize.x);
         float scaleY = maxSize / animSize.y;
 
-        explosionEntity->addComponent<CTransform>(DryPhys::Vector3D {eTrans.pos.x, eTrans.pos.y, 0},
+        explosionEntity.addComponent<CTransform>(DryPhys::Vector3D {eTrans.pos.x, eTrans.pos.y, 0},
             DryPhys::Vector3D {},
             DryPhys::Vector3D {scaleX, scaleY, 0},
             0);
     }
 
-    DryPhys::Vector3D ScenePlay::gridToMidPixel(float gridX, float gridY, ConcreteEntityPtr entity) const
+    DryPhys::Vector3D ScenePlay::gridToMidPixel(float gridX, float gridY, ConcreteEntity entity) const
     {
         DryPhys::Vector3D result {gridX * gridSize_, height_ - (gridY * gridSize_), 0};
-        DryPhys::Vector3D size {entity->getComponent<CAnimation>().animation.getSize()};
+        DryPhys::Vector3D size {entity.getComponent<CAnimation>().animation.getSize()};
 
         float scale = gridSize_ / std::min(size.x, size.y);
 
@@ -969,10 +974,10 @@ namespace CyberCity
         return DryPhys::Vector3D {window.x + worldX, window.y + worldY, 0};
     }
 
-    bool ScenePlay::isInside(const DryPhys::Vector3D& pos, ConcreteEntityPtr e) const
+    bool ScenePlay::isInside(const DryPhys::Vector3D& pos, ConcreteEntity entity) const
     {
-        auto ePos = e->getComponent<CTransform>().pos;
-        auto size = e->getComponent<CAnimation>().animation.getSize();
+        auto ePos = entity.getComponent<CTransform>().pos;
+        auto size = entity.getComponent<CAnimation>().animation.getSize();
 
         float dx = std::fabs(pos.x - ePos.x);
         float dy = std::fabs(pos.y - ePos.y);
@@ -984,11 +989,11 @@ namespace CyberCity
     {
         for (auto entity : entityManager_.getEntities(tag))
         {
-            auto& transform = entity->getComponent<CTransform>();
+            auto& transform = entity.getComponent<CTransform>();
 
-            if (entity->hasComponent<CAnimation>())
+            if (entity.hasComponent<CAnimation>())
             {
-                auto& animation = entity->getComponent<CAnimation>().animation;
+                auto& animation = entity.getComponent<CAnimation>().animation;
 
                 animation.getSprite().setRotation(transform.angle);
                 animation.getSprite().setPosition(transform.pos.x, transform.pos.y);
@@ -999,25 +1004,30 @@ namespace CyberCity
         }
     }
 
-    void ScenePlay::generateGuiInformation(ConcreteEntityPtr entity) const
+    void ScenePlay::generateGuiInformation(ConcreteEntity& entity)
     {
         sf::Vector2f size {24.0f, 24.0f};
 
-        auto ePos  = entity->getComponent<CTransform>().pos;
-        auto eAnim = entity->getComponent<CAnimation>().animation;
+        auto ePos  = entity.getComponent<CTransform>().pos;
+        auto eAnim = entity.getComponent<CAnimation>().animation;
 
         std::stringstream ss;
 
         std::string str {
             " (" + std::to_string(static_cast<int>(ePos.x)) + ", " + std::to_string(static_cast<int>(ePos.y)) + ")"};
 
-        ss << std::setw(6) << entity->id() << std::setw(10) << entity->tag() << std::setw(20) << eAnim.getName()
+        ss << std::setw(6) << entity.id() << std::setw(10) << entity.tag() << std::setw(20) << eAnim.getName()
            << std::setw(16) << str;
 
 #ifdef USE_IMGUI
-        ImGui::PushID(entity->id());
+        ImGui::PushID(entity.id());
         if (ImGui::ImageButton(eAnim.getSprite(), size))
-            entity->destroy();
+        {
+            if (entity.tag() == "player")
+                spawnPlayer();
+            else
+                entity.destroy();
+        }
         ImGui::PopID();
         ImGui::SameLine();
         ImGui::Text("%s", ss.str().c_str());

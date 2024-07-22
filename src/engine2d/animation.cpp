@@ -14,7 +14,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "dryphys/vector3d.hpp"
+#include <dryphys/math.hpp>
+
 #include "engine2d/textureSheet.hpp"
 
 using namespace DryPhys;

@@ -12,7 +12,7 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
-#include <dryphys/vector3d.hpp>
+#include <dryphys/math.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 #include <engine2d/entityManager.hpp>
@@ -50,8 +50,8 @@ namespace LightCycle
         void init();
 
         void update() override;
-        void sDoAction(const Engine2D::Action& action) override;
-        void sRender() override;
+        void doActionImpl(const Engine2D::Action& action) override;
+        void render() override;
         void onEnd() override { game_->quit(); }
 
         void sAI();

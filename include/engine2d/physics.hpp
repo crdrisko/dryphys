@@ -11,7 +11,7 @@
 
 #include <memory>
 
-#include <dryphys/vector3d.hpp>
+#include <dryphys/math.hpp>
 
 namespace Engine2D
 {

@@ -15,7 +15,7 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include <dryphys/vector3d.hpp>
+#include <dryphys/math.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>
@@ -58,8 +58,8 @@ namespace CyberCity
         void init();
         void loadLevel(const std::string& filename);
         void update() override;
-        void sDoAction(const Engine2D::Action& action) override;
-        void sRender() override;
+        void doActionImpl(const Engine2D::Action& action) override;
+        void render() override;
         void onEnd() override;
 
         // Systems
@@ -75,14 +75,14 @@ namespace CyberCity
         void spawnPlayer();
         void spawnEnemy(const ConfigData& enemyConfig);
         void spawnDecorations(const std::string& name);
-        void spawnBullet(ConcreteEntityPtr entity);
-        void spawnExplosion(ConcreteEntityPtr entity);
+        void spawnBullet(ConcreteEntity entity);
+        void spawnExplosion(ConcreteEntity entity);
 
-        DryPhys::Vector3D gridToMidPixel(float gridX, float gridY, ConcreteEntityPtr entity) const;
+        DryPhys::Vector3D gridToMidPixel(float gridX, float gridY, ConcreteEntity entity) const;
         DryPhys::Vector3D windowToWorld(const DryPhys::Vector3D& window) const;
-        bool isInside(const DryPhys::Vector3D& pos, ConcreteEntityPtr e) const;
+        bool isInside(const DryPhys::Vector3D& pos, ConcreteEntity entity) const;
         void drawEntityAnimations(const std::string& tag);
-        void generateGuiInformation(ConcreteEntityPtr entity) const;
+        void generateGuiInformation(ConcreteEntity& entity);
 
     public:
         ScenePlay(Engine2D::Engine* gameEngine, const std::string& levelPath);

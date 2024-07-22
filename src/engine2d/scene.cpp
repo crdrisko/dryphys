@@ -12,13 +12,14 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include <dryphys/math.hpp>
 
 #include "engine2d/action.hpp"
 #include "engine2d/engine.hpp"
 
 namespace Engine2D
 {
-    void Scene::doAction(const Action& action) { sDoAction(action); }
+    void Scene::doAction(const Action& action) { doActionImpl(action); }
 
     void Scene::simulate(const std::size_t frames)
     {

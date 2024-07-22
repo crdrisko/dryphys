@@ -10,8 +10,8 @@
 #define DRYPHYS_SRC_DEMOS_SHAPEWATCHER_COMPONENTS_HPP
 
 #include <SFML/Graphics.hpp>
+#include <dryphys/math.hpp>
 #include <dryphys/particle.hpp>
-#include <dryphys/vector3d.hpp>
 #include <engine2d/components.hpp>
 
 namespace ShapeWatcher

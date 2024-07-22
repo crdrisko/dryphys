@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-#include <dryphys/vector3d.hpp>
+#include <dryphys/math.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(testVector3DFunctions, paddingIncreasesClassSizeByTheSizeOfOneAdditionalReal)
@@ -228,6 +228,7 @@ GTEST_TEST(testVector3DFunctions, vectorMultiplicationHasThreeUniqueForms)
 GTEST_TEST(testVector3DFunctions, ourTupleLikeAPIProvidesReadAccessToTheElementsViaStructuredBindings)
 {
     DryPhys::Vector3D vec {0.0f, 1.2f, 3.14f};
+
     const auto& [x, y, z] = vec;
 
     ASSERT_FLOAT_EQ(x, vec[0]);

@@ -12,6 +12,7 @@
 
 #include <cassert>
 
+#include "dryphys/math/vector3d.hpp"
 #include "dryphys/particle.hpp"
 
 namespace DryPhys

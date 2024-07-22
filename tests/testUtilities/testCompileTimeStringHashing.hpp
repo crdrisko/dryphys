@@ -12,7 +12,7 @@
 #include <iostream>
 #include <string>
 
-#include <dryphys/utilities/utils.hpp>
+#include <dryphys/utilities.hpp>
 #include <gtest/gtest.h>
 
 using namespace DryPhys::Literals;
@@ -37,8 +37,8 @@ GTEST_TEST(testCompileTimeStringHashing, userDefinedLiteralConvertsAStringToStri
 {
     const std::string str {"Hello, World!"};
 
-    ASSERT_EQ(DryPhys::djb2Hash(str.c_str()), "Hello, World!"_sid);
-    ASSERT_NE("hello, world!"_sid, "Hello, World!"_sid);
+    ASSERT_EQ(DryPhys::djb2Hash(str.c_str()), "Hello, World!"_sID);
+    ASSERT_NE("hello, world!"_sID, "Hello, World!"_sID);
 }
 
 GTEST_TEST(testCompileTimeStringHashing, compileTimeStringHashingCanBeUsedInSwitchStatements)
@@ -49,10 +49,10 @@ GTEST_TEST(testCompileTimeStringHashing, compileTimeStringHashingCanBeUsedInSwit
 
     switch (DryPhys::StringID sid = DryPhys::djb2Hash(str.c_str()); sid)
     {
-    case "START"_sid:
+    case "START"_sID:
         std::cout << "START selected\n";
         break;
-    case "END"_sid:
+    case "END"_sID:
         std::cout << "END selected\n";
         break;
     default:

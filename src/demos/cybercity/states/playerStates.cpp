@@ -12,7 +12,7 @@
 #include <memory>
 
 #include <common-utils/strings.hpp>
-#include <dryphys/utilities/utils.hpp>
+#include <dryphys/utilities.hpp>
 #include <engine2d/action.hpp>
 
 #include "cybercity/components.hpp"
@@ -36,32 +36,32 @@ namespace CyberCity
         {
             switch (action.sid())
             {
-            case "UP"_sid:
+            case "UP"_sID:
                 pInput.inputs.set(CInput::UP, true);
                 break;
-            case "DOWN"_sid:
+            case "DOWN"_sID:
                 pInput.inputs.set(CInput::DOWN, true);
                 break;
-            case "LEFT"_sid:
+            case "LEFT"_sID:
                 pInput.inputs.set(CInput::LEFT, true);
                 break;
-            case "RIGHT"_sid:
+            case "RIGHT"_sID:
                 pInput.inputs.set(CInput::RIGHT, true);
                 break;
-            case "SPRINT"_sid:
+            case "SPRINT"_sID:
                 pInput.inputs.set(CInput::SPRINT, true);
                 break;
-            case "JUMP"_sid:
+            case "JUMP"_sID:
                 pInput.inputs.set(CInput::JUMP, true);
                 pInput.canJump = false;
                 break;
-            case "EVADE"_sid:
+            case "EVADE"_sID:
                 pInput.inputs.set(CInput::EVADE, true);
                 break;
-            case "ATTACK"_sid:
+            case "ATTACK"_sID:
                 pInput.inputs.set(CInput::ATTACK, true);
                 break;
-            case "DEFEND"_sid:
+            case "DEFEND"_sID:
                 pInput.inputs.set(CInput::DEFEND, true);
                 pInput.canMove = false;
                 break;
@@ -73,32 +73,32 @@ namespace CyberCity
         {
             switch (action.sid())
             {
-            case "UP"_sid:
+            case "UP"_sID:
                 pInput.inputs.set(CInput::UP, false);
                 break;
-            case "DOWN"_sid:
+            case "DOWN"_sID:
                 pInput.inputs.set(CInput::DOWN, false);
                 break;
-            case "LEFT"_sid:
+            case "LEFT"_sID:
                 pInput.inputs.set(CInput::LEFT, false);
                 break;
-            case "RIGHT"_sid:
+            case "RIGHT"_sID:
                 pInput.inputs.set(CInput::RIGHT, false);
                 break;
-            case "SPRINT"_sid:
+            case "SPRINT"_sID:
                 pInput.inputs.set(CInput::SPRINT, false);
                 break;
-            case "JUMP"_sid:
+            case "JUMP"_sID:
                 pInput.inputs.set(CInput::JUMP, false);
                 break;
-            case "EVADE"_sid:
+            case "EVADE"_sID:
                 pInput.inputs.set(CInput::EVADE, false);
                 break;
-            case "ATTACK"_sid:
+            case "ATTACK"_sID:
                 pInput.inputs.set(CInput::ATTACK, false);
                 pInput.canMove = true;
                 break;
-            case "DEFEND"_sid:
+            case "DEFEND"_sID:
                 pInput.inputs.set(CInput::DEFEND, false);
                 pInput.canMove = true;
                 break;

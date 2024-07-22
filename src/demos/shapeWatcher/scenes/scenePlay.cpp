@@ -160,7 +160,7 @@ namespace ShapeWatcher
         }
     }
 
-    void ScenePlay::sDoAction(const Engine2D::Action& action)
+    void ScenePlay::doActionImpl(const Engine2D::Action& action)
     {
         if (auto atype = action.type(); atype == Engine2D::Action::START)
         {
@@ -171,7 +171,7 @@ namespace ShapeWatcher
         }
     }
 
-    void ScenePlay::sRender()
+    void ScenePlay::render()
     {
         game_->window().clear();
 

@@ -14,14 +14,14 @@
 #include <string>
 #include <vector>
 
-#include "engine2d/entity.hpp"
+#include "engine2d/forwardDeclare.hpp"
 
 namespace Engine2D
 {
-    template<typename... TArgs>
+    template<typename... ComponentTypes>
     class EntityManager
     {
-        using EntityVec = std::vector<std::shared_ptr<Entity<TArgs...>>>;
+        using EntityVec = std::vector<std::shared_ptr<Entity<ComponentTypes...>>>;
         using EntityMap = std::map<std::string, EntityVec>;
 
     private:
@@ -58,9 +58,9 @@ namespace Engine2D
             }
         }
 
-        std::shared_ptr<Entity<TArgs...>> addEntity(const std::string& tag)
+        std::shared_ptr<Entity<ComponentTypes...>> addEntity(const std::string& tag)
         {
-            auto entity = std::shared_ptr<Entity<TArgs...>>(new Entity<TArgs...>(totalEntities_++, tag));
+            auto entity = std::shared_ptr<Entity<ComponentTypes...>>(new Entity<ComponentTypes...>(totalEntities_++, tag));
             entitiesToAdd_.push_back(entity);
 
             return entity;
@@ -69,6 +69,63 @@ namespace Engine2D
         EntityVec& getEntities() { return entities_; }
         EntityVec& getEntities(const std::string& tag) { return entityMap_[tag]; }
     };
+
+    template<typename... ComponentTypes>
+    class EntityManagerMP
+    {
+        using EntityVec = std::vector<EntityMP<ComponentTypes...>>;
+        using EntityMap = std::map<std::string, EntityVec>;
+
+    private:
+        EntityVec entities_;
+        EntityVec entitiesToAdd_;
+        EntityMap entityMap_;
+
+        void removeDeadEntities(EntityVec& entities)
+        {
+            entities.erase(
+                std::remove_if(entities.begin(), entities.end(), [](auto e) { return !(e.isActive()); }), entities.end());
+        }
+
+    public:
+        EntityManagerMP() = default;
+
+        EntityMP<ComponentTypes...> addEntity(const std::string& tag)
+        {
+            auto entity = EntityMemoryPool<ComponentTypes...>::getInstance().addEntity(tag);
+            entitiesToAdd_.push_back(entity);
+
+            return entity;
+        }
+
+        void update()
+        {
+            for (auto& e : entitiesToAdd_)
+            {
+                entities_.push_back(e);
+                entityMap_[e.tag()].push_back(e);
+            }
+
+            entitiesToAdd_.clear();
+
+            removeDeadEntities(entities_);
+
+            for (auto& [tag, entities] : entityMap_)
+            {
+                removeDeadEntities(entities);
+            }
+        }
+
+        void clearEntities() const
+        {
+            for (const auto& entity : entities_)
+                EntityMemoryPool<ComponentTypes...>::getInstance().destroy(entity.id());
+        }
+
+        EntityVec& getEntities() { return entities_; }
+        EntityVec& getEntities(const std::string& tag) { return entityMap_[tag]; }
+    };
+
 }   // namespace Engine2D
 
 #endif

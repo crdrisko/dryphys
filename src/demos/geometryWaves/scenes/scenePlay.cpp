@@ -15,7 +15,7 @@
 
 #include <common-utils/files.hpp>
 #include <common-utils/strings.hpp>
-#include <dryphys/utilities/utils.hpp>
+#include <dryphys/utilities.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 
@@ -187,7 +187,7 @@ namespace GeometryWaves
         }
     }
 
-    void ScenePlay::sDoAction(const Engine2D::Action& action)
+    void ScenePlay::doActionImpl(const Engine2D::Action& action)
     {
         auto& pInput = player_->getComponent<CInput>();
 
@@ -195,30 +195,30 @@ namespace GeometryWaves
         {
             switch (action.sid())
             {
-            case "LEFT_CLICK"_sid:
+            case "LEFT_CLICK"_sID:
                 if (!paused_)
                     spawnBullet(player_, action.pos());
                 break;
-            case "RIGHT_CLICK"_sid:
+            case "RIGHT_CLICK"_sID:
                 if (!paused_)
                     spawnSpecialWeapon(player_, action.pos());
                 break;
-            case "UP"_sid:
+            case "UP"_sID:
                 pInput.up = true;
                 break;
-            case "DOWN"_sid:
+            case "DOWN"_sID:
                 pInput.down = true;
                 break;
-            case "LEFT"_sid:
+            case "LEFT"_sID:
                 pInput.left = true;
                 break;
-            case "RIGHT"_sid:
+            case "RIGHT"_sID:
                 pInput.right = true;
                 break;
-            case "PAUSE"_sid:
+            case "PAUSE"_sID:
                 setPaused(!paused_);
                 break;
-            case "QUIT"_sid:
+            case "QUIT"_sID:
                 onEnd();
                 break;
             default:
@@ -229,16 +229,16 @@ namespace GeometryWaves
         {
             switch (action.sid())
             {
-            case "UP"_sid:
+            case "UP"_sID:
                 pInput.up = false;
                 break;
-            case "DOWN"_sid:
+            case "DOWN"_sID:
                 pInput.down = false;
                 break;
-            case "LEFT"_sid:
+            case "LEFT"_sID:
                 pInput.left = false;
                 break;
-            case "RIGHT"_sid:
+            case "RIGHT"_sID:
                 pInput.right = false;
                 break;
             default:
@@ -247,7 +247,7 @@ namespace GeometryWaves
         }
     }
 
-    void ScenePlay::sRender()
+    void ScenePlay::render()
     {
         game_->window().clear();
 

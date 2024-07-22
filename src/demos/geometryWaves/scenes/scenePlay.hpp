@@ -15,7 +15,7 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include <dryphys/vector3d.hpp>
+#include <dryphys/math.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 
@@ -65,8 +65,8 @@ namespace GeometryWaves
         void init(const std::string& config);
 
         void update() override;
-        void sDoAction(const Engine2D::Action& action) override;
-        void sRender() override;
+        void doActionImpl(const Engine2D::Action& action) override;
+        void render() override;
         void onEnd() override;
 
         // Systems

@@ -14,8 +14,8 @@
 #include <sstream>
 #include <string>
 
-#include "dryphys/utilities/utils.hpp"
-#include "dryphys/vector3d.hpp"
+#include <dryphys/math.hpp>
+#include <dryphys/utilities.hpp>
 
 namespace Engine2D
 {

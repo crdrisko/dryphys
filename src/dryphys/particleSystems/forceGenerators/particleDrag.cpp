@@ -10,8 +10,8 @@
 
 #include <config.h>
 
+#include "dryphys/math/vector3d.hpp"
 #include "dryphys/particle.hpp"
-#include "dryphys/vector3d.hpp"
 
 namespace DryPhys
 {

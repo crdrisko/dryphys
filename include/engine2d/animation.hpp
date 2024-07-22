@@ -13,8 +13,8 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include <dryphys/math.hpp>
 
-#include "dryphys/vector3d.hpp"
 #include "engine2d/forwardDeclare.hpp"
 
 namespace Engine2D

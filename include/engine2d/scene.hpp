@@ -14,8 +14,8 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include <dryphys/math.hpp>
 
-#include "dryphys/vector3d.hpp"
 #include "engine2d/forwardDeclare.hpp"
 
 namespace Engine2D
@@ -33,22 +33,22 @@ namespace Engine2D
 
         void setPaused(bool paused) { paused_ = paused; }
 
-        virtual void update()                        = 0;
-        virtual void sDoAction(const Action& action) = 0;
-        virtual void onEnd()                         = 0;
+        virtual void update()                           = 0;
+        virtual void doActionImpl(const Action& action) = 0;
+        virtual void onEnd()                            = 0;
+
+        void registerAction(int inputKeyCode, const std::string& actionName);
+        void drawLine(const DryPhys::Vector3D& p1, const DryPhys::Vector3D& p2);
+        void drawLine(float x1, float y1, float x2, float y2, sf::Color color);
 
     public:
         Scene() = default;
         explicit Scene(Engine* engine) : game_ {engine} {}
         virtual ~Scene() = default;
 
-        virtual void sRender() = 0;
-
         void doAction(const Action& action);
         void simulate(const std::size_t frames);
-        void registerAction(int inputKeyCode, const std::string& actionName);
-        void drawLine(const DryPhys::Vector3D& p1, const DryPhys::Vector3D& p2);
-        void drawLine(float x1, float y1, float x2, float y2, sf::Color color);
+        virtual void render() = 0;
 
         std::size_t currentFrame() const { return currentFrame_; }
         const ActionMap& getActionMap() const { return actionMap_; }

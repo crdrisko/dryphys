@@ -13,6 +13,7 @@
 
 #include <engine2d/entity.hpp>
 #include <engine2d/entityManager.hpp>
+#include <engine2d/entityMemoryPool.hpp>
 
 namespace CyberCity
 {
@@ -29,10 +30,18 @@ namespace CyberCity
     class CState;
     class CLifespan;
 
+    // using ConcreteEntityManager = Engine2D::
+    //     EntityManager<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>;
+    // using ConcreteEntityPtr = std::shared_ptr<
+    //     Engine2D::Entity<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>>;
+
     using ConcreteEntityManager = Engine2D::
-        EntityManager<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>;
-    using ConcreteEntityPtr = std::shared_ptr<
-        Engine2D::Entity<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>>;
+        EntityManagerMP<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>;
+
+    using ConcreteEntity
+        = Engine2D::EntityMP<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>;
+
+    using ConcreteEntityPtr = std::shared_ptr<ConcreteEntity>;
 }   // namespace CyberCity
 
 #endif

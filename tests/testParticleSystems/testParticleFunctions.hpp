@@ -11,6 +11,7 @@
 
 #include <limits>
 
+#include <dryphys/math.hpp>
 #include <dryphys/particle.hpp>
 #include <gtest/gtest.h>
 

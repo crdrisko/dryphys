@@ -6,14 +6,14 @@
 // Date: 07/01/2024-10:21:10
 // Description:
 
-#ifndef INTERSECTION_HPP
-#define INTERSECTION_HPP
+#ifndef DRYPHYS_SRC_DEMOS_SAMPLES_LIGHTINGSYSTEM_INTERSECTION_HPP
+#define DRYPHYS_SRC_DEMOS_SAMPLES_LIGHTINGSYSTEM_INTERSECTION_HPP
 
 #include <config.h>
 
 #include <cmath>
 
-#include "dryphys/vector3d.hpp"
+#include <dryphys/math.hpp>
 
 struct Point2D
 {

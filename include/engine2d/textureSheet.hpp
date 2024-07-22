@@ -9,6 +9,7 @@
 #ifndef DRYPHYS_INCLUDE_ENGINE2D_TEXTURESHEET_HPP
 #define DRYPHYS_INCLUDE_ENGINE2D_TEXTURESHEET_HPP
 
+#include <cstddef>
 #include <string>
 
 #include <SFML/Graphics.hpp>

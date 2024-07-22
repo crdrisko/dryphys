@@ -11,7 +11,7 @@
 
 #include <bitset>
 
-#include <dryphys/vector3d.hpp>
+#include <dryphys/math.hpp>
 #include <engine2d/animation.hpp>
 #include <engine2d/components.hpp>
 

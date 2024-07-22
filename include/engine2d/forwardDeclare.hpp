@@ -6,8 +6,10 @@
 // Date: 07/04/2024-10:44:15
 // Description:
 
-#ifndef FORWARDDECLARE_HPP
-#define FORWARDDECLARE_HPP
+#ifndef DRYPHYS_INCLUDE_ENGINE2D_FORWARDDECLARE_HPP
+#define DRYPHYS_INCLUDE_ENGINE2D_FORWARDDECLARE_HPP
+
+#include <cstddef>
 
 namespace Engine2D
 {
@@ -18,6 +20,17 @@ namespace Engine2D
     class Engine;
     class Scene;
     class TextureSheet;
+
+    static const inline std::size_t MAX_ENTITIES {32768};
+
+    template<typename... ComponentTypes>
+    class EntityMemoryPool;
+
+    template<typename... ComponentTypes>
+    class EntityMP;
+
+    template<typename... ComponentTypes>
+    class EntityManagerMP;
 
     template<typename... ComponentTypes>
     class Entity;

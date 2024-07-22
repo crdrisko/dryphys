@@ -57,7 +57,7 @@ namespace Engine2D
 
         processInput();
         currentScene()->simulate(simulationSpeed_);
-        currentScene()->sRender();
+        currentScene()->render();
 
 #ifdef USE_IMGUI
         ImGui::SFML::Render(window_);

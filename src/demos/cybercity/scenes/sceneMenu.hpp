@@ -33,8 +33,8 @@ namespace CyberCity
 
         void init(const std::string& path);
         void update() override;
-        void sDoAction(const Engine2D::Action& action) override;
-        void sRender() override;
+        void doActionImpl(const Engine2D::Action& action) override;
+        void render() override;
         void onEnd() override;
 
     public:
