@@ -29,17 +29,13 @@ namespace CyberCity
     class CGravity;
     class CState;
     class CLifespan;
-
-    // using ConcreteEntityManager = Engine2D::
-    //     EntityManager<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>;
-    // using ConcreteEntityPtr = std::shared_ptr<
-    //     Engine2D::Entity<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>>;
+    class CCamera;
 
     using ConcreteEntityManager = Engine2D::
-        EntityManagerMP<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>;
+        EntityManagerMP<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan, CCamera>;
 
-    using ConcreteEntity
-        = Engine2D::EntityMP<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan>;
+    using ConcreteEntity = Engine2D::
+        EntityMP<CAnimation, CTransform, CBoundingBox, CInput, CAI, CDraggable, CState, CGravity, CLifespan, CCamera>;
 
     using ConcreteEntityPtr = std::shared_ptr<ConcreteEntity>;
 }   // namespace CyberCity

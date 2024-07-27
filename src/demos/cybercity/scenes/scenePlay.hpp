@@ -9,7 +9,6 @@
 #ifndef DRYPHYS_SRC_DEMOS_CYBERCITY_SCENES_SCENEPLAY_HPP
 #define DRYPHYS_SRC_DEMOS_CYBERCITY_SCENES_SCENEPLAY_HPP
 
-#include <map>
 #include <memory>
 #include <string>
 
@@ -32,10 +31,22 @@ namespace CyberCity
             std::string AVATAR, WEAPON;
         };
 
+        struct CameraConfig
+        {
+            enum CameraTypes
+            {
+                X, Y, BOUNDS, SMOOTHING
+            };
+            std::bitset<4> cameraType {};
+
+            DryPhys::real leftExtreme {}, topExtreme {}, rightExtreme {}, bottomExtreme {};
+        };
+
     private:
         ConcreteEntityPtr player_;
         ConcreteEntityManager entityManager_;
         ConfigData playerConfig_;
+        CameraConfig cameraBounds_;
 
         std::string levelPath_;
 
@@ -47,13 +58,12 @@ namespace CyberCity
 
         DryPhys::Vector3D mPos_;
         sf::CircleShape mouseShape_;
-
         std::unique_ptr<sf::Music> music_;
-        std::map<std::string, sf::View> envViews;
 
         bool drawTextures_   = true;
         bool drawCollisions_ = false;
         bool drawGrid_       = false;
+        bool drawCamera_     = false;
 
         void init();
         void loadLevel(const std::string& filename);
@@ -70,6 +80,7 @@ namespace CyberCity
         void sAnimation();
         void sDragAndDrop();
         void sGui();
+        void sCamera();
 
         // Spawners
         void spawnPlayer();

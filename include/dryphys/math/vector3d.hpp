@@ -210,11 +210,11 @@ namespace DryPhys
         static_assert(Index < 3, "Index must be within 0 and 2, inclusive.");
 
         if constexpr (Index == 0)
-            return vec.x;
+            return vec[0];
         else if constexpr (Index == 1)
-            return vec.y;
+            return vec[1];
         else
-            return vec.z;
+            return vec[2];
     }
 
     /*!
@@ -226,11 +226,11 @@ namespace DryPhys
         static_assert(Index < 3, "Index must be within 0 and 2, inclusive.");
 
         if constexpr (Index == 0)
-            return vec.x;
+            return vec[0];
         else if constexpr (Index == 1)
-            return vec.y;
+            return vec[1];
         else
-            return vec.z;
+            return vec[2];
     }
 
     /*!
@@ -242,11 +242,11 @@ namespace DryPhys
         static_assert(Index < 3, "Index must be within 0 and 2, inclusive.");
 
         if constexpr (Index == 0)
-            return std::move(vec.x);
+            return std::move(vec[0]);
         else if constexpr (Index == 1)
-            return std::move(vec.y);
+            return std::move(vec[1]);
         else
-            return std::move(vec.z);
+            return std::move(vec[2]);
     }
 }   // namespace DryPhys
 

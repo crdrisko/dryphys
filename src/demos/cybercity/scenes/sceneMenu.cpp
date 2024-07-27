@@ -54,11 +54,11 @@ namespace CyberCity
         menuText_.setCharacterSize(60);
         menuText_.setFillColor(sf::Color(0, 0, 0));
 
-        if (!music_)
-            music_ = game_->assets().getMusic("LastArea");
+        // if (!music_)
+        //     music_ = game_->assets().getMusic("LastArea");
 
-        music_->setVolume(20);
-        music_->play();
+        // music_->setVolume(20);
+        // music_->play();
     }
 
     void SceneMenu::update() {}
@@ -137,7 +137,8 @@ namespace CyberCity
 
     void SceneMenu::onEnd()
     {
-        music_->stop();
+        if (music_)
+            music_->stop();
         game_->quit();
     }
 }   // namespace CyberCity

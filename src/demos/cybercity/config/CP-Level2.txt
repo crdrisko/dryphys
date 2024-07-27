@@ -1,6 +1,8 @@
-Env	    Back4           6
-Env	    Middle4         3
-Env	    ForegroundCars  1
+Camera  1               0.5     0.5     2.0     0.5
+
+Env	    Back4           0       0    6       6
+Env	    Middle4         0       0    3       8
+Env	    ForegroundCars  0       0    1       12
 
 Tile PlatformBraced	 0 0
 Tile PlatformBraced  1 0
@@ -46,5 +48,8 @@ Player 10 10 48 48 5 -5 20 0.75 Player2 PlayerShoot
 
 Enemy 15 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
 Enemy 33 1 48 48 5 -5 20 0.75 EggTurret EnemyShoot
+
+Vehicle PoliceVehicle DriveLeft     15 0
+Vehicle PoliceVehicle DriveRight    15 1
 
 Music CyberCity2 20

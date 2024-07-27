@@ -88,7 +88,45 @@ namespace CyberCity
             DryChem::Tokenizer tok {row};
             std::vector<std::string> splitRow = tok.split();
 
-            if (splitRow[0] == "Tile")
+            switch (DryPhys::djb2Hash(splitRow[0].c_str()))
+            {
+            case "Camera"_sID:
+            {
+                cameraBounds_.leftExtreme   = width_ * std::stod(splitRow[2]);
+                cameraBounds_.topExtreme    = height_ * std::stod(splitRow[3]);
+                cameraBounds_.rightExtreme  = width_ * std::stod(splitRow[4]);
+                cameraBounds_.bottomExtreme = height_ * std::stod(splitRow[5]);
+                break;
+            }
+            case "Env"_sID:
+            {
+                /*
+                 * Env N X Y
+                 *  Animation Name:     N       std::string (Animation asset name for this environment)
+                 *  World X Pos:        X       float
+                 *  World Y Pos:        Y       float
+                 *  Scale:              S       float
+                 *  Scrolling Speed:    SX      float
+                 */
+                auto envEntity = entityManager_.addEntity("env");
+
+                auto& envAnim = envEntity.addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
+                envEntity.addComponent<CCamera>(std::stoi(splitRow[5]), game_->window().getDefaultView());
+
+                auto size = envAnim.animation.getSize();
+                const sf::IntRect sizes {0, 0, static_cast<int>(width_) * 2, static_cast<int>(size.y)};
+
+                float scaleX = width_ / size.x / std::stoi(splitRow[4]);
+                float scaleY = height_ * ((cameraBounds_.bottomExtreme - cameraBounds_.topExtreme) / height_ + 1) / size.y;
+
+                sf::Sprite& sprite = envAnim.animation.getSprite();
+
+                sprite.setPosition(std::stof(splitRow[2]), std::stof(splitRow[3]));
+                sprite.setScale(scaleX, scaleY);
+                sprite.setTextureRect(sizes);
+                break;
+            }
+            case "Tile"_sID:
             {
                 /*
                  * Tile N GX GY
@@ -112,11 +150,12 @@ namespace CyberCity
                     anim.getSprite().getRotation());
                 tileEntity.addComponent<CDraggable>();
                 tileEntity.addComponent<CBoundingBox>(game_->assets().getAnimation(splitRow[1]).getSize() * scale);
+                break;
             }
-            else if (splitRow[0] == "Dec")
+            case "Dec"_sID:
             {
                 /*
-                 * Dec N X Y
+                 * Dec N GX GY
                  *  Animation Name:     N       std::string (Animation asset name for this decoration)
                  *  Grid X Pos:         GX      float
                  *  Grid Y Pos:         GY      float
@@ -126,27 +165,9 @@ namespace CyberCity
                 decEntity.addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
                 decEntity.addComponent<CTransform>(
                     gridToMidPixel(std::stof(splitRow[2]), std::stof(splitRow[3]), decEntity));
+                break;
             }
-            else if (splitRow[0] == "Env")
-            {
-                auto envEntity = entityManager_.addEntity("env");
-
-                envEntity.addComponent<CAnimation>(game_->assets().getAnimation(splitRow[1]));
-
-                auto& envAnim = envEntity.getComponent<CAnimation>().animation;
-
-                auto size = envAnim.getSize();
-                const sf::IntRect sizes {0, 0, static_cast<int>(width_), static_cast<int>(height_)};
-
-                float scaleX = width_ / size.x / std::stoi(splitRow[2]);
-                float scaleY = height_ / size.y;
-
-                envAnim.getSprite().setScale(scaleX, scaleY);
-                envAnim.getSprite().setTextureRect(sizes);
-
-                envViews[envAnim.getName()] = game_->window().getDefaultView();
-            }
-            else if (splitRow[0] == "Player")
+            case "Player"_sID:
             {
                 /*
                  * Player X Y CX CY SX SY SM G A B
@@ -171,8 +192,9 @@ namespace CyberCity
                 playerConfig_.GRAVITY  = std::stof(splitRow[8]);
                 playerConfig_.AVATAR   = splitRow[9];
                 playerConfig_.WEAPON   = splitRow[10];
+                break;
             }
-            else if (splitRow[0] == "Enemy")
+            case "Enemy"_sID:
             {
                 /*
                  * Enemy X Y CX CY SX SY SM G A B
@@ -201,16 +223,44 @@ namespace CyberCity
                 enemyConfig.WEAPON   = splitRow[10];
 
                 spawnEnemy(enemyConfig);
+                break;
             }
-            else if (splitRow[0] == "Music")
+            case "Vehicle"_sID:
+            {
+                AIFactory factory {"Drive"};
+
+                auto vehicleEntity = entityManager_.addEntity("vehicle");
+
+                Engine2D::Animation& anim  = game_->assets().getAnimation(splitRow[1]);
+                DryPhys::Vector3D animSize = anim.getSize();
+
+                float scale    = gridSize_ / std::min(animSize.x, animSize.y);
+                auto animScale = anim.getSprite().getScale();
+
+                if (splitRow[2] == "DriveRight")
+                    animScale.x *= -1;
+
+                vehicleEntity.addComponent<CAnimation>(anim);
+                vehicleEntity.addComponent<CTransform>(
+                    gridToMidPixel(std::stof(splitRow[3]), std::stof(splitRow[4]), vehicleEntity),
+                    DryPhys::Vector3D {},
+                    DryPhys::Vector3D {scale * animScale.x, scale * animScale.y, 0},
+                    anim.getSprite().getRotation());
+
+                vehicleEntity.addComponent<CAI>(factory.create());
+                vehicleEntity.addComponent<CBoundingBox>(animSize * scale);
+                break;
+            }
+            case "Music"_sID:
             {
                 music_ = game_->assets().getMusic(splitRow[1]);
 
-                if (music_)
-                {
-                    music_->setVolume(std::stof(splitRow[2]));
-                    music_->play();
-                }
+                music_->setVolume(std::stof(splitRow[2]));
+                music_->play();
+                break;
+            }
+            default:
+                break;
             }
         }
 
@@ -230,6 +280,7 @@ namespace CyberCity
             sAnimation();
             sDragAndDrop();
             sGui();
+            sCamera();
 
             currentFrame_++;
         }
@@ -270,6 +321,7 @@ namespace CyberCity
                         auto& drag = entity.getComponent<CDraggable>().dragging;
 
                         drag = !drag;
+                        break;
                     }
                 }
                 break;
@@ -287,7 +339,6 @@ namespace CyberCity
 
     void ScenePlay::render()
     {
-        // color the background darker so you know that the game is paused
         if (!paused_)
         {
             game_->window().clear(sf::Color(100, 100, 255));
@@ -304,30 +355,19 @@ namespace CyberCity
             game_->window().draw(pauseText_);
         }
 
-        // set the viewport of the window to be centered on the player if it's far enough right
-        auto& pPos          = player_->getComponent<CTransform>().pos;
-        float windowCenterX = std::max(width_ / 2.0f, pPos.x);
-        sf::View view       = game_->window().getView();
-        view.setCenter(windowCenterX, height_ - view.getCenter().y);
-        game_->window().setView(view);
+        sf::View view = game_->window().getView();
 
-        for (auto& [key, value] : envViews)
-            value.setCenter(view.getCenter().x + windowCenterX / key.length(), view.getCenter().y);
-
-        // draw all Entity textures / animations
         if (drawTextures_)
         {
             for (auto& entity : entityManager_.getEntities("env"))
             {
-                if (entity.hasComponent<CAnimation>())
-                {
-                    auto& animation = entity.getComponent<CAnimation>().animation;
+                auto& animation  = entity.getComponent<CAnimation>().animation;
+                auto& cameraView = entity.getComponent<CCamera>().view;
 
-                    game_->window().setView(envViews[animation.getName()]);
-                    envViews[animation.getName()] = view;
+                game_->window().setView(cameraView);
+                cameraView = view;
 
-                    game_->window().draw(animation.getSprite());
-                }
+                game_->window().draw(animation.getSprite());
             }
 
             game_->window().setView(view);
@@ -336,10 +376,10 @@ namespace CyberCity
             drawEntityAnimations("dec");
             drawEntityAnimations("bullet");
             drawEntityAnimations("enemy");
+            drawEntityAnimations("vehicle");
             drawEntityAnimations("player");
         }
 
-        // draw all Entity collision bounding boxes with a rectangle shape
         if (drawCollisions_)
         {
             for (auto& entity : entityManager_.getEntities())
@@ -362,26 +402,31 @@ namespace CyberCity
             }
         }
 
-        // draw the grid for easy debugging
         if (drawGrid_)
         {
-            float leftX     = game_->window().getView().getCenter().x - width_ / 2;
-            float rightX    = leftX + width_ + gridSize_;
+            float leftX     = view.getCenter().x - cameraBounds_.leftExtreme;
+            float rightX    = leftX + cameraBounds_.rightExtreme + gridSize_;
             float nextGridX = leftX - ((int)leftX % (int)gridSize_);
+
+            int nScreens {3};
+            int verticalDistance {static_cast<int>((cameraBounds_.bottomExtreme - cameraBounds_.topExtreme) / height_) + 1};
+
+            float bottomY = nScreens * height_ / verticalDistance;
+            float topY    = -height_ / verticalDistance;
 
             for (float x = nextGridX; x < rightX; x += gridSize_)
             {
-                drawLine(DryPhys::Vector3D(x, 0.0f, 0), DryPhys::Vector3D(x, height_, 0));
+                drawLine(x, topY, x, bottomY, sf::Color::White);
             }
 
-            for (float y = 0; y < height_; y += gridSize_)
+            for (float y = topY; y < bottomY; y += gridSize_)
             {
-                drawLine(DryPhys::Vector3D(leftX, height_ - y, 0), DryPhys::Vector3D(rightX, height_ - y, 0));
+                drawLine(leftX, height_ - y, rightX, height_ - y, sf::Color::White);
 
                 for (float x = nextGridX; x < rightX; x += gridSize_)
                 {
                     std::string xCell = std::to_string((int)x / (int)gridSize_);
-                    std::string yCell = std::to_string((int)y / (int)gridSize_);
+                    std::string yCell = std::to_string((int)(y - topY) / (int)gridSize_);
 
                     gridText_.setString("(" + xCell + "," + yCell + ")");
                     gridText_.setPosition(x + 3, height_ - y - gridSize_ + 2);
@@ -400,6 +445,37 @@ namespace CyberCity
         mouseShape_.setPosition(world_mPos.x, world_mPos.y);
 
         game_->window().draw(mouseShape_);
+
+        if (drawCamera_)
+        {
+            drawLine(cameraBounds_.leftExtreme,
+                cameraBounds_.topExtreme,
+                cameraBounds_.leftExtreme,
+                cameraBounds_.bottomExtreme,
+                sf::Color::Red);
+            drawLine(cameraBounds_.rightExtreme,
+                cameraBounds_.topExtreme,
+                cameraBounds_.rightExtreme,
+                cameraBounds_.bottomExtreme,
+                sf::Color::Red);
+
+            drawLine(cameraBounds_.leftExtreme,
+                cameraBounds_.topExtreme,
+                cameraBounds_.rightExtreme,
+                cameraBounds_.topExtreme,
+                sf::Color::Red);
+            drawLine(cameraBounds_.leftExtreme,
+                cameraBounds_.bottomExtreme,
+                cameraBounds_.rightExtreme,
+                cameraBounds_.bottomExtreme,
+                sf::Color::Red);
+
+            // Camera center crosshair
+            auto viewCenter = view.getCenter();
+
+            drawLine(viewCenter.x, viewCenter.y - 10 / 2, viewCenter.x, viewCenter.y + 10 / 2, sf::Color::Red);
+            drawLine(viewCenter.x - 10 / 2, viewCenter.y, viewCenter.x + 10 / 2, viewCenter.y, sf::Color::Red);
+        }
     }
 
     void ScenePlay::onEnd()
@@ -414,12 +490,12 @@ namespace CyberCity
 
     void ScenePlay::sAI()
     {
-        // for (auto& entity : entityManager_.getEntities("enemy"))
-        // {
-        //     auto& eTrans = entity.getComponent<CTransform>();
+        for (auto& entity : entityManager_.getEntities("vehicle"))
+        {
+            auto& eTrans = entity.getComponent<CTransform>();
 
-        //     eTrans.vel = DryPhys::Vector3D {-2.0f, 0, 0};
-        // }
+            eTrans.vel = DryPhys::Vector3D {-2.0f, 0, 0};
+        }
     }
 
     void ScenePlay::sMovement()
@@ -482,7 +558,6 @@ namespace CyberCity
         //       Update the CState component of the player to store whether
         //       it is currently on the ground or in the air. This will be
         //       used by the Animation system
-
         auto& pTransform   = player_->getComponent<CTransform>();
         auto& pBoundingBox = player_->getComponent<CBoundingBox>();
         auto& pInput       = player_->getComponent<CInput>();
@@ -490,10 +565,10 @@ namespace CyberCity
         auto& [px, py, pz]                = pTransform.pos;
         auto& [prev_px, prev_py, prev_pz] = pTransform.prevPos;
 
-        // Nothing should have set the z component of these "2d"-vectors
+        // Nothing should have set the z-component of these "2d"-vectors
         assert(pz == static_cast<DryPhys::real>(0) && prev_pz == static_cast<DryPhys::real>(0));
 
-        if (py > height_)
+        if (py > height_ * 2)
             spawnPlayer();
 
         if (px < pBoundingBox.halfSize.x)
@@ -688,6 +763,7 @@ namespace CyberCity
                 ImGui::Checkbox("Draw Grid", &drawGrid_);
                 ImGui::Checkbox("Draw Textures", &drawTextures_);
                 ImGui::Checkbox("Draw Collisions", &drawCollisions_);
+                ImGui::Checkbox("Draw Camera", &drawCamera_);
 
                 ImGui::EndTabItem();
             }
@@ -728,7 +804,9 @@ namespace CyberCity
                     ImGui::PushID(count);
                     if (ImGui::RadioButton(key.c_str(), &songChoice, count))
                     {
-                        music_->stop();
+                        if (music_)
+                            music_->stop();
+
                         music_ = game_->assets().getMusic(songs[songChoice - 1]);
                         music_->play();
                     }
@@ -738,7 +816,9 @@ namespace CyberCity
                 static int volume {20};
                 ImGui::NewLine();
                 ImGui::SliderInt("Volume", &volume, 0, 100);
-                music_->setVolume(volume);
+
+                if (music_)
+                    music_->setVolume(volume);
 
                 ImGui::EndTabItem();
             }
@@ -848,6 +928,26 @@ namespace CyberCity
 #endif
     }
 
+    void ScenePlay::sCamera()
+    {
+        sf::View view   = game_->window().getView();
+        auto viewCenter = view.getCenter();
+
+        auto& pTrans = player_->getComponent<CTransform>();
+
+        float windowCenterX = std::clamp(pTrans.pos.x, cameraBounds_.leftExtreme, cameraBounds_.rightExtreme);
+        float windowCenterY = std::clamp(pTrans.pos.y, cameraBounds_.topExtreme, cameraBounds_.bottomExtreme);
+
+        view.setCenter(windowCenterX, windowCenterY);
+        game_->window().setView(view);
+
+        for (auto& entity : entityManager_.getEntities("env"))
+        {
+            auto& eCam = entity.getComponent<CCamera>();
+            eCam.view.setCenter(viewCenter.x + windowCenterX / eCam.scrollingSpeed, viewCenter.y);
+        }
+    }
+
     void ScenePlay::spawnPlayer()
     {
         if (!player_)
@@ -953,7 +1053,12 @@ namespace CyberCity
 
     DryPhys::Vector3D ScenePlay::gridToMidPixel(float gridX, float gridY, ConcreteEntity entity) const
     {
-        DryPhys::Vector3D result {gridX * gridSize_, height_ - (gridY * gridSize_), 0};
+        int nScreens {3};
+
+        DryPhys::Vector3D result {gridX * gridSize_,
+            nScreens * height_ / ((cameraBounds_.bottomExtreme - cameraBounds_.topExtreme) / height_ + 1)
+                - (gridY * gridSize_),
+            0};
         DryPhys::Vector3D size {entity.getComponent<CAnimation>().animation.getSize()};
 
         float scale = gridSize_ / std::min(size.x, size.y);

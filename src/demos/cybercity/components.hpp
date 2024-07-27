@@ -132,6 +132,16 @@ namespace CyberCity
         CLifespan() = default;
         CLifespan(int duration, int frame) : lifespan {duration}, frameCreated {frame} {}
     };
+
+    class CCamera : public Engine2D::Component
+    {
+    public:
+        int scrollingSpeed {};
+        sf::View view;
+
+        CCamera() = default;
+        CCamera(int speed, const sf::View& defaultView) : scrollingSpeed {speed}, view {defaultView} {}
+    };
 }   // namespace CyberCity
 
 #endif

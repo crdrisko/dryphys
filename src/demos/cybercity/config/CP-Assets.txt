@@ -1,4 +1,4 @@
-Window          CyberCity               1856 960 60 0
+Window          CyberCity               1856 896 60 0
 
 TextureSheet    Effects                 ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Effects/effects.png
 TextureSheet    Enemies                 ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Enemies/enemies.png
