@@ -49,13 +49,8 @@ Demonstrate the code is solid. Example: The exact commands you ran and their out
 See details at [CONTRIBUTING.md](https://github.com/crdrisko/dryphys/blob/main/.github/CONTRIBUTING.md).
 
 - [ ] I agree to contribute to the project under DryPhys' [MIT License](https://github.com/crdrisko/dryphys/blob/main/LICENSE).
-
 - [ ] To the best of my knowledge, the proposed patch is not based on a code under GPL or other license that is incompatible with DryPhys.
-
 - [ ] The PR is proposed to proper branch.
-
 - [ ] There is reference to original bug report and related work.
-
 - [ ] There is accuracy test, performance test and test data in the repository, if applicable.
-
 - [ ] The feature is well documented and sample code can be built with the project CMake.
