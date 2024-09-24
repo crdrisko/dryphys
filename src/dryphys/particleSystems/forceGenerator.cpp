@@ -10,6 +10,8 @@
 
 #include <config.h>
 
+#include <algorithm>
+
 #include "dryphys/particle.hpp"
 
 namespace DryPhys

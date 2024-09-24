@@ -9,6 +9,7 @@
 #ifndef DRYPHYS_INCLUDE_ENGINE2D_ENTITYMANAGER_HPP
 #define DRYPHYS_INCLUDE_ENGINE2D_ENTITYMANAGER_HPP
 
+#include <algorithm>
 #include <map>
 #include <memory>
 #include <string>
