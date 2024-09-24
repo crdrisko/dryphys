@@ -20,9 +20,6 @@ namespace DryPhys
     /*!
      * A class representing a mathematical/physical vector with three dimensions: x, y, z. The type is
      *  defined using the tuple-like API so it can be used with structured bindings.
-     * 
-     * \note Enabling \c phys_four_word_alignment when building adds an additional, unused variable
-     *       which makes use of four-word alignment. This is off by default.
      */
     class Vector3D : private DryChem::EqualityComparable<Vector3D>
     {
@@ -31,49 +28,43 @@ namespace DryPhys
         real y {};
         real z {};
 
-    private:
-#ifdef phys_four_word_alignment
-        //! Padding to ensure four word alignment
-        [[maybe_unused]] real pad;
-#endif
-
     public:
         //! Constructors
-        DRYPHYS_CONSTEXPR Vector3D() noexcept = default;
-        DRYPHYS_CONSTEXPR Vector3D(const real x, const real y, const real z) noexcept : x {x}, y {y}, z {z} {}
+        constexpr Vector3D() noexcept = default;
+        constexpr Vector3D(real a, real b, real c) noexcept : x {a}, y {b}, z {c} {}
 
         //! Comparison operators - only the equality operator is symmetric
-        DRYPHYS_CONSTEXPR friend bool operator==(const Vector3D& lhs, const Vector3D& rhs)
+        constexpr friend bool operator==(const Vector3D& lhs, const Vector3D& rhs)
         {
             return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
         }
 
-        DRYPHYS_CONSTEXPR friend bool operator<(const Vector3D& lhs, const Vector3D& rhs)
+        constexpr friend bool operator<(const Vector3D& lhs, const Vector3D& rhs)
         {
             return lhs.x < rhs.x && lhs.y < rhs.y && lhs.z < rhs.z;
         }
 
-        DRYPHYS_CONSTEXPR friend bool operator>(const Vector3D& lhs, const Vector3D& rhs)
+        constexpr friend bool operator>(const Vector3D& lhs, const Vector3D& rhs)
         {
             return lhs.x > rhs.x && lhs.y > rhs.y && lhs.z > rhs.z;
         }
 
-        DRYPHYS_CONSTEXPR friend bool operator<=(const Vector3D& lhs, const Vector3D& rhs)
+        constexpr friend bool operator<=(const Vector3D& lhs, const Vector3D& rhs)
         {
             return lhs.x <= rhs.x && lhs.y <= rhs.y && lhs.z <= rhs.z;
         }
 
-        DRYPHYS_CONSTEXPR friend bool operator>=(const Vector3D& lhs, const Vector3D& rhs)
+        constexpr friend bool operator>=(const Vector3D& lhs, const Vector3D& rhs)
         {
             return lhs.x >= rhs.x && lhs.y >= rhs.y && lhs.z >= rhs.z;
         }
 
         //! Element access
-        DRYPHYS_CONSTEXPR real& operator[](unsigned i) { return ((&x)[i]); }
-        DRYPHYS_CONSTEXPR const real& operator[](unsigned i) const { return ((&x)[i]); }
+        constexpr real& operator[](unsigned i) { return ((&x)[i]); }
+        constexpr const real& operator[](unsigned i) const { return ((&x)[i]); }
 
         //! Arithmetic Operators
-        DRYPHYS_CONSTEXPR Vector3D& operator+=(const Vector3D& rhs)
+        constexpr Vector3D& operator+=(const Vector3D& rhs)
         {
             x += rhs.x;
             y += rhs.y;
@@ -82,9 +73,9 @@ namespace DryPhys
             return *this;
         }
 
-        DRYPHYS_CONSTEXPR Vector3D operator+(const Vector3D& rhs) const { return Vector3D(x + rhs.x, y + rhs.y, z + rhs.z); }
+        constexpr Vector3D operator+(const Vector3D& rhs) const { return Vector3D(x + rhs.x, y + rhs.y, z + rhs.z); }
 
-        DRYPHYS_CONSTEXPR Vector3D& operator-=(const Vector3D& rhs)
+        constexpr Vector3D& operator-=(const Vector3D& rhs)
         {
             x -= rhs.x;
             y -= rhs.y;
@@ -93,9 +84,9 @@ namespace DryPhys
             return *this;
         }
 
-        DRYPHYS_CONSTEXPR Vector3D operator-(const Vector3D& rhs) const { return Vector3D(x - rhs.x, y - rhs.y, z - rhs.z); }
+        constexpr Vector3D operator-(const Vector3D& rhs) const { return Vector3D(x - rhs.x, y - rhs.y, z - rhs.z); }
 
-        DRYPHYS_CONSTEXPR Vector3D& operator*=(real rhs)
+        constexpr Vector3D& operator*=(real rhs)
         {
             x *= rhs;
             y *= rhs;
@@ -104,9 +95,9 @@ namespace DryPhys
             return *this;
         }
 
-        DRYPHYS_CONSTEXPR Vector3D operator*(real rhs) const { return Vector3D(x * rhs, y * rhs, z * rhs); }
+        constexpr Vector3D operator*(real rhs) const { return Vector3D(x * rhs, y * rhs, z * rhs); }
 
-        DRYPHYS_CONSTEXPR Vector3D& operator/=(real rhs)
+        constexpr Vector3D& operator/=(real rhs)
         {
             rhs = static_cast<real>(1) / rhs;
 
@@ -117,7 +108,7 @@ namespace DryPhys
             return *this;
         }
 
-        DRYPHYS_CONSTEXPR Vector3D operator/(real rhs) const
+        constexpr Vector3D operator/(real rhs) const
         {
             rhs = static_cast<real>(1) / rhs;
             return Vector3D(x * rhs, y * rhs, z * rhs);
@@ -128,7 +119,7 @@ namespace DryPhys
          *
          * \note We use operator*= for the component product
          */
-        DRYPHYS_CONSTEXPR Vector3D& operator*=(const Vector3D& rhs)
+        constexpr Vector3D& operator*=(const Vector3D& rhs)
         {
             x *= rhs.x;
             y *= rhs.y;
@@ -142,17 +133,17 @@ namespace DryPhys
          *
          * \note We use operator* for the component product
          */
-        DRYPHYS_CONSTEXPR Vector3D operator*(const Vector3D& rhs) const { return Vector3D(x * rhs.x, y * rhs.y, z * rhs.z); }
+        constexpr Vector3D operator*(const Vector3D& rhs) const { return Vector3D(x * rhs.x, y * rhs.y, z * rhs.z); }
 
         /*!
          * Calculates the dot (scalar) product of the two vectors.
          */
-        DRYPHYS_CONSTEXPR real dot(const Vector3D& rhs) const { return x * rhs.x + y * rhs.y + z * rhs.z; }
+        constexpr real dot(const Vector3D& rhs) const { return x * rhs.x + y * rhs.y + z * rhs.z; }
 
         /*!
          * Calculates the cross (vector) product of the two vectors.
          */
-        DRYPHYS_CONSTEXPR Vector3D cross(const Vector3D& rhs) const
+        constexpr Vector3D cross(const Vector3D& rhs) const
         {
             return Vector3D(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z, x * rhs.y - y * rhs.x);
         }
@@ -160,7 +151,7 @@ namespace DryPhys
         /*! 
          * Reset the elements of the vector to zero.
          */
-        DRYPHYS_CONSTEXPR Vector3D& clear()
+        constexpr Vector3D& clear()
         {
             x = 0;
             y = 0;
@@ -172,7 +163,7 @@ namespace DryPhys
         /*! 
          * Flips all the components of the vector.
          */
-        DRYPHYS_CONSTEXPR Vector3D& invert()
+        constexpr Vector3D& invert()
         {
             x = -x;
             y = -y;
@@ -184,7 +175,7 @@ namespace DryPhys
         /*! 
          * Calculates the magnitude of this vector squared to avoid a square root call.
          */
-        DRYPHYS_CONSTEXPR real magnitudeSquared() const { return x * x + y * y + z * z; }
+        constexpr real magnitudeSquared() const { return x * x + y * y + z * z; }
 
         /*! 
          * Calculates the magnitude/length of this vector.

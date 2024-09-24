@@ -12,25 +12,12 @@
 /* Is defined if DryPhys should be compiled with double precision arithmetic. */
 #cmakedefine phys_double_precision
 
-/* Is defined if the Vector3D class should make use of four-word alignment. */
-#cmakedefine phys_four_word_alignment
-
 namespace DryPhys
 {
 #ifdef phys_double_precision
     using real = double;
 #else
     using real = float;
-#endif
-
-#ifdef phys_four_word_alignment
-    /*!
-     * Since the pad variable in Vector3D messes with the ability for the default constructor to be
-     *  constexpr, we'll define our own macro which will be disabled under these conditions.
-     */
-    #define DRYPHYS_CONSTEXPR
-#else
-    #define DRYPHYS_CONSTEXPR constexpr
 #endif
 }
 

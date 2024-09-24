@@ -1,8 +1,9 @@
 Camera  3               0.5     0.0     3.0     1.0
 
-Env	    SkylineA        0       -448    6       6
-Env	    Buildings       0       -448    3       8
-Env     NearBuildings   0       -448    1       12
+Env	    SkylineA        0       -448    2       14
+Env	    SkylineB        2818    -448    2       14
+Env	    Buildings       0       -224    1       8
+Env     NearBuildings   0       -224    1       4
 
 Tile BlockWide	0 0
 Tile BlockWide  1 0

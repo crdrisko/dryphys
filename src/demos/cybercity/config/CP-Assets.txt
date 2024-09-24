@@ -11,7 +11,7 @@ TextureSheet    Player2                 ${CMAKE_SOURCE_DIR}/src/demos/cybercity/
 TextureSheet    Vehicles                ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Vehicles/vehicles.png
 
 Texture         SkylineA                ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/skyline-a.png
-Texture         SkyLineB                ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/skyline-b.png
+Texture         SkylineB                ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/skyline-b.png
 Texture         Buildings               ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/buildings-bg.png
 Texture         NearBuildings           ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment1/near-buildings-bg.png
 Texture         Back                    ${CMAKE_SOURCE_DIR}/src/demos/cybercity/assets/Sprites/Environments/Environment2/back.png

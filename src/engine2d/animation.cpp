@@ -23,7 +23,7 @@ using namespace DryPhys;
 namespace Engine2D
 {
     Animation::Animation(const std::string& name, TextureSheet& t)
-        : name_ {name}, sprite_ {t.getTexture()}, frameCount_ {1}, currentFrame_ {0}, gameFrame_ {0}, speed_ {0}
+        : name_ {name}, sprite_ {t.getTexture()}, frameCount_ {1}, speed_ {0}
     {
         sf::Vector2u texSize = t.getTexture().getSize();
 
@@ -35,7 +35,7 @@ namespace Engine2D
     Animation::Animation(const std::string& name, TextureSheet& t, std::size_t frameCount, std::size_t speed)
         : name_ {name}, sprite_ {t.getTexture()}, perRow_ {t.perRow}, perColumn_ {t.perColumn},
           startingPosition {t.rowOffset, t.columnOffset, t.lineTotal}, framePosition {startingPosition},
-          frameCount_ {frameCount}, currentFrame_ {0}, gameFrame_ {0}, speed_ {speed}
+          frameCount_ {frameCount}, speed_ {speed}
     {
         sf::Vector2u texSize = t.getTexture().getSize();
 
@@ -63,8 +63,7 @@ namespace Engine2D
         std::size_t frameCount,
         std::size_t speed,
         const sf::IntRect& startingFrame)
-        : name_ {name}, sprite_ {t.getTexture()}, frameCount_ {frameCount}, currentFrame_ {0}, gameFrame_ {0},
-          speed_ {speed}, startingFrame_ {startingFrame}
+        : name_ {name}, sprite_ {t.getTexture()}, frameCount_ {frameCount}, speed_ {speed}, startingFrame_ {startingFrame}
     {
         size_ = Vector3D {static_cast<float>(startingFrame_.width), static_cast<float>(startingFrame_.height), 0};
 

@@ -21,7 +21,7 @@ namespace Engine2D
     class Scene;
     class TextureSheet;
 
-    static const inline std::size_t MAX_ENTITIES {32768};
+    static const inline std::size_t MAX_ENTITIES {4096};
 
     template<typename... ComponentTypes>
     class EntityMemoryPool;

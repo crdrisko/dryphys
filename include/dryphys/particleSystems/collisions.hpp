@@ -53,9 +53,9 @@ namespace DryPhys
         unsigned iterations_ {};
 
     public:
-        DRYPHYS_CONSTEXPR explicit ParticleCollisionResolver(unsigned iterations) noexcept : iterations_ {iterations} {}
+        constexpr explicit ParticleCollisionResolver(unsigned iterations) noexcept : iterations_ {iterations} {}
 
-        DRYPHYS_CONSTEXPR void setIterations(unsigned iterations) noexcept { iterations_ = iterations; }
+        constexpr void setIterations(unsigned iterations) noexcept { iterations_ = iterations; }
 
         void resolveCollisions(std::vector<ParticleCollision> collisions, real duration);
     };

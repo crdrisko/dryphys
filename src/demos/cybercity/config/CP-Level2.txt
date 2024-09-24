@@ -1,4 +1,4 @@
-Camera  1               0.5     0.5     2.0     0.5
+Camera  1               0.5     0.0     2.0     1.0
 
 Env	    Back4           0       0    6       6
 Env	    Middle4         0       0    3       8

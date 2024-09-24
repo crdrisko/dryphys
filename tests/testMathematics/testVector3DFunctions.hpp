@@ -14,15 +14,6 @@
 #include <dryphys/math.hpp>
 #include <gtest/gtest.h>
 
-GTEST_TEST(testVector3DFunctions, paddingIncreasesClassSizeByTheSizeOfOneAdditionalReal)
-{
-#ifdef phys_four_word_alignment
-    ASSERT_EQ(4 * sizeof(DryPhys::real), sizeof(DryPhys::Vector3D));
-#else
-    ASSERT_EQ(3 * sizeof(DryPhys::real), sizeof(DryPhys::Vector3D));
-#endif
-}
-
 GTEST_TEST(testVector3DFunctions, differentConstructorsInitializeObjectsAsExpected)
 {
     DryPhys::Vector3D defaultInitialized {};
