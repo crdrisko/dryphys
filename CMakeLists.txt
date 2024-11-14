@@ -181,7 +181,7 @@ if (NOT phys_exclude_engine)
                              src/demos/cybercity/states/playerStates.cpp
                              src/demos/cybercity/states/states.cpp)
 
-        add_executable(cyberCity ${CYBERCITY_SOURCE} ${IMGUI_SOURCE})
+        add_executable(cyberCity ${CYBERCITY_SOURCE})
         target_include_directories(cyberCity PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
         target_link_libraries(cyberCity PRIVATE engine2d_gui)
         set_target_properties(cyberCity PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
@@ -199,7 +199,7 @@ if (NOT phys_exclude_engine)
         set(GEOMETRYWAVES_SOURCE src/demos/geometryWaves/main.cpp
                                  src/demos/geometryWaves/scenes/scenePlay.cpp)
 
-        add_executable(geometryWaves ${GEOMETRYWAVES_SOURCE} ${IMGUI_SOURCE})
+        add_executable(geometryWaves ${GEOMETRYWAVES_SOURCE})
         target_include_directories(geometryWaves PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
         target_link_libraries(geometryWaves PRIVATE engine2d)
 
@@ -212,7 +212,7 @@ if (NOT phys_exclude_engine)
         #                       src/demos/heroKnight/states/playerStates.cpp
         #                       src/demos/heroKnight/states/states.cpp)
 
-        # add_executable(heroKnight ${HEROKNIGHT_SOURCE} ${IMGUI_SOURCE})
+        # add_executable(heroKnight ${HEROKNIGHT_SOURCE})
         # target_include_directories(heroKnight PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
         # target_link_libraries(heroKnight PRIVATE engine2d_gui)
         # set_target_properties(heroKnight PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
@@ -228,7 +228,7 @@ if (NOT phys_exclude_engine)
                               src/demos/lightCycle/ai.cpp
                               src/demos/lightCycle/scenes/scenePlay.cpp)
 
-        add_executable(lightCycle ${LIGHTCYCLE_SOURCE} ${IMGUI_SOURCE})
+        add_executable(lightCycle ${LIGHTCYCLE_SOURCE})
         target_include_directories(lightCycle PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
         target_link_libraries(lightCycle PRIVATE engine2d)
 
@@ -238,14 +238,14 @@ if (NOT phys_exclude_engine)
         set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp
                                 src/demos/shapeWatcher/scenes/scenePlay.cpp)
 
-        add_executable(shapeWatcher ${SHAPEWATCHER_SOURCE} ${IMGUI_SOURCE})
+        add_executable(shapeWatcher ${SHAPEWATCHER_SOURCE})
         target_include_directories(shapeWatcher PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
         target_link_libraries(shapeWatcher PRIVATE engine2d)
 
         configure_file(src/demos/shapeWatcher/config/SW-Config.txt ${PROJECT_BINARY_DIR}/etc/SW-Config.txt)
 
         ## SunnyLand Demo
-        # add_executable(spriteSheetMaker src/demos/sunnyLand/assets/Sprites/spriteSheetMaker.cpp ${IMGUI_SOURCE})
+        # add_executable(spriteSheetMaker src/demos/sunnyLand/assets/Sprites/spriteSheetMaker.cpp)
         # target_link_libraries(spriteSheetMaker PRIVATE ImGui-SFML::ImGui-SFML)
 
         # set(SUNNYLAND_SOURCE src/demos/sunnyLand/main.cpp
@@ -254,7 +254,7 @@ if (NOT phys_exclude_engine)
         #                      src/demos/sunnyLand/states/playerStates.cpp
         #                      src/demos/sunnyLand/states/states.cpp)
 
-        # add_executable(sunnyLand ${SUNNYLAND_SOURCE} ${IMGUI_SOURCE})
+        # add_executable(sunnyLand ${SUNNYLAND_SOURCE})
         # target_include_directories(sunnyLand PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
         # target_link_libraries(sunnyLand PRIVATE engine2d_gui)
         # set_target_properties(sunnyLand PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
@@ -268,14 +268,14 @@ if (NOT phys_exclude_engine)
         ## Samples
         set(LIGHTINGSYSTEM_SOURCE src/demos/samples/lightingSystem/main.cpp)
 
-        add_executable(lightingSystem ${LIGHTINGSYSTEM_SOURCE} ${IMGUI_SOURCE})
+        add_executable(lightingSystem ${LIGHTINGSYSTEM_SOURCE})
         target_include_directories(lightingSystem PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/samples)
         target_link_libraries(lightingSystem PRIVATE ImGui-SFML::ImGui-SFML)
 
         set(PARTICLESYSTEM_SOURCE src/demos/samples/particleSystem/main.cpp
                                 src/demos/samples/particleSystem/particleSystem.cpp)
 
-        add_executable(particleSystem ${PARTICLESYSTEM_SOURCE} ${IMGUI_SOURCE})
+        add_executable(particleSystem ${PARTICLESYSTEM_SOURCE})
         target_include_directories(particleSystem PRIVATE ${PROJECT_SOURCE_DIR}/src/demos/samples)
         target_link_libraries(particleSystem PRIVATE ImGui-SFML::ImGui-SFML dryphys)
 
@@ -292,7 +292,7 @@ install(TARGETS dryphys
         DESTINATION lib)
 
 if (NOT phys_exclude_engine)
-    install(TARGETS engine2d
+    install(TARGETS engine2d engine2d_gui
             DESTINATION lib)
 endif()
 

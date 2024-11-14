@@ -114,7 +114,12 @@ namespace CyberCity
                 envEntity.addComponent<CCamera>(std::stoi(splitRow[5]), game_->window().getDefaultView());
 
                 auto size = envAnim.animation.getSize();
-                const sf::IntRect sizes {0, 0, static_cast<int>(width_) * 2, static_cast<int>(size.y)};
+
+                int multiplier {static_cast<int>(width_) * 2};
+                if (splitRow[2] != "0")
+                    multiplier = size.x;
+
+                const sf::IntRect sizes {0, 0, multiplier, static_cast<int>(size.y)};
 
                 float scaleX = width_ / size.x / std::stoi(splitRow[4]);
                 float scaleY = height_ * ((cameraBounds_.bottomExtreme - cameraBounds_.topExtreme) / height_ + 1) / size.y;
@@ -269,6 +274,7 @@ namespace CyberCity
 
     void ScenePlay::update()
     {
+        // These systems should execute once every update
         entityManager_.update();
 
         if (!paused_)
@@ -277,13 +283,18 @@ namespace CyberCity
             sMovement();
             sLifespan();
             sCollision();
-            sAnimation();
             sDragAndDrop();
-            sGui();
-            sCamera();
 
             currentFrame_++;
         }
+    }
+
+    void ScenePlay::postUpdate()
+    {
+        // These systems should execute once every render
+        sAnimation();
+        sGui();
+        sCamera();
     }
 
     void ScenePlay::doActionImpl(const Engine2D::Action& action)

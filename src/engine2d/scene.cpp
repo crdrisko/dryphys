@@ -21,12 +21,19 @@ namespace Engine2D
 {
     void Scene::doAction(const Action& action) { doActionImpl(action); }
 
-    void Scene::simulate(const std::size_t frames)
+    void Scene::simulate(double&)
     {
-        for (std::size_t i {}; i < frames; ++i)
-        {
-            update();
-        }
+        // static double ms_per_update = 1000.0 / 240.0;
+
+        preUpdate();
+
+        // while (lag >= ms_per_update)
+        // {
+        update();
+        //     lag -= ms_per_update;
+        // }
+
+        postUpdate();
     }
 
     void Scene::registerAction(int inputKeyCode, const std::string& actionName) { actionMap_[inputKeyCode] = actionName; }

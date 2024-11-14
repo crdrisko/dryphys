@@ -38,6 +38,7 @@ namespace Engine2D
 
             window_.create(sf::VideoMode(width, height), name, (fullscreen + sf::Style::Default));
             window_.setFramerateLimit(fps);
+            // window_.setVerticalSyncEnabled(true);
 
 #ifdef USE_IMGUI
             if (!ImGui::SFML::Init(window_))
@@ -168,22 +169,41 @@ namespace Engine2D
         currentScene_ = sceneName;
     }
 
+    // double calcAverageTick(int newTick)
+    // {
+    //     static int tickindex {};
+    //     static double ticksum {};
+    //     static int ticklist[100] {};
+
+    //     ticksum -= ticklist[tickindex];
+    //     ticksum += newTick;
+    //     ticklist[tickindex++] = newTick;
+    //     tickindex %= 100;
+
+    //     return (ticksum / 100);
+    // }
+
     void Engine::run()
     {
-        // auto previous = std::chrono::high_resolution_clock::now();
-        // long long lag {};
+        auto previous = std::chrono::high_resolution_clock::now();
+        // int count {};
 
         while (isRunning())
         {
 #ifdef USE_IMGUI
             ImGui::SFML::Update(window_, deltaClock_.restart());
 #endif
-            // auto current = std::chrono::high_resolution_clock::now();
-            // auto elapsed = current - previous;
-            // previous     = current;
-            // lag += std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+            auto current = std::chrono::high_resolution_clock::now();
+            auto elapsed = current - previous;
+            auto convert = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+
+            previous = current;
+            simulationSpeed_ += convert;
 
             update();
+
+            // if (auto val = calcAverageTick(1000.0 / convert); count++ % 100 == 0)
+            //     std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count() << ' ' << val << '\n';
         }
 
 #ifdef USE_IMGUI

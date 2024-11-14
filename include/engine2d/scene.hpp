@@ -28,10 +28,12 @@ namespace Engine2D
         Engine* game_ {nullptr};
         std::size_t currentFrame_ {};
         ActionMap actionMap_;
-
         bool paused_ {};
 
         void setPaused(bool paused) { paused_ = paused; }
+
+        virtual void preUpdate() {}
+        virtual void postUpdate() {}
 
         virtual void update()                           = 0;
         virtual void doActionImpl(const Action& action) = 0;
@@ -47,7 +49,7 @@ namespace Engine2D
         virtual ~Scene() = default;
 
         void doAction(const Action& action);
-        void simulate(const std::size_t frames);
+        void simulate(double& lag);
         virtual void render() = 0;
 
         std::size_t currentFrame() const { return currentFrame_; }

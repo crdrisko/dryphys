@@ -33,12 +33,6 @@ namespace CyberCity
 
         struct CameraConfig
         {
-            enum CameraTypes
-            {
-                X, Y, BOUNDS, SMOOTHING
-            };
-            std::bitset<4> cameraType {};
-
             DryPhys::real leftExtreme {}, topExtreme {}, rightExtreme {}, bottomExtreme {};
         };
 
@@ -68,6 +62,7 @@ namespace CyberCity
         void init();
         void loadLevel(const std::string& filename);
         void update() override;
+        void postUpdate() override;
         void doActionImpl(const Engine2D::Action& action) override;
         void render() override;
         void onEnd() override;

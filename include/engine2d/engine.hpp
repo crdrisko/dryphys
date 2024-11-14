@@ -30,7 +30,7 @@ namespace Engine2D
         Assets assets_;
         std::string currentScene_;
         SceneMap sceneMap_;
-        std::size_t simulationSpeed_ {1};
+        double simulationSpeed_ {};
 
         bool running_ {true};
         bool createWindow_ {true};
