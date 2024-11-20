@@ -14,10 +14,17 @@ option(phys_double_precision    "Builds all libraries using double-precision flo
 option(phys_exclude_engine      "Builds dryphys libraries while ignoring the engine2d library." OFF)
 
 if (phys_format_codebase AND NOT WIN32)
-    ## Run clang-format on all code except the files passed as arguments with the '-i' flag ##
-    execute_process(COMMAND bash cmake/scripts/format-codebase.sh
-                    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-                    OUTPUT_QUIET)
+    find_program(formatter clang-format HINTS /opt/homebrew/bin/)
+
+    if (NOT formatter_NOTFOUND)
+        message(STATUS "Formatting DryPhys")
+
+        ## Run clang-format on all code except the files passed as arguments with the '-i' flag ##
+        execute_process(COMMAND bash cmake/scripts/format-codebase.sh
+                                        -f ${formatter}
+                        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+                        OUTPUT_QUIET)
+    endif()
 endif()
 
 if (phys_enable_coverage)
@@ -66,21 +73,23 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
 find_package(DryChem REQUIRED)
 
-if (NOT ${DryChem_FOUND})
+# if (NOT ${DryChem_FOUND})
     ## If DryChem isn't installed or can't be found, download it from github ##
-    DryPhysExternalDownload(PROJECT DryChem
-                            REPOSITORY "https://github.com/crdrisko/drychem.git"
-                            TAG main)
-
-    set(COMMON_UTILS_INCLUDE_DIR "${DryChem_SOURCE_DIR}/common-utilities/include")
-    set(DryChem_FOUND TRUE)
-endif()
-
-include_directories(${COMMON_UTILS_INCLUDE_DIR})
-
-if (NOT phys_exclude_engine)
     include(FetchContent)
 
+    message(STATUS "Fetching DryChem...")
+    FetchContent_Declare(drychem
+                         GIT_REPOSITORY "https://github.com/crdrisko/drychem.git"
+                         GIT_TAG main)
+
+    FetchContent_MakeAvailable(drychem)
+    set(drychem_FOUND TRUE)
+# endif()
+
+include_directories(${drychem_SOURCE_DIR}/common-utilities/include)
+include_directories(${drychem_SOURCE_DIR}/cpp-units/include)
+
+if (NOT phys_exclude_engine)
     ## ImGui
     message(STATUS "Fetching ImGUI...")
     FetchContent_Declare(imgui          # v1.90.5
@@ -299,20 +308,26 @@ endif()
 
 ### Unit Testing ###
 if (phys_build_tests)
-    find_package(GTest)
-    find_package(Threads)
+     # find_package(GTest)
+     find_package(Threads)
 
-    if (NOT ${GTest_FOUND})
-        ## If googletest isn't installed or can't be found, download it from github ##
-        DryPhysExternalDownload(PROJECT googletest
-                                REPOSITORY "https://github.com/google/googletest.git"
-                                TAG main)
-
-        set(GTEST_LIBRARIES gtest)
-        set(GTEST_INCLUDE_DIRS "${gtest_SOURCE_DIR}/include")
-    endif()
-
-    include_directories(${GTEST_INCLUDE_DIRS})
+     # if (NOT ${GTest_FOUND})
+         include(FetchContent)
+ 
+         ## If googletest isn't installed or can't be found, download it from github ##
+         message(STATUS "Fetching GoogleTest...")
+         FetchContent_Declare(googletest
+                GIT_REPOSITORY "https://github.com/google/googletest.git"
+                GIT_TAG main)
+                             
+         set(GTEST_LIBRARIES gtest)
+         set(GTEST_INCLUDE_DIRS "${gtest_SOURCE_DIR}/include")
+                             
+         FetchContent_MakeAvailable(googletest)
+         set(GTest_FOUND TRUE)
+     # endif()
+ 
+     include_directories(${GTEST_INCLUDE_DIRS})
 
     include(CTest)
     include(GoogleTest)
