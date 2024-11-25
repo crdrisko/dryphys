@@ -38,3 +38,5 @@ CMakeSettings.json
 
 **/assets
 .DS_Store
+
+config.h

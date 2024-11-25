@@ -9,13 +9,13 @@
 #ifndef DRYPHYS_INCLUDE_ENGINE2D_ACTION_HPP
 #define DRYPHYS_INCLUDE_ENGINE2D_ACTION_HPP
 
-#include <config.h>
-
 #include <sstream>
 #include <string>
 
 #include <dryphys/math.hpp>
 #include <dryphys/utilities.hpp>
+
+#include "dryphys/config.h"
 
 namespace Engine2D
 {

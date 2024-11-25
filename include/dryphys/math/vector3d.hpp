@@ -9,11 +9,11 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_VECTOR3D_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_VECTOR3D_HPP
 
-#include <config.h>
-
 #include <cmath>
 
 #include <common-utils/utilities.hpp>
+
+#include "dryphys/config.h"
 
 namespace DryPhys
 {

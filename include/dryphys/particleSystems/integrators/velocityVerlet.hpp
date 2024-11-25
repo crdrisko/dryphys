@@ -9,8 +9,7 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_INTEGRATORS_VELOCITYVERLET_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_INTEGRATORS_VELOCITYVERLET_HPP
 
-#include <config.h>
-
+#include "dryphys/config.h"
 #include "dryphys/particle.hpp"
 #include "dryphys/particleSystems/integrator.hpp"
 

@@ -71,30 +71,30 @@ include(cmake/utility-functions.cmake)
 ### External Modules ###
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
-find_package(DryChem REQUIRED)
+include(FetchContent)
+find_package(DryChem)
 
-# if (NOT ${DryChem_FOUND})
+if (NOT DryChem_FOUND)
     ## If DryChem isn't installed or can't be found, download it from github ##
-    include(FetchContent)
-
     message(STATUS "Fetching DryChem...")
-    FetchContent_Declare(drychem
+    FetchContent_Declare(drychem        # v1.0.0
                          GIT_REPOSITORY "https://github.com/crdrisko/drychem.git"
-                         GIT_TAG main)
+                         GIT_TAG        "714dded492aca9a59c7d3f167839abe57daec12e")
 
     FetchContent_MakeAvailable(drychem)
-    set(drychem_FOUND TRUE)
-# endif()
 
-include_directories(${drychem_SOURCE_DIR}/common-utilities/include)
-include_directories(${drychem_SOURCE_DIR}/cpp-units/include)
+    set(DryChem_FOUND TRUE)
+    set(COMMON_UTILS_INCLUDE_DIR "${drychem_SOURCE_DIR}/common-utilities/include")
+endif()
+
+include_directories(${COMMON_UTILS_INCLUDE_DIR})
 
 if (NOT phys_exclude_engine)
     ## ImGui
     message(STATUS "Fetching ImGUI...")
     FetchContent_Declare(imgui          # v1.90.5
                          GIT_REPOSITORY "https://github.com/ocornut/imgui.git"
-                         GIT_TAG "231cbee0fc4f59dbe5b8b853a11b08dc84e57c65")
+                         GIT_TAG        "231cbee0fc4f59dbe5b8b853a11b08dc84e57c65")
 
     FetchContent_MakeAvailable(imgui)
     include_directories(${imgui_SOURCE_DIR})
@@ -103,7 +103,7 @@ if (NOT phys_exclude_engine)
     message(STATUS "Fetching SFML...")
     FetchContent_Declare(sfml           # v2.6.1
                          GIT_REPOSITORY "https://github.com/SFML/SFML.git"
-                         GIT_TAG "69ea0cd863aed1d4092b970b676924a716ff718b")
+                         GIT_TAG        "69ea0cd863aed1d4092b970b676924a716ff718b")
 
     set(SFML_BUILD_AUDIO ON)
     set(SFML_BUILD_NETWORK OFF)
@@ -115,7 +115,7 @@ if (NOT phys_exclude_engine)
     message(STATUS "Fetching ImGui-SFML...")
     FetchContent_Declare(imgui_sfml     # v2.6
                          GIT_REPOSITORY "https://github.com/SFML/imgui-sfml.git"
-                         GIT_TAG "de565ac8f2b795dedc0307b60830cb006afd2ecd")
+                         GIT_TAG        "de565ac8f2b795dedc0307b60830cb006afd2ecd")
 
     set(IMGUI_DIR ${imgui_SOURCE_DIR})
     set(IMGUI_SFML_FIND_SFML OFF)
@@ -142,9 +142,9 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib
 
 
 ### Libraries / Executables ###
-configure_file("${PROJECT_SOURCE_DIR}/include/config.h.cmake" "${PROJECT_BINARY_DIR}/config.h")
+configure_file("${PROJECT_SOURCE_DIR}/include/config.h.cmake" "${PROJECT_SOURCE_DIR}/include/dryphys/config.h")
 
-include_directories("${PROJECT_BINARY_DIR}" include)
+include_directories("${PROJECT_SOURCE_DIR}/include")
 
 set(DRYPHYS_SOURCE src/dryphys/particle.cpp
                    src/dryphys/particleSystems/collisions.cpp
@@ -182,7 +182,7 @@ if (NOT phys_exclude_engine)
     if (phys_build_demos)
         set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/demos)
 
-        ## CyberCity Demo
+        ## CyberCity Demo ##
         set(CYBERCITY_SOURCE src/demos/cybercity/main.cpp
                              src/demos/cybercity/ai.cpp
                              src/demos/cybercity/scenes/sceneMenu.cpp
@@ -204,7 +204,7 @@ if (NOT phys_exclude_engine)
             configure_file(src/demos/cybercity/config/${FILE} ${PROJECT_BINARY_DIR}/etc/${FILE})
         endforeach()
 
-        ## Geometry Waves Demo
+        ## Geometry Waves Demo ##
         set(GEOMETRYWAVES_SOURCE src/demos/geometryWaves/main.cpp
                                  src/demos/geometryWaves/scenes/scenePlay.cpp)
 
@@ -213,26 +213,8 @@ if (NOT phys_exclude_engine)
         target_link_libraries(geometryWaves PRIVATE engine2d)
 
         configure_file(src/demos/geometryWaves/config/GW-Config.txt ${PROJECT_BINARY_DIR}/etc/GW-Config.txt)
-
-        ## HeroKnight Demo
-        # set(HEROKNIGHT_SOURCE src/demos/heroKnight/main.cpp
-        #                       src/demos/heroKnight/physics.cpp
-        #                       src/demos/heroKnight/scenes/scenePlay.cpp
-        #                       src/demos/heroKnight/states/playerStates.cpp
-        #                       src/demos/heroKnight/states/states.cpp)
-
-        # add_executable(heroKnight ${HEROKNIGHT_SOURCE})
-        # target_include_directories(heroKnight PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-        # target_link_libraries(heroKnight PRIVATE engine2d_gui)
-        # set_target_properties(heroKnight PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
-
-        set(HEROKNIGHT_CONFIG_FILES HK-Assets.txt HK-Level1.txt)
-
-        foreach (FILE ${HEROKNIGHT_CONFIG_FILES})
-            configure_file(src/demos/heroKnight/config/${FILE} ${PROJECT_BINARY_DIR}/etc/${FILE})
-        endforeach()
         
-        ## Light Cycle Demo
+        ## Light Cycle Demo ##
         set(LIGHTCYCLE_SOURCE src/demos/lightCycle/main.cpp
                               src/demos/lightCycle/ai.cpp
                               src/demos/lightCycle/scenes/scenePlay.cpp)
@@ -243,7 +225,7 @@ if (NOT phys_exclude_engine)
 
         configure_file(src/demos/lightCycle/config/LC-Config.txt ${PROJECT_BINARY_DIR}/etc/LC-Config.txt)
 
-        ## Shape Watcher Demo
+        ## Shape Watcher Demo ##
         set(SHAPEWATCHER_SOURCE src/demos/shapeWatcher/main.cpp
                                 src/demos/shapeWatcher/scenes/scenePlay.cpp)
 
@@ -253,28 +235,7 @@ if (NOT phys_exclude_engine)
 
         configure_file(src/demos/shapeWatcher/config/SW-Config.txt ${PROJECT_BINARY_DIR}/etc/SW-Config.txt)
 
-        ## SunnyLand Demo
-        # add_executable(spriteSheetMaker src/demos/sunnyLand/assets/Sprites/spriteSheetMaker.cpp)
-        # target_link_libraries(spriteSheetMaker PRIVATE ImGui-SFML::ImGui-SFML)
-
-        # set(SUNNYLAND_SOURCE src/demos/sunnyLand/main.cpp
-        #                      src/demos/sunnyLand/physics.cpp
-        #                      src/demos/sunnyLand/scenes/scenePlay.cpp
-        #                      src/demos/sunnyLand/states/playerStates.cpp
-        #                      src/demos/sunnyLand/states/states.cpp)
-
-        # add_executable(sunnyLand ${SUNNYLAND_SOURCE})
-        # target_include_directories(sunnyLand PRIVATE ${PROJECT_SOURCE_DIR}/src/demos)
-        # target_link_libraries(sunnyLand PRIVATE engine2d_gui)
-        # set_target_properties(sunnyLand PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
-
-        set(SUNNYLAND_CONFIG_FILES SL-Assets.txt SL-Level1.txt)
-
-        foreach (FILE ${SUNNYLAND_CONFIG_FILES})
-            configure_file(src/demos/sunnyLand/config/${FILE} ${PROJECT_BINARY_DIR}/etc/${FILE})
-        endforeach()
-
-        ## Samples
+        ## Samples ##
         set(LIGHTINGSYSTEM_SOURCE src/demos/samples/lightingSystem/main.cpp)
 
         add_executable(lightingSystem ${LIGHTINGSYSTEM_SOURCE})
@@ -308,26 +269,26 @@ endif()
 
 ### Unit Testing ###
 if (phys_build_tests)
-     # find_package(GTest)
-     find_package(Threads)
+    find_package(GTest)
+    find_package(Threads)
 
-     # if (NOT ${GTest_FOUND})
-         include(FetchContent)
- 
-         ## If googletest isn't installed or can't be found, download it from github ##
-         message(STATUS "Fetching GoogleTest...")
-         FetchContent_Declare(googletest
-                GIT_REPOSITORY "https://github.com/google/googletest.git"
-                GIT_TAG main)
-                             
-         set(GTEST_LIBRARIES gtest)
-         set(GTEST_INCLUDE_DIRS "${gtest_SOURCE_DIR}/include")
-                             
-         FetchContent_MakeAvailable(googletest)
-         set(GTest_FOUND TRUE)
-     # endif()
- 
-     include_directories(${GTEST_INCLUDE_DIRS})
+    if (NOT GTEST_FOUND)
+        ## If googletest isn't installed or can't be found, download it from github ##
+        message(STATUS "Fetching GoogleTest...")
+        FetchContent_Declare(googletest     # v1.15.2
+                             GIT_REPOSITORY "https://github.com/google/googletest.git"
+                             GIT_TAG        "b514bdc898e2951020cbdca1304b75f5950d1f59")
+                            
+        FetchContent_MakeAvailable(googletest)
+
+        set(GTEST_FOUND TRUE)
+        set(GTEST_LIBRARIES gtest)
+        set(GTEST_INCLUDE_DIRS "${gtest_SOURCE_DIR}/include")
+    else()
+        set(GTEST_INCLUDE_DIRS "${googletest_SOURCE_DIR}/include")
+    endif()
+
+    include_directories(${GTEST_INCLUDE_DIRS})
 
     include(CTest)
     include(GoogleTest)

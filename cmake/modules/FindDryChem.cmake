@@ -1,5 +1,5 @@
 ### External Module File for DryChem ###
-if (DryChem_INCLUDE_DIR)
+if (COMMON_UTILS_INCLUDE_DIR AND CPP_UNITS_INCLUDE_DIR)
     ## In cache already or user-specified ##
     set(DryChem_FOUND TRUE)
 else()

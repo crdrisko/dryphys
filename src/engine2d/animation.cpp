@@ -8,14 +8,13 @@
 
 #include "engine2d/animation.hpp"
 
-#include <config.h>
-
 #include <cassert>
 #include <cmath>
 #include <iostream>
 
 #include <dryphys/math.hpp>
 
+#include "dryphys/config.h"
 #include "engine2d/textureSheet.hpp"
 
 using namespace DryPhys;

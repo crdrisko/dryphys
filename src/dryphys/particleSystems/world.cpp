@@ -8,7 +8,7 @@
 
 #include "dryphys/particleSystems/world.hpp"
 
-#include <config.h>
+#include "dryphys/config.h"
 
 namespace DryPhys
 {

@@ -8,10 +8,9 @@
 
 #include "dryphys/particleSystems/forceGenerators/particleSprings.hpp"
 
-#include <config.h>
-
 #include <cmath>
 
+#include "dryphys/config.h"
 #include "dryphys/math/vector3d.hpp"
 #include "dryphys/particle.hpp"
 

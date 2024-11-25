@@ -9,13 +9,12 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_MATH_QUATERNION_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_MATH_QUATERNION_HPP
 
-#include <config.h>
-
 #include <cmath>
 #include <limits>
 
 #include <common-utils/utilities.hpp>
 
+#include "dryphys/config.h"
 #include "dryphys/math/vector3d.hpp"
 
 namespace DryPhys

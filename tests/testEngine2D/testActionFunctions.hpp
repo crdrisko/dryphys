@@ -4,7 +4,7 @@
 // Name: testActionFunctions.hpp
 // Author: crdrisko
 // Date: 08/04/2024-07:34:54
-// Description:
+// Description: Provides ~100% unit test coverage over all Engine2D::Action functions
 
 #ifndef TESTACTIONFUNCTIONS_HPP
 #define TESTACTIONFUNCTIONS_HPP

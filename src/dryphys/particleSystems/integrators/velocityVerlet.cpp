@@ -8,11 +8,10 @@
 
 #include "dryphys/particleSystems/integrators/velocityVerlet.hpp"
 
-#include <config.h>
-
 #include <cassert>
 #include <vector>
 
+#include "dryphys/config.h"
 #include "dryphys/particle.hpp"
 
 namespace DryPhys

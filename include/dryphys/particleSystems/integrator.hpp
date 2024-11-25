@@ -9,10 +9,9 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_INTEGRATOR_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_INTEGRATOR_HPP
 
-#include <config.h>
-
 #include <vector>
 
+#include "dryphys/config.h"
 #include "dryphys/particle.hpp"
 #include "dryphys/particleSystems/forceGenerator.hpp"
 

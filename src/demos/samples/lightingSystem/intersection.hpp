@@ -9,11 +9,11 @@
 #ifndef DRYPHYS_SRC_DEMOS_SAMPLES_LIGHTINGSYSTEM_INTERSECTION_HPP
 #define DRYPHYS_SRC_DEMOS_SAMPLES_LIGHTINGSYSTEM_INTERSECTION_HPP
 
-#include <config.h>
-
 #include <cmath>
 
 #include <dryphys/math.hpp>
+
+#include "dryphys/config.h"
 
 struct Point2D
 {

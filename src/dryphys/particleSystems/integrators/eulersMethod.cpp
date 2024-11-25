@@ -8,10 +8,9 @@
 
 #include "dryphys/particleSystems/integrators/eulersMethod.hpp"
 
-#include <config.h>
-
 #include <cassert>
 
+#include "dryphys/config.h"
 #include "dryphys/math/vector3d.hpp"
 #include "dryphys/particle.hpp"
 

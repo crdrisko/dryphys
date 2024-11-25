@@ -8,11 +8,10 @@
 
 #include "dryphys/particle.hpp"
 
-#include <config.h>
-
 #include <cassert>
 #include <limits>
 
+#include "dryphys/config.h"
 #include "dryphys/math/vector3d.hpp"
 
 namespace DryPhys

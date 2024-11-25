@@ -9,8 +9,7 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLE_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLE_HPP
 
-#include <config.h>
-
+#include "dryphys/config.h"
 #include "dryphys/math/vector3d.hpp"
 
 namespace DryPhys
