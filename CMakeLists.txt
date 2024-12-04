@@ -148,6 +148,7 @@ include_directories("${PROJECT_SOURCE_DIR}/include")
 
 set(DRYPHYS_SOURCE src/dryphys/particle.cpp
                    src/dryphys/particleSystems/collisions.cpp
+                   src/dryphys/particleSystems/collisionGenerators/groundCollisions.cpp
                    src/dryphys/particleSystems/collisionGenerators/links.cpp
                    src/dryphys/particleSystems/forceGenerator.cpp
                    src/dryphys/particleSystems/forceGenerators/particleBuoyancy.cpp

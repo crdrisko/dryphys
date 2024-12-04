@@ -1,5 +1,5 @@
 ### External Module File for DryChem ###
-if (COMMON_UTILS_INCLUDE_DIR AND CPP_UNITS_INCLUDE_DIR)
+if (COMMON_UTILS_INCLUDE_DIR)
     ## In cache already or user-specified ##
     set(DryChem_FOUND TRUE)
 else()
@@ -17,19 +17,7 @@ else()
                         ~/include)
     endif()
 
-    if (NOT CPP_UNITS_INCLUDE_DIR)
-        find_path(CPP_UNITS_INCLUDE_DIR cpp-units
-                  PATHS /opt/local/include/cpp-units
-                        /opt/local/include
-                        /usr/include/cpp-units
-                        /usr/include
-                        /usr/local/include/cpp-units
-                        /usr/local/include
-                        ~/include/cpp-units
-                        ~/include)
-    endif()
-
-    if (COMMON_UTILS_INCLUDE_DIR AND CPP_UNITS_INCLUDE_DIR)
+    if (COMMON_UTILS_INCLUDE_DIR)
         set(DryChem_FOUND TRUE)
     endif()
 endif()

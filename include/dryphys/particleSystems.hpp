@@ -13,6 +13,7 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_HPP
 
+#include "dryphys/particleSystems/collisionGenerators/groundCollisions.hpp"
 #include "dryphys/particleSystems/collisionGenerators/links.hpp"
 #include "dryphys/particleSystems/collisions.hpp"
 #include "dryphys/particleSystems/forceGenerator.hpp"

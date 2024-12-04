@@ -19,21 +19,23 @@ namespace DryPhys
 {
     class ParticleWorld
     {
-        using Particles           = std::vector<Particle>;
+    public:
+        using Particles           = std::vector<Particle*>;
         using CollisionGenerators = std::vector<ParticleCollisionGenerator*>;
-        using Collisions          = std::vector<ParticleCollision>;
 
     protected:
         Particles particles_;
         ParticleForceRegistry registry_;
         ParticleCollisionResolver resolver_;
         CollisionGenerators collisionGenerators_;
-        Collisions collisions_;
+        ParticleCollision* collisions_;
+
         unsigned maxCollisions_ {};
         bool calculateIterations_ {};
 
     public:
         ParticleWorld(unsigned maxCollisions, unsigned iterations = 0);
+        ~ParticleWorld();
 
         void startFrame();
         unsigned generateCollisions();
@@ -41,7 +43,8 @@ namespace DryPhys
         void runPhysics(real duration);
 
         Particles& getParticles() { return particles_; }
-        const Particles& getParticles() const { return particles_; }
+        CollisionGenerators& getCollisionGenerators() { return collisionGenerators_; }
+        ParticleForceRegistry& getParticleForceRegistry() { return registry_; }
     };
 }   // namespace DryPhys
 

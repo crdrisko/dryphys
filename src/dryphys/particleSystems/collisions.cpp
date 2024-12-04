@@ -110,17 +110,18 @@ namespace DryPhys
             particles_[1]->move(particleMovements_[1]);
     }
 
-    void ParticleCollisionResolver::resolveCollisions(std::vector<ParticleCollision> collisions, real duration)
+    void ParticleCollisionResolver::resolveCollisions(ParticleCollision* collisions, unsigned numCollisions, real duration)
     {
+        unsigned i;
         unsigned iterationsUsed {};
 
         while (iterationsUsed < iterations_)
         {
             // Find the contact with the largest closing velocity
             real maxVel       = std::numeric_limits<real>::max();
-            unsigned maxIndex = collisions.size();
+            unsigned maxIndex = numCollisions;
 
-            for (unsigned i {}; i < collisions.size(); ++i)
+            for (i = 0; i < numCollisions; ++i)
             {
                 real separatingVelocity = collisions[i].calculateSeparatingVelocity();
 
@@ -131,10 +132,36 @@ namespace DryPhys
                 }
             }
 
-            if (maxIndex == collisions.size())
+            if (maxIndex == numCollisions)
                 break;
 
             collisions[maxIndex].resolve(duration);
+
+            // Update the interpenetrations for all particles
+            // Vector3D* move = collisions[maxIndex].particleMovements_;
+
+            // for (i = 0; i < numCollisions; i++)
+            // {
+            //     if (collisions[i].particles_[0] == collisions[maxIndex].particles_[0])
+            //     {
+            //         collisions[i].penetration_ -= move[0] * collisions[i].contactNormal_;
+            //     }
+            //     else if (collisions[i].particles_[0] == collisions[maxIndex].particles_[1])
+            //     {
+            //         collisions[i].penetration_ -= move[1] * collisions[i].contactNormal_;
+            //     }
+            //     if (collisions[i].particles_[1])
+            //     {
+            //         if (collisions[i].particles_[1] == collisions[maxIndex].particles_[0])
+            //         {
+            //             collisions[i].penetration_ += move[0] * collisions[i].contactNormal_;
+            //         }
+            //         else if (collisions[i].particles_[1] == collisions[maxIndex].particles_[1])
+            //         {
+            //             collisions[i].penetration_ += move[1] * collisions[i].contactNormal_;
+            //         }
+            //     }
+            // }
 
             iterationsUsed++;
         }

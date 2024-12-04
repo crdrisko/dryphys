@@ -56,7 +56,7 @@ namespace DryPhys
 
         constexpr void setIterations(unsigned iterations) noexcept { iterations_ = iterations; }
 
-        void resolveCollisions(std::vector<ParticleCollision> collisions, real duration);
+        void resolveCollisions(ParticleCollision* collisions, unsigned numCollisions, real duration);
     };
 
     /*!
@@ -65,7 +65,7 @@ namespace DryPhys
     class ParticleCollisionGenerator
     {
     public:
-        ~ParticleCollisionGenerator() = default;
+        virtual ~ParticleCollisionGenerator() = default;
 
         virtual unsigned addCollision(ParticleCollision* collision, unsigned limit) const = 0;
     };

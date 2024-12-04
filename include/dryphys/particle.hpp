@@ -16,7 +16,7 @@ namespace DryPhys
 {
     class Particle
     {
-    private:
+    protected:
         Vector3D position_;           //! Linear position of the particle in world space
         Vector3D velocity_;           //! Linear velocity of the particle in world space
         Vector3D acceleration_;       //! Acceleration of the particle

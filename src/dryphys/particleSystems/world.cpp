@@ -15,21 +15,23 @@ namespace DryPhys
     ParticleWorld::ParticleWorld(unsigned maxCollisions, unsigned iterations)
         : resolver_ {iterations}, maxCollisions_ {maxCollisions}
     {
-        collisions_.resize(maxCollisions_);
+        collisions_          = new ParticleCollision[maxCollisions_];
         calculateIterations_ = (iterations == 0);
     }
 
+    ParticleWorld::~ParticleWorld() { delete[] collisions_; }
+
     void ParticleWorld::startFrame()
     {
-        for (auto& particle : particles_)
-            particle.clearAccumulator();
+        for (auto* particle : particles_)
+            particle->clearAccumulator();
     }
-
 
     unsigned ParticleWorld::generateCollisions()
     {
-        unsigned limit      = maxCollisions_;
-        auto* nextCollision = collisions_.data();
+        unsigned limit = maxCollisions_;
+
+        ParticleCollision* nextCollision = collisions_;
 
         for (const auto* collisionGenerator : collisionGenerators_)
         {
@@ -47,8 +49,8 @@ namespace DryPhys
 
     void ParticleWorld::integrate(real duration)
     {
-        for (auto& particle : particles_)
-            particle.integrate(duration);
+        for (auto* particle : particles_)
+            particle->integrate(duration);
     }
 
     void ParticleWorld::runPhysics(real duration)
@@ -64,7 +66,7 @@ namespace DryPhys
             if (calculateIterations_)
                 resolver_.setIterations(usedCollisions * 2);
 
-            resolver_.resolveCollisions(collisions_, duration);
+            resolver_.resolveCollisions(collisions_, usedCollisions, duration);
         }
     }
 }   // namespace DryPhys

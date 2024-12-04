@@ -20,8 +20,8 @@ GTEST_TEST(testActionFunctions, differentConstructorsInitializeObjectsAsExpected
     Engine2D::Action withMousePos {"LEFT_CLICK", Engine2D::Action::START, mpos};
 
     ASSERT_TRUE(defaultInitialized.name().empty());
-    ASSERT_FALSE(withoutMousePos.name().empty());
-    ASSERT_FALSE(withMousePos.name().empty());
+    ASSERT_EQ(withoutMousePos.name(), "UP");
+    ASSERT_EQ(withMousePos.name(), "LEFT_CLICK");
 }
 
 #endif
