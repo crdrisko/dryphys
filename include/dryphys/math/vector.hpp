@@ -1,25 +1,24 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: vector3d.hpp
+// Name: vector.hpp
 // Author: crdrisko
 // Date: 06/12/2024-06:01:10
-// Description: A vector representing a quantity with x, y, and z components
+// Description:
 
-#ifndef DRYPHYS_INCLUDE_DRYPHYS_VECTOR3D_HPP
-#define DRYPHYS_INCLUDE_DRYPHYS_VECTOR3D_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_VECTOR_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_VECTOR_HPP
 
 #include <cmath>
 
 #include <common-utils/utilities.hpp>
 
-#include "dryphys/config.h"
+#include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {
     /*!
-     * A class representing a mathematical/physical vector with three dimensions: x, y, z. The type is
-     *  defined using the tuple-like API so it can be used with structured bindings.
+     * A class representing a mathematical/physical vector with three dimensions: x, y, z.
      */
     class Vector3D : private DryChem::EqualityComparable<Vector3D>
     {
@@ -36,7 +35,8 @@ namespace DryPhys
         //! Comparison operators - only the equality operator is symmetric
         constexpr friend bool operator==(const Vector3D& lhs, const Vector3D& rhs)
         {
-            return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
+            return (lhs.x == rhs.x || equality(lhs.x, rhs.x)) && (lhs.y == rhs.y || equality(lhs.y, rhs.y))
+                   && (lhs.z == rhs.z || equality(lhs.z, rhs.z));
         }
 
         constexpr friend bool operator<(const Vector3D& lhs, const Vector3D& rhs)
@@ -190,68 +190,137 @@ namespace DryPhys
             if (real length = magnitude(); length > 0)
                 (*this) *= static_cast<real>(1) / length;
         }
+
+        Vector3D unit() const
+        {
+            Vector3D result = *this;
+            result.normalize();
+            return result;
+        }
+
+        void trim(real size)
+        {
+            if (magnitudeSquared() > size * size)
+            {
+                normalize();
+                x *= size;
+                y *= size;
+                z *= size;
+                // *this *= size;
+            }
+        }
+
+        void addScaledVector(const Vector3D& vector, real scale)
+        {
+            x += vector.x * scale;
+            y += vector.y * scale;
+            z += vector.z * scale;
+        }
     };
 
-    /*!
-     * Specific getters for use in the tuple-like API, allows for the structured binding of a \c Vector3D
-     */
-    template<std::size_t Index>
-    decltype(auto) get(Vector3D& vec)
+    class Vector4D : private DryChem::EqualityComparable<Vector4D>
     {
-        static_assert(Index < 3, "Index must be within 0 and 2, inclusive.");
+    public:
+        real x {};
+        real y {};
+        real z {};
+        real w {};
 
-        if constexpr (Index == 0)
-            return vec[0];
-        else if constexpr (Index == 1)
-            return vec[1];
-        else
-            return vec[2];
-    }
+        //! Constructors
+        constexpr Vector4D() noexcept = default;
+        constexpr Vector4D(real a, real b, real c, real d) noexcept : x {a}, y {b}, z {c}, w {d} {}
 
-    /*!
-     * \overload
-     */
-    template<std::size_t Index>
-    decltype(auto) get(const Vector3D& vec)
-    {
-        static_assert(Index < 3, "Index must be within 0 and 2, inclusive.");
+        //! Comparison operators - only the equality operator is symmetric
+        constexpr friend bool operator==(const Vector4D& lhs, const Vector4D& rhs)
+        {
+            return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z && lhs.w == rhs.w;
+        }
 
-        if constexpr (Index == 0)
-            return vec[0];
-        else if constexpr (Index == 1)
-            return vec[1];
-        else
-            return vec[2];
-    }
+        constexpr friend bool operator<(const Vector4D& lhs, const Vector4D& rhs)
+        {
+            return lhs.x < rhs.x && lhs.y < rhs.y && lhs.z < rhs.z && lhs.w > rhs.w;
+        }
 
-    /*!
-     * \overload
-     */
-    template<std::size_t Index>
-    decltype(auto) get(Vector3D&& vec)
-    {
-        static_assert(Index < 3, "Index must be within 0 and 2, inclusive.");
+        constexpr friend bool operator>(const Vector4D& lhs, const Vector4D& rhs)
+        {
+            return lhs.x > rhs.x && lhs.y > rhs.y && lhs.z > rhs.z && lhs.w > rhs.w;
+        }
 
-        if constexpr (Index == 0)
-            return std::move(vec[0]);
-        else if constexpr (Index == 1)
-            return std::move(vec[1]);
-        else
-            return std::move(vec[2]);
-    }
+        constexpr friend bool operator<=(const Vector4D& lhs, const Vector4D& rhs)
+        {
+            return lhs.x <= rhs.x && lhs.y <= rhs.y && lhs.z <= rhs.z && lhs.w <= rhs.w;
+        }
+
+        constexpr friend bool operator>=(const Vector4D& lhs, const Vector4D& rhs)
+        {
+            return lhs.x >= rhs.x && lhs.y >= rhs.y && lhs.z >= rhs.z && lhs.w >= rhs.w;
+        }
+
+        //! Element access
+        constexpr real& operator[](unsigned i) { return ((&x)[i]); }
+        constexpr const real& operator[](unsigned i) const { return ((&x)[i]); }
+
+        //! Arithmetic Operators
+        constexpr Vector4D& operator+=(const Vector4D& rhs)
+        {
+            x += rhs.x;
+            y += rhs.y;
+            z += rhs.z;
+            w += rhs.w;
+
+            return *this;
+        }
+
+        constexpr Vector4D operator+(const Vector4D& rhs) const
+        {
+            return Vector4D(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
+        }
+
+        constexpr Vector4D& operator-=(const Vector4D& rhs)
+        {
+            x -= rhs.x;
+            y -= rhs.y;
+            z -= rhs.z;
+            w += rhs.w;
+
+            return *this;
+        }
+
+        constexpr Vector4D operator-(const Vector4D& rhs) const
+        {
+            return Vector4D(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
+        }
+
+        constexpr Vector4D& operator*=(real rhs)
+        {
+            x *= rhs;
+            y *= rhs;
+            z *= rhs;
+            w *= rhs;
+
+            return *this;
+        }
+
+        constexpr Vector4D operator*(real rhs) const { return Vector4D(x * rhs, y * rhs, z * rhs, w * rhs); }
+
+        constexpr Vector4D& operator/=(real rhs)
+        {
+            rhs = static_cast<real>(1) / rhs;
+
+            x *= rhs;
+            y *= rhs;
+            z *= rhs;
+            w *= rhs;
+
+            return *this;
+        }
+
+        constexpr Vector4D operator/(real rhs) const
+        {
+            rhs = static_cast<real>(1) / rhs;
+            return Vector4D(x * rhs, y * rhs, z * rhs, w * rhs);
+        }
+    };
 }   // namespace DryPhys
-
-//! Specializations of the remaining requirements for access to the tuple-like API
-template<>
-struct std::tuple_size<DryPhys::Vector3D>
-{
-    static constexpr int value = 3;
-};
-
-template<std::size_t Index>
-struct std::tuple_element<Index, DryPhys::Vector3D>
-{
-    using type = DryPhys::real;
-};
 
 #endif

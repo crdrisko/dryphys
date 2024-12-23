@@ -74,10 +74,10 @@ namespace DryPhys
 
         Vector3D impulsePerInvMass = contactNormal_ * impulse;
 
-        particles_[0]->kick(impulsePerInvMass * particles_[0]->getInverseMass());
+        particles_[0]->kick(impulsePerInvMass, particles_[0]->getInverseMass());
 
         if (particles_[1])
-            particles_[1]->kick(impulsePerInvMass * -particles_[1]->getInverseMass());
+            particles_[1]->kick(impulsePerInvMass, -particles_[1]->getInverseMass());
     }
 
     void ParticleCollision::resolveInterpenetration(real)
@@ -104,66 +104,65 @@ namespace DryPhys
         else
             particleMovements_[1].clear();
 
-        particles_[0]->move(particleMovements_[0]);
+        particles_[0]->drift(particleMovements_[0]);
 
         if (particles_[1])
-            particles_[1]->move(particleMovements_[1]);
+            particles_[1]->drift(particleMovements_[1]);
     }
 
     void ParticleCollisionResolver::resolveCollisions(ParticleCollision* collisions, unsigned numCollisions, real duration)
     {
         unsigned i;
-        unsigned iterationsUsed {};
 
-        while (iterationsUsed < iterations_)
+        iterationsUsed_ = 0;
+        while (iterationsUsed_ < iterations_)
         {
-            // Find the contact with the largest closing velocity
-            real maxVel       = std::numeric_limits<real>::max();
+            // Find the contact with the largest closing velocity;
+            real max          = std::numeric_limits<real>::max();
             unsigned maxIndex = numCollisions;
-
-            for (i = 0; i < numCollisions; ++i)
+            for (i = 0; i < numCollisions; i++)
             {
-                real separatingVelocity = collisions[i].calculateSeparatingVelocity();
-
-                if (separatingVelocity < maxVel && (separatingVelocity < 0 || collisions[i].penetration_ > 0))
+                real sepVel = collisions[i].calculateSeparatingVelocity();
+                if (sepVel < max && (sepVel < 0 || collisions[i].penetration_ > 0))
                 {
+                    max      = sepVel;
                     maxIndex = i;
-                    maxVel   = separatingVelocity;
                 }
             }
 
+            // Do we have anything worth resolving?
             if (maxIndex == numCollisions)
                 break;
 
+            // Resolve this contact
             collisions[maxIndex].resolve(duration);
 
             // Update the interpenetrations for all particles
-            // Vector3D* move = collisions[maxIndex].particleMovements_;
+            Vector3D* move = collisions[maxIndex].particleMovements_;
+            for (i = 0; i < numCollisions; i++)
+            {
+                if (collisions[i].particles_[0] == collisions[maxIndex].particles_[0])
+                {
+                    collisions[i].penetration_ -= move[0].dot(collisions[i].contactNormal_);
+                }
+                else if (collisions[i].particles_[0] == collisions[maxIndex].particles_[1])
+                {
+                    collisions[i].penetration_ -= move[1].dot(collisions[i].contactNormal_);
+                }
+                if (collisions[i].particles_[1])
+                {
+                    if (collisions[i].particles_[1] == collisions[maxIndex].particles_[0])
+                    {
+                        collisions[i].penetration_ += move[0].dot(collisions[i].contactNormal_);
+                    }
+                    else if (collisions[i].particles_[1] == collisions[maxIndex].particles_[1])
+                    {
+                        collisions[i].penetration_ += move[1].dot(collisions[i].contactNormal_);
+                    }
+                }
+            }
 
-            // for (i = 0; i < numCollisions; i++)
-            // {
-            //     if (collisions[i].particles_[0] == collisions[maxIndex].particles_[0])
-            //     {
-            //         collisions[i].penetration_ -= move[0] * collisions[i].contactNormal_;
-            //     }
-            //     else if (collisions[i].particles_[0] == collisions[maxIndex].particles_[1])
-            //     {
-            //         collisions[i].penetration_ -= move[1] * collisions[i].contactNormal_;
-            //     }
-            //     if (collisions[i].particles_[1])
-            //     {
-            //         if (collisions[i].particles_[1] == collisions[maxIndex].particles_[0])
-            //         {
-            //             collisions[i].penetration_ += move[0] * collisions[i].contactNormal_;
-            //         }
-            //         else if (collisions[i].particles_[1] == collisions[maxIndex].particles_[1])
-            //         {
-            //             collisions[i].penetration_ += move[1] * collisions[i].contactNormal_;
-            //         }
-            //     }
-            // }
-
-            iterationsUsed++;
+            iterationsUsed_++;
         }
     }
 }   // namespace DryPhys

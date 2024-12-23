@@ -10,7 +10,7 @@
 
 #include <cmath>
 
-#include <dryphys/math.hpp>
+#include <dryphys/dryphys.hpp>
 
 namespace Engine2D
 {

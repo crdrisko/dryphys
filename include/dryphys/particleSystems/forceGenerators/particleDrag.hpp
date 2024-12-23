@@ -9,9 +9,9 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEDRAG_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEDRAG_HPP
 
-#include "dryphys/config.h"
-#include "dryphys/particle.hpp"
+#include "dryphys/types/particle.hpp"
 #include "dryphys/particleSystems/forceGenerator.hpp"
+#include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {

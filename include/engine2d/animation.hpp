@@ -13,7 +13,7 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
-#include <dryphys/math.hpp>
+#include <dryphys/dryphys.hpp>
 
 #include "engine2d/forwardDeclare.hpp"
 

@@ -11,8 +11,8 @@
 
 #include <vector>
 
-#include "dryphys/math/vector3d.hpp"
-#include "dryphys/particle.hpp"
+#include "dryphys/math/vector.hpp"
+#include "dryphys/types/particle.hpp"
 
 namespace DryPhys
 {
@@ -22,7 +22,7 @@ namespace DryPhys
     class ParticleForceGenerator
     {
     public:
-        ~ParticleForceGenerator() = default;
+        virtual ~ParticleForceGenerator() = default;
 
         virtual void updateForce(Particle* particle, real duration) = 0;
     };

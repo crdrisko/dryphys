@@ -11,7 +11,7 @@
 
 #include <vector>
 
-#include "dryphys/particle.hpp"
+#include "dryphys/types/particle.hpp"
 #include "dryphys/particleSystems/collisions.hpp"
 #include "dryphys/particleSystems/forceGenerator.hpp"
 
@@ -39,7 +39,9 @@ namespace DryPhys
 
         void startFrame();
         unsigned generateCollisions();
-        void integrate(real duration);
+        // void integrate(real duration);
+        void moveA(real duration);
+        void moveB(real duration);
         void runPhysics(real duration);
 
         Particles& getParticles() { return particles_; }

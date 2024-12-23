@@ -12,10 +12,7 @@
 #include <sstream>
 #include <string>
 
-#include <dryphys/math.hpp>
-#include <dryphys/utilities.hpp>
-
-#include "dryphys/config.h"
+#include <dryphys/dryphys.hpp>
 
 namespace Engine2D
 {

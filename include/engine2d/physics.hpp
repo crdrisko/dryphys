@@ -11,7 +11,7 @@
 
 #include <memory>
 
-#include <dryphys/math.hpp>
+#include <dryphys/dryphys.hpp>
 
 namespace Engine2D
 {

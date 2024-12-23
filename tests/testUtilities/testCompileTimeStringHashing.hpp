@@ -12,7 +12,7 @@
 #include <iostream>
 #include <string>
 
-#include <dryphys/utilities.hpp>
+#include <dryphys/dryphys.hpp>
 #include <gtest/gtest.h>
 
 using namespace DryPhys::Literals;

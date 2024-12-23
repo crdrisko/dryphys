@@ -9,7 +9,7 @@
 #ifndef DRYPHYS_TESTS_TESTMATHEMATICS_TESTQUATERNIONFUNCTIONS_HPP
 #define DRYPHYS_TESTS_TESTMATHEMATICS_TESTQUATERNIONFUNCTIONS_HPP
 
-#include <dryphys/math.hpp>
+#include <dryphys/dryphys.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(testQuaternionFunctions, differentConstructorsInitializeObjectsAsExpected)
@@ -134,37 +134,6 @@ GTEST_TEST(testQuaternionFunctions, normalizeOnALengthZeroQuaternionSetsRealPart
     ASSERT_FLOAT_EQ(0.0f, zero.x);
     ASSERT_FLOAT_EQ(0.0f, zero.y);
     ASSERT_FLOAT_EQ(0.0f, zero.z);
-}
-
-GTEST_TEST(testQuaternionFunctions, ourTupleLikeAPIProvidesReadAccessToTheElementsViaStructuredBindings)
-{
-    DryPhys::Quaternion q {2.0f, 0.0f, 1.2f, 3.14f};
-
-    const auto& [w, x, y, z] = q;
-
-    ASSERT_FLOAT_EQ(w, q.w);
-    ASSERT_FLOAT_EQ(x, q.x);
-    ASSERT_FLOAT_EQ(y, q.y);
-    ASSERT_FLOAT_EQ(z, q.z);
-}
-
-GTEST_TEST(testQuaternionFunctions, ourTupleLikeAPIProvidesWriteAccessToTheElementsViaStructuredBindings)
-{
-    DryPhys::Quaternion q {2.0f, 0.0f, 1.2f, 3.14f};
-
-    auto&& [w, x, y, z] = q;
-
-    float value {std::move(z)};
-
-    ASSERT_FLOAT_EQ(value, 3.14f);
-
-    z = 4.2f;
-    y += 3.8f;
-
-    ASSERT_FLOAT_EQ(w, 2.0f);
-    ASSERT_FLOAT_EQ(x, 0.0f);
-    ASSERT_FLOAT_EQ(y, 5.0f);
-    ASSERT_FLOAT_EQ(z, 4.2f);
 }
 
 #endif

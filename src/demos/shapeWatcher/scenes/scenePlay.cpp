@@ -177,20 +177,19 @@ namespace ShapeWatcher
 
         for (auto entity : entityManager_.getEntities())
         {
-            auto [px, py, pz] = entity->getComponent<CTransform>().particle.getPosition();
-            assert(pz == static_cast<DryPhys::real>(0));
+            DryPhys::Vector3D ePos = entity->getComponent<CTransform>().particle.getPosition();
 
             auto& eShape = entity->getComponent<CShape>();
 
-            eShape.shape->setPosition(px, py);
+            eShape.shape->setPosition(ePos.x, ePos.y);
 
             game_->window().draw(*eShape.shape);
 
             sf::FloatRect shapeBoundingBox = eShape.shape->getGlobalBounds();
             sf::FloatRect textBoundingBox  = eShape.text.getGlobalBounds();
 
-            eShape.text.setPosition(px + 0.5f * (shapeBoundingBox.width - textBoundingBox.width),
-                py + 0.5f * (shapeBoundingBox.height - textBoundingBox.height));
+            eShape.text.setPosition(ePos.x + 0.5f * (shapeBoundingBox.width - textBoundingBox.width),
+                ePos.y + 0.5f * (shapeBoundingBox.height - textBoundingBox.height));
 
             game_->window().draw(eShape.text);
         }
@@ -204,31 +203,28 @@ namespace ShapeWatcher
         {
             auto& eParticle = entity->getComponent<CTransform>().particle;
 
-            auto [px, py, pz] = eParticle.getPosition();
-            assert(pz == static_cast<DryPhys::real>(0));
-
-            auto [vx, vy, vz] = eParticle.getVelocity();
-            assert(vz == static_cast<DryPhys::real>(0));
+            DryPhys::Vector3D ePos = entity->getComponent<CTransform>().particle.getPosition();
+            DryPhys::Vector3D eVel = entity->getComponent<CTransform>().particle.getVelocity();
 
             auto boundingBox = entity->getComponent<CShape>().shape->getGlobalBounds();
 
-            if (px < 0.0f || px + boundingBox.width > width_)
+            if (ePos.x < 0.0f || ePos.x + boundingBox.width > width_)
             {
-                vx *= -1.0f;
+                eVel.x *= -1.0f;
             }
 
-            if (py < 0.0f || py + boundingBox.height > height_)
+            if (ePos.y < 0.0f || ePos.y + boundingBox.height > height_)
             {
-                vy *= -1.0f;
+                eVel.y *= -1.0f;
             }
 
-            eParticle.setVelocity(vx, vy, vz);
+            eParticle.setVelocity(eVel);
         }
     }
 
     void ScenePlay::sMovement()
     {
-        for (auto entity : entityManager_.getEntities())
-            entity->getComponent<CTransform>().particle.integrate(1.0f);
+        // for (auto entity : entityManager_.getEntities())
+        //     entity->getComponent<CTransform>().particle.integrate(1.0f);
     }
 }   // namespace ShapeWatcher

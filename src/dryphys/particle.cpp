@@ -6,45 +6,42 @@
 // Date: 06/13/2024-12:45:00
 // Description:
 
-#include "dryphys/particle.hpp"
+#include "dryphys/types/particle.hpp"
 
 #include <cassert>
+#include <cmath>
 #include <limits>
 
-#include "dryphys/config.h"
-#include "dryphys/math/vector3d.hpp"
+#include "dryphys/math/vector.hpp"
+#include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {
-    void Particle::integrate(real duration)
+    void Particle::moveA(real duration)
     {
         assert(duration > 0.0f);
 
-        // We don't integrate things with infinite mass
-        if (!hasFiniteMass())
-            return;
+        kick(acceleration_, duration * 0.5);
+        drift(velocity_, duration);
+    }
 
-        // Update linear position
-        position_ += velocity_ * duration;
+    void Particle::moveB(real duration)
+    {
+        assert(duration > 0.0f);
 
-        // Work out the acceleration from the force
-        Vector3D resultingAcc = acceleration_;
-        resultingAcc += forceAccumulator_ * inverseMass_;
+        // Update and store acceleration for next timestep's moveA()
+        acceleration_ = forceAccumulator_ * inverseMass_;
 
-        // Update linear velocity from the acceleration
-        velocity_ += resultingAcc * duration;
+        kick(acceleration_, duration * 0.5);
 
-        // Impose drag
-        velocity_ *= std::pow(damping_, duration);
-
-        // Clear the forces
         clearAccumulator();
     }
 
+    //! Accessors for the mass
     void Particle::setMass(real mass)
     {
         assert(mass != 0.0f);
-        inverseMass_ = static_cast<real>(1.0f) / mass;
+        inverseMass_ = static_cast<real>(1) / mass;
     }
 
     real Particle::getMass() const
@@ -52,6 +49,6 @@ namespace DryPhys
         if (!hasFiniteMass())
             return std::numeric_limits<real>::max();
         else
-            return static_cast<real>(1.0f) / inverseMass_;
+            return static_cast<real>(1) / inverseMass_;
     }
 }   // namespace DryPhys

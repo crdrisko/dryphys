@@ -39,4 +39,8 @@ CMakeSettings.json
 **/assets
 .DS_Store
 
+src/demos/cyclone
+include/gl
+
 config.h
+config.hpp

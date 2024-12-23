@@ -11,14 +11,14 @@
 
 #include <cmath>
 
-#include <dryphys/math.hpp>
+#include <dryphys/dryphys.hpp>
 
-#include "dryphys/config.h"
+#include "dryphys/utilities/config.hpp"
 
 struct Point2D
 {
-    float x {};
-    float y {};
+    DryPhys::real x {};
+    DryPhys::real y {};
 
     DryPhys::real cross(const Point2D& rhs) { return x * rhs.y - y * rhs.x; }
 };

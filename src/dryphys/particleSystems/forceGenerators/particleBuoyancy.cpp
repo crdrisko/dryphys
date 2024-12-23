@@ -8,8 +8,8 @@
 
 #include "dryphys/particleSystems/forceGenerators/particleBuoyancy.hpp"
 
-#include "dryphys/math/vector3d.hpp"
-#include "dryphys/particle.hpp"
+#include "dryphys/math/vector.hpp"
+#include "dryphys/types/particle.hpp"
 
 namespace DryPhys
 {

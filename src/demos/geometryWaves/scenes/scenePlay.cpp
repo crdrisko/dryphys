@@ -15,7 +15,7 @@
 
 #include <common-utils/files.hpp>
 #include <common-utils/strings.hpp>
-#include <dryphys/utilities.hpp>
+#include <dryphys/dryphys.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 

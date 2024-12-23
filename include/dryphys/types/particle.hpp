@@ -9,8 +9,8 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLE_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLE_HPP
 
-#include "dryphys/config.h"
-#include "dryphys/math/vector3d.hpp"
+#include "dryphys/math/vector.hpp"
+#include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {
@@ -22,24 +22,36 @@ namespace DryPhys
         Vector3D acceleration_;       //! Acceleration of the particle
         Vector3D forceAccumulator_;   //! Accumulated forces acting on this particle
 
-        real damping_ {};       //! Damping applied to linear motion to adjust for numerical instability
+        real damping_ {1};      //! Damping that can be applied to linear motion to adjust for numerical instability
         real inverseMass_ {};   //! Inverse mass which can be zero (immovable object) and can not be infinite (massless)
 
     public:
-        void integrate(real duration);
+        //! Velocity-Verlet integration steps
+        void moveA(real duration);
+        void moveB(real duration);
 
         constexpr bool hasFiniteMass() const { return inverseMass_ > 0; }
         constexpr void addForce(const Vector3D& force) { forceAccumulator_ += force; }
-        constexpr void applyForces() { acceleration_ = forceAccumulator_ * inverseMass_; }
         constexpr void clearAccumulator() { forceAccumulator_.clear(); }
 
         //! Perform movement in one step rather than calling get and set positions
-        constexpr void move(const Vector3D& offset) { position_ += offset; }
-        constexpr void move(real x, real y, real z) { position_ += Vector3D {x, y, z}; }
+        constexpr void drift(const Vector3D& offset, real scale = 1)
+        {
+            position_.x += offset.x * scale;
+            position_.y += offset.y * scale;
+            position_.z += offset.z * scale;
+        }
 
         //! Perform velocity kick in one step rather than calling get and set velocities
-        constexpr void kick(const Vector3D& offset) { velocity_ += offset; }
-        constexpr void kick(real x, real y, real z) { velocity_ += Vector3D {x, y, z}; }
+        constexpr void kick(const Vector3D& offset, real scale = 1)
+        {
+            velocity_.x += offset.x * scale;
+            velocity_.y += offset.y * scale;
+            velocity_.z += offset.z * scale;
+        }
+
+        //! Perform drag force in one step rather than calling get and set velocities
+        constexpr void drag(real offset) { velocity_ *= offset; }
 
         //! Accessors
         constexpr void setPosition(const Vector3D& position) { position_ = position; }

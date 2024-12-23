@@ -9,9 +9,10 @@
 #include "dryphys/particleSystems/forceGenerator.hpp"
 
 #include <algorithm>
+#include <iostream>
 
-#include "dryphys/config.h"
-#include "dryphys/particle.hpp"
+#include "dryphys/types/particle.hpp"
+#include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {

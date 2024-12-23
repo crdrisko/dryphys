@@ -14,7 +14,7 @@
 #include <vector>
 
 #include <SFML/Graphics.hpp>
-#include <dryphys/particle.hpp>
+#include <dryphys/dryphys.hpp>
 
 class ParticleSystem
 {

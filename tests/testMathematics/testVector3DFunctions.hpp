@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-#include <dryphys/math.hpp>
+#include <dryphys/dryphys.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(testVector3DFunctions, differentConstructorsInitializeObjectsAsExpected)
@@ -216,33 +216,33 @@ GTEST_TEST(testVector3DFunctions, vectorMultiplicationHasThreeUniqueForms)
     ASSERT_EQ(vec1.cross(vec2), DryPhys::Vector3D(48.0f, 16.0f, 16.0f));
 }
 
-GTEST_TEST(testVector3DFunctions, ourTupleLikeAPIProvidesReadAccessToTheElementsViaStructuredBindings)
-{
-    DryPhys::Vector3D vec {0.0f, 1.2f, 3.14f};
+// GTEST_TEST(testVector3DFunctions, ourTupleLikeAPIProvidesReadAccessToTheElementsViaStructuredBindings)
+// {
+//     DryPhys::Vector3D vec {0.0f, 1.2f, 3.14f};
 
-    const auto& [x, y, z] = vec;
+//     const auto& [x, y, z] = vec;
 
-    ASSERT_FLOAT_EQ(x, vec[0]);
-    ASSERT_FLOAT_EQ(y, vec[1]);
-    ASSERT_FLOAT_EQ(z, vec[2]);
-}
+//     ASSERT_FLOAT_EQ(x, vec[0]);
+//     ASSERT_FLOAT_EQ(y, vec[1]);
+//     ASSERT_FLOAT_EQ(z, vec[2]);
+// }
 
-GTEST_TEST(testVector3DFunctions, ourTupleLikeAPIProvidesWriteAccessToTheElementsViaStructuredBindings)
-{
-    DryPhys::Vector3D vec {0.0f, 1.2f, 3.14f};
+// GTEST_TEST(testVector3DFunctions, ourTupleLikeAPIProvidesWriteAccessToTheElementsViaStructuredBindings)
+// {
+//     DryPhys::Vector3D vec {0.0f, 1.2f, 3.14f};
 
-    auto&& [x, y, z] = vec;
+//     auto&& [x, y, z] = vec;
 
-    float value {std::move(z)};
+//     float value {std::move(z)};
 
-    ASSERT_FLOAT_EQ(value, 3.14f);
+//     ASSERT_FLOAT_EQ(value, 3.14f);
 
-    z = 4.2f;
-    y += 3.8f;
+//     z = 4.2f;
+//     y += 3.8f;
 
-    ASSERT_FLOAT_EQ(x, 0.0f);
-    ASSERT_FLOAT_EQ(y, 5.0f);
-    ASSERT_FLOAT_EQ(z, 4.2f);
-}
+//     ASSERT_FLOAT_EQ(x, 0.0f);
+//     ASSERT_FLOAT_EQ(y, 5.0f);
+//     ASSERT_FLOAT_EQ(z, 4.2f);
+// }
 
 #endif

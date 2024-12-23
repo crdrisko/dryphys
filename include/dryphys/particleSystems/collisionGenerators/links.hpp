@@ -9,9 +9,9 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONGENERATORS_LINKS_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONGENERATORS_LINKS_HPP
 
-#include "dryphys/config.h"
-#include "dryphys/particle.hpp"
+#include "dryphys/types/particle.hpp"
 #include "dryphys/particleSystems/collisions.hpp"
+#include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {
@@ -49,6 +49,41 @@ namespace DryPhys
     public:
         real length_ {};
 
+        unsigned addCollision(ParticleCollision* collision, unsigned limit) const override;
+    };
+
+
+    class ParticleConstraint : public ParticleCollisionGenerator
+    {
+    public:
+        Particle* particle_;
+        Vector3D anchor_;
+
+    protected:
+        real currentLength() const;
+
+    public:
+        virtual unsigned addCollision(ParticleCollision* collision, unsigned limit) const = 0;
+    };
+
+
+    class ParticleCableConstraint : public ParticleConstraint
+    {
+    public:
+        real maxLength_;
+        real restitution_;
+
+    public:
+        unsigned addCollision(ParticleCollision* collision, unsigned limit) const override;
+    };
+
+
+    class ParticleRodConstraint : public ParticleConstraint
+    {
+    public:
+        real length_;
+
+    public:
         unsigned addCollision(ParticleCollision* collision, unsigned limit) const override;
     };
 }   // namespace DryPhys

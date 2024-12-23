@@ -11,7 +11,7 @@
 
 #include <bitset>
 
-#include <dryphys/math.hpp>
+#include <dryphys/dryphys.hpp>
 #include <engine2d/animation.hpp>
 #include <engine2d/components.hpp>
 

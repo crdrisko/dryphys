@@ -12,7 +12,7 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
-#include <dryphys/particleSystems.hpp>
+#include <dryphys/dryphys.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/engine.hpp>
 #include <engine2d/scene.hpp>

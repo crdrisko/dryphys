@@ -8,8 +8,8 @@
 
 #include "dryphys/particleSystems/forceGenerators/particleGravity.hpp"
 
-#include "dryphys/config.h"
-#include "dryphys/particle.hpp"
+#include "dryphys/types/particle.hpp"
+#include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {

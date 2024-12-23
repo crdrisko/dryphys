@@ -19,8 +19,7 @@
 
 #include <common-utils/files.hpp>
 #include <common-utils/strings.hpp>
-#include <dryphys/math.hpp>
-#include <dryphys/utilities.hpp>
+#include <dryphys/dryphys.hpp>
 #include <engine2d/action.hpp>
 #include <engine2d/animation.hpp>
 #include <engine2d/engine.hpp>
@@ -515,28 +514,26 @@ namespace CyberCity
 
         for (auto& entity : entityManager_.getEntities())
         {
-            auto& transform    = entity.getComponent<CTransform>();
-            auto& [vx, vy, vz] = transform.vel;
-            assert(vz == static_cast<DryPhys::real>(0));
+            auto& transform = entity.getComponent<CTransform>();
 
             if (entity.hasComponent<CGravity>())
-                vy += entity.getComponent<CGravity>().gravity;
+                transform.vel.y += entity.getComponent<CGravity>().gravity;
 
             // Cap the entity's speed so it doesn't go infinite
-            if (std::fabs(vx) > playerConfig_.MAXSPEED)
+            if (std::fabs(transform.vel.x) > playerConfig_.MAXSPEED)
             {
-                if (vx > 0)
-                    vx = playerConfig_.MAXSPEED;
+                if (transform.vel.x > 0)
+                    transform.vel.x = playerConfig_.MAXSPEED;
                 else
-                    vx = -playerConfig_.MAXSPEED;
+                    transform.vel.x = -playerConfig_.MAXSPEED;
             }
 
-            if (std::fabs(vy) > playerConfig_.MAXSPEED)
+            if (std::fabs(transform.vel.y) > playerConfig_.MAXSPEED)
             {
-                if (vy > 0)
-                    vy = playerConfig_.MAXSPEED;
+                if (transform.vel.y > 0)
+                    transform.vel.y = playerConfig_.MAXSPEED;
                 else
-                    vy = -playerConfig_.MAXSPEED;
+                    transform.vel.y = -playerConfig_.MAXSPEED;
             }
 
             transform.prevPos = transform.pos;
@@ -573,17 +570,11 @@ namespace CyberCity
         auto& pBoundingBox = player_->getComponent<CBoundingBox>();
         auto& pInput       = player_->getComponent<CInput>();
 
-        auto& [px, py, pz]                = pTransform.pos;
-        auto& [prev_px, prev_py, prev_pz] = pTransform.prevPos;
-
-        // Nothing should have set the z-component of these "2d"-vectors
-        assert(pz == static_cast<DryPhys::real>(0) && prev_pz == static_cast<DryPhys::real>(0));
-
-        if (py > height_ * 2)
+        if (pTransform.pos.y > height_ * 2)
             spawnPlayer();
 
-        if (px < pBoundingBox.halfSize.x)
-            px = pBoundingBox.halfSize.x;
+        if (pTransform.pos.x < pBoundingBox.halfSize.x)
+            pTransform.pos.x = pBoundingBox.halfSize.x;
 
         bool playerCollision {};
 
@@ -603,34 +594,34 @@ namespace CyberCity
 
                 if (prevOverlap.x > 0)
                 {
-                    if (py > prev_py)
+                    if (pTransform.pos.y > pTransform.prevPos.y)
                     {
                         // Collision from above
-                        py -= overlap.y;
+                        pTransform.pos.y -= overlap.y;
                         pTransform.vel.y = 0.0f;
 
                         // Floor collisions determine whether or not we can jump
                         pInput.canJump  = true;
                         playerCollision = true;
                     }
-                    else if (py < prev_py)
+                    else if (pTransform.pos.y < pTransform.prevPos.y)
                     {
                         // Collision from below
-                        py += overlap.y;
+                        pTransform.pos.y += overlap.y;
                     }
                 }
 
                 if (prevOverlap.y > 0)
                 {
-                    if (px > prev_px)
+                    if (pTransform.pos.x > pTransform.prevPos.x)
                     {
                         // Collision from left
-                        px -= overlap.x;
+                        pTransform.pos.x -= overlap.x;
                     }
-                    else if (px < prev_px)
+                    else if (pTransform.pos.x < pTransform.prevPos.x)
                     {
                         // Collision from right
-                        px += overlap.x;
+                        pTransform.pos.x += overlap.x;
                     }
                 }
             }
@@ -640,14 +631,8 @@ namespace CyberCity
                 auto& eTransform   = enemy.getComponent<CTransform>();
                 auto& eBoundingBox = enemy.getComponent<CBoundingBox>();
 
-                auto& [ex, ey, ez]                = eTransform.pos;
-                auto& [prev_ex, prev_ey, prev_ez] = eTransform.prevPos;
-
-                if (ex < eBoundingBox.halfSize.x)
-                    ex = eBoundingBox.halfSize.x;
-
-                // Nothing should have set the z component of these "2d"-vectors
-                assert(ez == static_cast<DryPhys::real>(0) && prev_ez == static_cast<DryPhys::real>(0));
+                if (eTransform.pos.x < eBoundingBox.halfSize.x)
+                    eTransform.pos.x = eBoundingBox.halfSize.x;
 
                 DryPhys::Vector3D overlap = Engine2D::getAABBOverlap(
                     tileTransform.pos, tileBoundingBox.halfSize, eTransform.pos, eBoundingBox.halfSize);
@@ -660,30 +645,30 @@ namespace CyberCity
 
                     if (prevOverlap.x > 0)
                     {
-                        if (ey > prev_ey)
+                        if (eTransform.pos.y > eTransform.prevPos.y)
                         {
                             // Collision from above
-                            ey -= overlap.y;
+                            eTransform.pos.y -= overlap.y;
                             eTransform.vel.y = 0.0f;
                         }
-                        else if (py < prev_py)
+                        else if (pTransform.pos.y < eTransform.prevPos.y)
                         {
                             // Collision from below
-                            ey += overlap.y;
+                            eTransform.pos.y += overlap.y;
                         }
                     }
 
                     if (prevOverlap.y > 0)
                     {
-                        if (ex > prev_ex)
+                        if (eTransform.pos.x > eTransform.prevPos.x)
                         {
                             // Collision from left
-                            ex -= overlap.x;
+                            eTransform.pos.x -= overlap.x;
                         }
-                        else if (px < prev_px)
+                        else if (pTransform.pos.x < eTransform.prevPos.x)
                         {
                             // Collision from right
-                            ex += overlap.x;
+                            eTransform.pos.x += overlap.x;
                         }
                     }
                 }

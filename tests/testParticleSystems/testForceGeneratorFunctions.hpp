@@ -9,8 +9,7 @@
 #ifndef DRYPHYS_TESTS_TESTPARTICLESYSTEMS_TESTFORCEGENERATORFUNCTIONS_HPP
 #define DRYPHYS_TESTS_TESTPARTICLESYSTEMS_TESTFORCEGENERATORFUNCTIONS_HPP
 
-#include <dryphys/particle.hpp>
-#include <dryphys/particleSystems.hpp>
+#include <dryphys/dryphys.hpp>
 #include <gtest/gtest.h>
 
 GTEST_TEST(testForceGeneratorFunctions, test1)

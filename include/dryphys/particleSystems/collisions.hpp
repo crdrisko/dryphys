@@ -11,9 +11,9 @@
 
 #include <vector>
 
-#include "dryphys/config.h"
-#include "dryphys/math/vector3d.hpp"
-#include "dryphys/particle.hpp"
+#include "dryphys/math/vector.hpp"
+#include "dryphys/types/particle.hpp"
+#include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {
@@ -50,6 +50,7 @@ namespace DryPhys
     {
     protected:
         unsigned iterations_ {};
+        unsigned iterationsUsed_ {};
 
     public:
         constexpr explicit ParticleCollisionResolver(unsigned iterations) noexcept : iterations_ {iterations} {}

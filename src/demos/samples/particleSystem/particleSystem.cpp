@@ -32,9 +32,8 @@ void ParticleSystem::update()
         if (particles_[i].second-- == 0)
             resetParticle(i);
 
-        auto [vx, vy, vz] = particles_[i].first.getVelocity();
-        assert(vz == static_cast<DryPhys::real>(0));
-        sf::Vector2f vel {vx, vy};
+        sf::Vector2f vel {static_cast<float>(particles_[i].first.getVelocity().x),
+            static_cast<float>(particles_[i].first.getVelocity().y)};
 
         vertices_[4 * i + 0].position += vel;
         vertices_[4 * i + 1].position += vel;

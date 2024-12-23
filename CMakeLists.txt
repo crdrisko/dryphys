@@ -10,7 +10,7 @@ option(phys_build_demos         "Builds all libraries and code demos/samples." O
 option(phys_configure_docs      "Builds all libraries while configuring the Doxygen file for documentation generation." OFF)
 option(phys_enable_coverage     "Builds all libraries, unit tests, and enables coverage options." OFF)
 option(phys_format_codebase     "Builds all libraries while also formatting the code." OFF)
-option(phys_double_precision    "Builds all libraries using double-precision floating point arithmetic enabled." OFF)
+option(phys_single_precision    "Builds all libraries using single-precision floating point arithmetic enabled." OFF)
 option(phys_exclude_engine      "Builds dryphys libraries while ignoring the engine2d library." OFF)
 
 if (phys_format_codebase AND NOT WIN32)
@@ -142,7 +142,7 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib
 
 
 ### Libraries / Executables ###
-configure_file("${PROJECT_SOURCE_DIR}/include/config.h.cmake" "${PROJECT_SOURCE_DIR}/include/dryphys/config.h")
+configure_file("${PROJECT_SOURCE_DIR}/include/config.hpp.cmake" "${PROJECT_SOURCE_DIR}/include/dryphys/utilities/config.hpp")
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
@@ -155,9 +155,13 @@ set(DRYPHYS_SOURCE src/dryphys/particle.cpp
                    src/dryphys/particleSystems/forceGenerators/particleDrag.cpp
                    src/dryphys/particleSystems/forceGenerators/particleGravity.cpp
                    src/dryphys/particleSystems/forceGenerators/particleSprings.cpp
-                   src/dryphys/particleSystems/integrators/eulersMethod.cpp
-                   src/dryphys/particleSystems/integrators/velocityVerlet.cpp
-                   src/dryphys/particleSystems/world.cpp)
+                   src/dryphys/particleSystems/world.cpp
+                   src/dryphys/rigidBody.cpp
+                   src/dryphys/rigidBodySystems/forceGenerator.cpp
+                   src/dryphys/rigidBodySystems/forceGenerators/aero.cpp
+                   src/dryphys/rigidBodySystems/forceGenerators/gravity.cpp
+                   src/dryphys/rigidBodySystems/forceGenerators/springs.cpp
+                   src/dryphys/rigidBodySystems/world.cpp)
 
 add_library(dryphys STATIC ${DRYPHYS_SOURCE})
 

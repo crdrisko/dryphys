@@ -9,8 +9,8 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEGRAVITY_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEGRAVITY_HPP
 
-#include "dryphys/math/vector3d.hpp"
-#include "dryphys/particle.hpp"
+#include "dryphys/math/vector.hpp"
+#include "dryphys/types/particle.hpp"
 #include "dryphys/particleSystems/forceGenerator.hpp"
 
 namespace DryPhys
@@ -23,9 +23,10 @@ namespace DryPhys
     class ParticleGravity : public ParticleForceGenerator
     {
     private:
-        Vector3D gravity_;
+        Vector3D gravity_ {0, -9.81, 0};
 
     public:
+        ParticleGravity() = default;
         explicit ParticleGravity(const Vector3D& gravity) : gravity_ {gravity} {}
 
         void updateForce(Particle* particle, real duration) override;

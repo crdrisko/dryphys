@@ -8,7 +8,9 @@
 
 #include "dryphys/particleSystems/world.hpp"
 
-#include "dryphys/config.h"
+#include <iostream>
+
+#include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {
@@ -47,17 +49,32 @@ namespace DryPhys
         return maxCollisions_ - limit;
     }
 
-    void ParticleWorld::integrate(real duration)
+    // void ParticleWorld::integrate(real duration)
+    // {
+    //     for (auto* particle : particles_)
+    //         particle->integrate(duration);
+    // }
+
+    void ParticleWorld::moveA(real duration)
     {
         for (auto* particle : particles_)
-            particle->integrate(duration);
+            particle->moveA(duration);
+    }
+
+    void ParticleWorld::moveB(real duration)
+    {
+        for (auto* particle : particles_)
+        {
+            particle->moveB(duration);
+            particle->drag(std::pow(particle->getDamping(), duration));
+        }
     }
 
     void ParticleWorld::runPhysics(real duration)
     {
+        moveA(duration);
         registry_.updateForces(duration);
-
-        integrate(duration);
+        moveB(duration);
 
         unsigned usedCollisions = generateCollisions();
 
