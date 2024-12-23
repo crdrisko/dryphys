@@ -74,12 +74,10 @@ namespace DryPhys
         constexpr void setVelocity(const Vector3D& velocity) { velocity_ = velocity; }
         constexpr void setRotation(const Vector3D& rotation) { rotation_ = rotation; }
         constexpr void setAcceleration(const Vector3D& acceleration) { acceleration_ = acceleration; }
-        constexpr void setOrientation(const Quaternion& orientation);
         constexpr void setPosition(real x, real y, real z) { position_ = Vector3D {x, y, z}; }
         constexpr void setVelocity(real x, real y, real z) { velocity_ = Vector3D {x, y, z}; }
         constexpr void setRotation(real x, real y, real z) { rotation_ = Vector3D {x, y, z}; }
         constexpr void setAcceleration(real x, real y, real z) { acceleration_ = Vector3D {x, y, z}; }
-        constexpr void setOrientation(real r, real i, real j, real k);
         constexpr void setLinearDamping(real linearDamping) { linearDamping_ = linearDamping; }
         constexpr void setAngularDamping(real angularDamping) { angularDamping_ = angularDamping; }
         constexpr void setInverseInertiaTensor(const Matrix3D& iitBody) { inverseInertiaTensor_ = iitBody; }
@@ -88,6 +86,8 @@ namespace DryPhys
         constexpr void setMass(real mass);
         void setAwake(bool awake = true);
         void setCanSleep(const bool canSleep = true);
+        void setOrientation(const Quaternion& orientation);
+        void setOrientation(real r, real i, real j, real k);
 
         constexpr void getPosition(Vector3D* position) const { *position = position_; }
         constexpr void getVelocity(Vector3D* velocity) const { *velocity = velocity_; }
@@ -117,19 +117,6 @@ namespace DryPhys
         constexpr bool getAwake() const { return isAwake_; }
         constexpr bool getCanSleep() const { return canSleep_; }
     };
-
-    //! Accessors for the orientation of the rigid body
-    constexpr void RigidBody::setOrientation(const Quaternion& orientation)
-    {
-        orientation_ = orientation;
-        orientation_.normalize();
-    }
-
-    constexpr void RigidBody::setOrientation(real r, real i, real j, real k)
-    {
-        orientation_ = Quaternion {r, i, j, k};
-        orientation_.normalize();
-    }
 
     //! Accessors for the inertia tensor in local/body coordinates
     constexpr void RigidBody::setInertiaTensor(const Matrix3D& inertiaTensor)

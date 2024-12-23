@@ -163,6 +163,18 @@ namespace DryPhys
         torqueAccumulator_.clear();
     }
 
+    void RigidBody::setOrientation(const Quaternion& orientation)
+    {
+        orientation_ = orientation;
+        orientation_.normalize();
+    }
+
+    void RigidBody::setOrientation(real r, real i, real j, real k)
+    {
+        orientation_ = Quaternion{ r, i, j, k };
+        orientation_.normalize();
+    }
+
     void RigidBody::setAwake(bool awake)
     {
         if (awake)

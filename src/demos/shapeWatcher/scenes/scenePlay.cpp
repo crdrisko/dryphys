@@ -13,6 +13,7 @@
 #include <iostream>
 #include <string>
 
+#include <SFML/Graphics.hpp>
 #include <common-utils/files.hpp>
 #include <common-utils/strings.hpp>
 
@@ -224,7 +225,10 @@ namespace ShapeWatcher
 
     void ScenePlay::sMovement()
     {
-        // for (auto entity : entityManager_.getEntities())
-        //     entity->getComponent<CTransform>().particle.integrate(1.0f);
+        for (auto entity : entityManager_.getEntities()) 
+        {
+            entity->getComponent<CTransform>().particle.moveA(1.0f);
+            entity->getComponent<CTransform>().particle.moveB(1.0f);
+        }
     }
 }   // namespace ShapeWatcher

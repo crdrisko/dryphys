@@ -9,6 +9,8 @@
 #ifndef DRYPHYS_SRC_DEMOS_SHAPEWATCHER_COMPONENTS_HPP
 #define DRYPHYS_SRC_DEMOS_SHAPEWATCHER_COMPONENTS_HPP
 
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 #include <dryphys/dryphys.hpp>
 #include <engine2d/components.hpp>
@@ -25,8 +27,6 @@ namespace ShapeWatcher
         {
             particle.setPosition(pos);
             particle.setVelocity(vel);
-            particle.setMass(2.0f);
-            particle.setDamping(1.0f);
         }
     };
 
@@ -35,7 +35,7 @@ namespace ShapeWatcher
     public:
         sf::Text text {};
         std::shared_ptr<sf::Shape> shape {nullptr};
-
+    
         CShape() = default;
         CShape(const sf::Text& t, std::shared_ptr<sf::Shape> s, const sf::Color& c) : text {t}, shape {s}
         {

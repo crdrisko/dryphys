@@ -24,7 +24,7 @@ namespace DryPhys
 #endif
 
     //! Check equality of two reals by comparing their difference to the machine epsilon
-    constexpr bool equality(real rhs, real lhs) { return (std::fabs(lhs - rhs) <= std::numeric_limits<real>::epsilon()); }
+    static inline bool equality(real rhs, real lhs) { return (std::fabs(lhs - rhs) <= std::numeric_limits<real>::epsilon()); }
 }
 
 #endif

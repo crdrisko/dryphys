@@ -146,8 +146,7 @@ configure_file("${PROJECT_SOURCE_DIR}/include/config.hpp.cmake" "${PROJECT_SOURC
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
-set(DRYPHYS_SOURCE src/dryphys/particle.cpp
-                   src/dryphys/particleSystems/collisions.cpp
+set(DRYPHYS_SOURCE src/dryphys/particleSystems/collisions.cpp
                    src/dryphys/particleSystems/collisionGenerators/groundCollisions.cpp
                    src/dryphys/particleSystems/collisionGenerators/links.cpp
                    src/dryphys/particleSystems/forceGenerator.cpp
@@ -156,12 +155,13 @@ set(DRYPHYS_SOURCE src/dryphys/particle.cpp
                    src/dryphys/particleSystems/forceGenerators/particleGravity.cpp
                    src/dryphys/particleSystems/forceGenerators/particleSprings.cpp
                    src/dryphys/particleSystems/world.cpp
-                   src/dryphys/rigidBody.cpp
                    src/dryphys/rigidBodySystems/forceGenerator.cpp
                    src/dryphys/rigidBodySystems/forceGenerators/aero.cpp
                    src/dryphys/rigidBodySystems/forceGenerators/gravity.cpp
                    src/dryphys/rigidBodySystems/forceGenerators/springs.cpp
-                   src/dryphys/rigidBodySystems/world.cpp)
+                   src/dryphys/rigidBodySystems/world.cpp
+                   src/dryphys/types/particle.cpp
+                   src/dryphys/types/rigidBody.cpp)
 
 add_library(dryphys STATIC ${DRYPHYS_SOURCE})
 

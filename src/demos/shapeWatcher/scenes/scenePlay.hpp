@@ -38,7 +38,7 @@ namespace ShapeWatcher
         };
 
     private:
-        ConcreteEntityManager entityManager_ {};
+        ConcreteEntityManager entityManager_;
         float width_ {}, height_ {};
 
         sf::Text text_;
