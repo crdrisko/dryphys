@@ -24,7 +24,7 @@ jobs:
         cmake --build .
         sudo cmake --build . --target install
         ctest --output-on-failure
-        lcov --directory . --capture --output-file coverage.info
+        lcov --directory . --capture --output-file coverage.info --ignore-errors mismatch
         lcov --remove coverage.info '*gtest*' '*/libs/*' '/usr/*' --output-file coverage.info
     
     - name: Coveralls GitHub Action

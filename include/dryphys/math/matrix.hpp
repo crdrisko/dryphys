@@ -235,7 +235,7 @@ namespace DryPhys
 
             data[0] = (-M.data[9] * M.data[6] + M.data[5] * M.data[10]) * det;
             data[1] = (M.data[9] * M.data[2] - M.data[1] * M.data[10]) * det;
-            data[2] = (-M.data[5] * M.data[2] + M.data[1] * M.data[6] * M.data[15]) * det;
+            data[2] = (-M.data[5] * M.data[2] + M.data[1] * M.data[6]) * det;
             data[3] = (M.data[9] * M.data[6] * M.data[3]
                      - M.data[5] * M.data[10] * M.data[3]
                      - M.data[9] * M.data[2] * M.data[7]
@@ -244,16 +244,16 @@ namespace DryPhys
                      - M.data[1] * M.data[6] * M.data[11]) * det;
             data[4] = (M.data[8] * M.data[6] - M.data[4] * M.data[10]) * det;
             data[5] = (-M.data[8] * M.data[2] + M.data[0] * M.data[10]) * det;
-            data[6] = (M.data[4] * M.data[2] - M.data[0] * M.data[6] * M.data[15]) * det;
+            data[6] = (M.data[4] * M.data[2] - M.data[0] * M.data[6]) * det;
             data[7] = (-M.data[8] * M.data[6] * M.data[3]
                       + M.data[4] * M.data[10] * M.data[3]
                       + M.data[8] * M.data[2] * M.data[7]
                       - M.data[0] * M.data[10] * M.data[7]
                       - M.data[4] * M.data[2] * M.data[11]
                       + M.data[0] * M.data[6] * M.data[11]) * det;
-            data[8]  = (-M.data[8] * M.data[5] + M.data[4] * M.data[9] * M.data[15]) * det;
-            data[9]  = (M.data[8] * M.data[1] - M.data[0] * M.data[9] * M.data[15]) * det;
-            data[10] = (-M.data[4] * M.data[1] + M.data[0] * M.data[5] * M.data[15]) * det;
+            data[8]  = (-M.data[8] * M.data[5] + M.data[4] * M.data[9]) * det;
+            data[9]  = (M.data[8] * M.data[1] - M.data[0] * M.data[9]) * det;
+            data[10] = (-M.data[4] * M.data[1] + M.data[0] * M.data[5]) * det;
             data[11] = (M.data[8] * M.data[5] * M.data[3]
                       - M.data[4] * M.data[9] * M.data[4]
                       - M.data[8] * M.data[1] * M.data[7]
