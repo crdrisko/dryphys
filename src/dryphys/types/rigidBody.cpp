@@ -202,6 +202,6 @@ namespace DryPhys
 
     void RigidBody::getTransform(Transform4D* transform) const
     {
-        std::memcpy(transform, &transformMatrix_.data, sizeof(Transform4D));
+        std::memcpy(transform, transformMatrix_.data, sizeof(Transform4D));
     }
 }   // namespace DryPhys
