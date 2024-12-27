@@ -225,7 +225,7 @@ namespace ShapeWatcher
 
     void ScenePlay::sMovement()
     {
-        for (auto entity : entityManager_.getEntities()) 
+        for (auto entity : entityManager_.getEntities())
         {
             entity->getComponent<CTransform>().particle.moveA(1.0f);
             entity->getComponent<CTransform>().particle.moveB(1.0f);

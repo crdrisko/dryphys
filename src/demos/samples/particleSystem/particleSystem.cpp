@@ -14,7 +14,10 @@
 
 #include <SFML/Graphics.hpp>
 
-ParticleSystem::ParticleSystem(std::size_t max_particles) { particles_.reserve(max_particles); }
+ParticleSystem::ParticleSystem(unsigned max_particles) : world {max_particles}, gravity {DryPhys::Vector3D {0, 5, 0}}
+{
+    particles_.reserve(max_particles);
+}
 
 void ParticleSystem::init(sf::Vector2u windowSize)
 {
@@ -27,10 +30,27 @@ void ParticleSystem::update()
     if (count_ != static_cast<int>(particles_.size()))
         resetParticles();
 
+    // Clear accumulators
+    world.startFrame();
+
+    // Run the simulation
+    world.runPhysics(0.1);
+
     for (std::size_t i {}; i < particles_.size(); ++i)
     {
         if (particles_[i].second-- == 0)
             resetParticle(i);
+        // else if (particles_[i].second < 45)
+        // {
+        //     for (std::size_t j {}; j < 4; ++j)
+        //     {
+        //         auto color = vertices_[4 * i + j].color;
+
+        //         float gray                 = (color.r + color.g + color.b) / 3.0f;
+        //         vertices_[4 * i + j].color = sf::Color {
+        //             static_cast<sf::Uint8>(gray), static_cast<sf::Uint8>(gray), static_cast<sf::Uint8>(gray), color.a};
+        //     }
+        // }
 
         sf::Vector2f vel {static_cast<float>(particles_[i].first.getVelocity().x),
             static_cast<float>(particles_[i].first.getVelocity().y)};
@@ -47,6 +67,14 @@ void ParticleSystem::draw(sf::RenderWindow& window) const { window.draw(vertices
 void ParticleSystem::resetParticles()
 {
     particles_.resize(count_);
+    world.getParticles().clear();
+    world.getParticleForceRegistry().clear();
+
+    for (int i = 0; i < count_; i++)
+    {
+        world.getParticles().push_back(&particles_[i].first);
+        world.getParticleForceRegistry().add(&particles_[i].first, &gravity);
+    }
 
     vertices_ = sf::VertexArray(sf::Quads, count_ * 4);
 
@@ -54,11 +82,18 @@ void ParticleSystem::resetParticles()
         resetParticle(i, true);
 }
 
-void ParticleSystem::resetParticle(std::size_t index, bool first)
+void ParticleSystem::resetParticle(unsigned index, bool first)
 {
     // Give the particle an initial position
-    float mx {windowSize_.x / 2.0f};
-    float my {windowSize_.y / 2.0f};
+    float mx {};
+    float my {10.0f};
+
+    if (index <= particles_.size() / 3)
+        mx = 1.0f * windowSize_.x / 4.0f;
+    else if (index <= 2 * particles_.size() / 3)
+        mx = windowSize_.x / 2.0f;
+    else
+        mx = 3.0f * windowSize_.x / 4.0f;
 
     vertices_[4 * index + 0].position = sf::Vector2f(mx, my);
     vertices_[4 * index + 1].position = sf::Vector2f(mx + size_, my);
@@ -87,6 +122,7 @@ void ParticleSystem::resetParticle(std::size_t index, bool first)
     float ry = ((float)rand() / RAND_MAX) * 10 - 5;
 
     particles_[index].first.setVelocity(rx, ry, 0);
+    particles_[index].first.setMass(size_ * 2);
 
     // Give the particles a lifespan
     particles_[index].second = 30 + rand() % 60;

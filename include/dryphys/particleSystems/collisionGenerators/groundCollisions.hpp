@@ -11,9 +11,9 @@
 
 #include <vector>
 
-#include "dryphys/types/particle.hpp"
 #include "dryphys/particleSystems/collisions.hpp"
 #include "dryphys/particleSystems/world.hpp"
+#include "dryphys/types/particle.hpp"
 
 namespace DryPhys
 {

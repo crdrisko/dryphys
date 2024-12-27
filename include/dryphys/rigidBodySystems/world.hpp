@@ -11,8 +11,8 @@
 
 #include <vector>
 
-#include "dryphys/types/rigidBody.hpp"
 #include "dryphys/rigidBodySystems/forceGenerator.hpp"
+#include "dryphys/types/rigidBody.hpp"
 
 namespace DryPhys
 {

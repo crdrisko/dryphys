@@ -16,10 +16,34 @@
 #include <SFML/Graphics.hpp>
 #include <dryphys/dryphys.hpp>
 
+class Firework : public DryPhys::Particle
+{
+public:
+    DryPhys::real lifespan;
+
+    bool update(DryPhys::real duration)
+    {
+        DryPhys::Vector3D constantAcceleration = acceleration_;
+
+        moveA(duration);
+        addForce(constantAcceleration * getMass());
+        moveB(duration);
+
+        acceleration_ = constantAcceleration;
+
+        // We work backwards from our age to zero.
+        lifespan -= duration;
+        return (lifespan < 0) || (position_.y < 0);
+    }
+};
+
 class ParticleSystem
 {
 private:
-    std::vector<std::pair<DryPhys::Particle, float>> particles_;
+    DryPhys::ParticleWorld world;
+    std::vector<std::pair<DryPhys::Particle, DryPhys::real>> particles_;
+    DryPhys::ParticleGravity gravity;
+
     sf::VertexArray vertices_;
     sf::Vector2u windowSize_;
 
@@ -28,10 +52,10 @@ private:
     ImVec4 color_ {0.0f, 0.5f, 0.65f, 0.78f};
 
     void resetParticles();
-    void resetParticle(std::size_t index, bool first = false);
+    void resetParticle(unsigned index, bool first = false);
 
 public:
-    explicit ParticleSystem(std::size_t max_particles);
+    explicit ParticleSystem(unsigned max_particles);
 
     void init(sf::Vector2u windowSize);
     void update();

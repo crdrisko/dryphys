@@ -9,8 +9,8 @@
 #ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONGENERATORS_LINKS_HPP
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONGENERATORS_LINKS_HPP
 
-#include "dryphys/types/particle.hpp"
 #include "dryphys/particleSystems/collisions.hpp"
+#include "dryphys/types/particle.hpp"
 #include "dryphys/utilities/config.hpp"
 
 namespace DryPhys

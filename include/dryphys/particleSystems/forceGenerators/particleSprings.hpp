@@ -10,8 +10,8 @@
 #define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLESPRINGS_HPP
 
 #include "dryphys/math/vector.hpp"
-#include "dryphys/types/particle.hpp"
 #include "dryphys/particleSystems/forceGenerator.hpp"
+#include "dryphys/types/particle.hpp"
 #include "dryphys/utilities/config.hpp"
 
 namespace DryPhys

@@ -171,7 +171,7 @@ namespace DryPhys
 
     void RigidBody::setOrientation(real r, real i, real j, real k)
     {
-        orientation_ = Quaternion{ r, i, j, k };
+        orientation_ = Quaternion {r, i, j, k};
         orientation_.normalize();
     }
 
