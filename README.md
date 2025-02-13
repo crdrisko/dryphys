@@ -1,6 +1,6 @@
 # DryPhys
 
-[![cmake](https://github.com/crdrisko/dryphys/workflows/build/badge.svg)](docs/quick_links.md#Current-Build-Status) [![Coverage Status](https://coveralls.io/repos/github/crdrisko/dryphys/badge.svg)](docs/quick_links.md#Code-Coverage) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/crdrisko/dryphys?include_prereleases)](https://github.com/crdrisko/dryphys/releases)
+[![cmake](https://github.com/crdrisko/dryphys/workflows/build/badge.svg)](docs/quick_links.md#Current-Build-Status) [![Coverage Status](https://coveralls.io/repos/github/crdrisko/dryphys/badge.svg)](docs/quick_links.md#Code-Coverage) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/crdrisko/dryphys?include_prereleases)](https://github.com/crdrisko/dryphys/releases) [![DOI](https://zenodo.org/badge/814145952.svg)](https://doi.org/10.5281/zenodo.14865066)
 
 Welcome to the DryPhys project! ...
 
