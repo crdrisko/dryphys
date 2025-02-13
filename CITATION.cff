@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- affiliation: University of Notre Dame
+  family-names: Drisko
+  given-names: Cody R.
+  orcid: 0009-0006-3968-5088
+title: 'crdrisko/dryphys: v0.1-alpha'
+version: v0.1-alpha
+type: software
+date-released: '2025-02-13'
+doi: 10.5281/zenodo.14865067
+license:
+- mit
+url: "https://github.com/crdrisko/dryphys"
