@@ -117,8 +117,5 @@ var NAVTREEINDEX0 =
 "test_all_vector3_d_functions_8cpp.html#aec6b668b63cc0d764f57593be1901506":[9,0,1,0,9],
 "test_all_vector3_d_functions_8cpp.html#afaf690d5afe5871d766f806ae7683823":[9,0,1,0,0],
 "vector3d_8hpp.html":[9,0,0,0,0],
-"vector3d_8hpp.html#aa6559b5410119b4799f3a6c00bcfcb61":[9,0,0,0,0,5],
-"vector3d_8hpp.html#ac3b09e18c2fb9dd29ef62672d2349347":[9,0,0,0,0,3],
-"vector3d_8hpp.html#ad063c09a49e229beba90fd48d874f23e":[9,0,0,0,0,4],
 "vector3d_8hpp_source.html":[9,0,0,0,0]
 };
