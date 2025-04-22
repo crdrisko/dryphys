@@ -23,8 +23,14 @@ namespace DryPhys
     using real = double;
 #endif
 
+    namespace Constants
+    {
+        static inline constexpr real gravity = -9.81;
+        static inline constexpr real pi = 3.14159265358979;
+    }
+
     //! Check equality of two reals by comparing their difference to the machine epsilon
-    static inline bool equality(real rhs, real lhs) { return (std::fabs(lhs - rhs) <= std::numeric_limits<real>::epsilon()); }
+    static inline bool equality(real rhs, real lhs) { return (std::abs(lhs - rhs) <= std::numeric_limits<real>::epsilon()); }
 }
 
 #endif

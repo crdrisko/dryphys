@@ -26,6 +26,7 @@ namespace DryPhys
     public:
         real data[9] {};
 
+        //! Constructors
         constexpr Matrix3D() noexcept = default;
 
         constexpr Matrix3D(real a0, real a1, real a2,
@@ -163,12 +164,82 @@ namespace DryPhys
             
             return result;
         }
+    
+        constexpr void fillGLArray(float array[9]) const
+        {
+            array[0] = static_cast<float>(data[0]);
+            array[1] = static_cast<float>(data[3]);
+            array[2] = static_cast<float>(data[6]);
+
+            array[3] = static_cast<float>(data[1]);
+            array[4] = static_cast<float>(data[4]);
+            array[5] = static_cast<float>(data[7]);
+
+            array[6] = static_cast<float>(data[2]);
+            array[7] = static_cast<float>(data[5]);
+            array[8] = static_cast<float>(data[8]);
+        }
+    };
+    
+    class Matrix4D
+    {
+    public:
+        real data[16] {};
+
+        //! Constructors
+        constexpr Matrix4D() noexcept = default;
+
+        constexpr Matrix4D(real a0,  real a1,  real a2,  real a3,
+                           real a4,  real a5,  real a6,  real a7,
+                           real a8,  real a9,  real a10, real a11,
+                           real a12, real a13, real a14, real a15) noexcept
+        {
+            data[0]  = a0;  data[1]  = a1;  data[2]  = a2;  data[3]  = a3;
+            data[4]  = a4;  data[5]  = a5;  data[6]  = a6;  data[7]  = a7;
+            data[8]  = a8;  data[9]  = a9;  data[10] = a10; data[11] = a11;
+            data[12] = a12; data[13] = a13; data[14] = a14; data[15] = a15;
+        }
+
+        constexpr void fillGLArray(float array[16]) const
+        {
+            array[0] = static_cast<float>(data[0]);
+            array[1] = static_cast<float>(data[4]);
+            array[2] = static_cast<float>(data[8]);
+            array[3] = static_cast<float>(data[12]);
+
+            array[4] = static_cast<float>(data[1]);
+            array[5] = static_cast<float>(data[5]);
+            array[6] = static_cast<float>(data[9]);
+            array[7] = static_cast<float>(data[13]);
+
+            array[8]  = static_cast<float>(data[2]);
+            array[9]  = static_cast<float>(data[6]);
+            array[10] = static_cast<float>(data[10]);
+            array[11] = static_cast<float>(data[14]);
+
+            array[12] = static_cast<float>(data[3]);
+            array[13] = static_cast<float>(data[7]);
+            array[14] = static_cast<float>(data[11]);
+            array[15] = static_cast<float>(data[15]);
+        }
     };
     
     class Transform4D
     {
     public:
         real data[12] {};
+
+        //! Constructors
+        constexpr Transform4D() noexcept = default;
+
+        constexpr Transform4D(real a0,  real a1,  real a2,  real a3,
+                              real a4,  real a5,  real a6,  real a7,
+                              real a8,  real a9,  real a10, real a11) noexcept
+        {
+            data[0]  = a0;  data[1]  = a1;  data[2]  = a2;  data[3]  = a3;
+            data[4]  = a4;  data[5]  = a5;  data[6]  = a6;  data[7]  = a7;
+            data[8]  = a8;  data[9]  = a9;  data[10] = a10; data[11] = a11;
+        }
 
         constexpr Transform4D operator*(const Transform4D& M) const
         {
@@ -229,8 +300,10 @@ namespace DryPhys
         {
             // Calculate the determinant and make sure it isn't zero
             real det = getDeterminant();
+
             if (det == static_cast<real>(0))
                 return;
+
             det = static_cast<real>(1) / det;
 
             data[0] = (-M.data[9] * M.data[6] + M.data[5] * M.data[10]) * det;
@@ -269,10 +342,32 @@ namespace DryPhys
             return result;
         }
 
-        void invert() { setInverse(*this); }
+        constexpr void invert() { setInverse(*this); }
+
+        constexpr void fillGLArray(float array[16]) const
+        {
+            array[0] = static_cast<float>(data[0]);
+            array[1] = static_cast<float>(data[4]);
+            array[2] = static_cast<float>(data[8]);
+            array[3] = static_cast<float>(0);
+
+            array[4] = static_cast<float>(data[1]);
+            array[5] = static_cast<float>(data[5]);
+            array[6] = static_cast<float>(data[9]);
+            array[7] = static_cast<float>(0);
+
+            array[8]  = static_cast<float>(data[2]);
+            array[9]  = static_cast<float>(data[6]);
+            array[10] = static_cast<float>(data[10]);
+            array[11] = static_cast<float>(0);
+
+            array[12] = static_cast<float>(data[3]);
+            array[13] = static_cast<float>(data[7]);
+            array[14] = static_cast<float>(data[11]);
+            array[15] = static_cast<float>(1);
+        }
     };
     // clang-format on
-
 }   // namespace DryPhys
 
 #endif

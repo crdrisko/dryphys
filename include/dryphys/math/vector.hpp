@@ -17,6 +17,88 @@
 
 namespace DryPhys
 {
+    class Vector2D : private DryChem::EqualityComparable<Vector2D>
+    {
+    public:
+        real x {};
+        real y {};
+
+        //! Constructors
+        constexpr Vector2D() noexcept = default;
+        constexpr Vector2D(real a, real b) noexcept : x {a}, y {b} {}
+
+        //! Comparison operators - only the equality operator is symmetric
+        constexpr friend bool operator==(const Vector2D& lhs, const Vector2D& rhs)
+        {
+            return lhs.x == rhs.x && lhs.y == rhs.y;
+        }
+
+        constexpr friend bool operator<(const Vector2D& lhs, const Vector2D& rhs) { return lhs.x < rhs.x && lhs.y < rhs.y; }
+
+        constexpr friend bool operator>(const Vector2D& lhs, const Vector2D& rhs) { return lhs.x > rhs.x && lhs.y > rhs.y; }
+
+        constexpr friend bool operator<=(const Vector2D& lhs, const Vector2D& rhs)
+        {
+            return lhs.x <= rhs.x && lhs.y <= rhs.y;
+        }
+
+        constexpr friend bool operator>=(const Vector2D& lhs, const Vector2D& rhs)
+        {
+            return lhs.x >= rhs.x && lhs.y >= rhs.y;
+        }
+
+        //! Element access
+        constexpr real& operator[](unsigned i) { return ((&x)[i]); }
+        constexpr const real& operator[](unsigned i) const { return ((&x)[i]); }
+
+        //! Arithmetic Operators
+        constexpr Vector2D& operator+=(const Vector2D& rhs)
+        {
+            x += rhs.x;
+            y += rhs.y;
+
+            return *this;
+        }
+
+        constexpr Vector2D operator+(const Vector2D& rhs) const { return Vector2D(x + rhs.x, y + rhs.y); }
+
+        constexpr Vector2D& operator-=(const Vector2D& rhs)
+        {
+            x -= rhs.x;
+            y -= rhs.y;
+
+            return *this;
+        }
+
+        constexpr Vector2D operator-(const Vector2D& rhs) const { return Vector2D(x - rhs.x, y - rhs.y); }
+
+        constexpr Vector2D& operator*=(real rhs)
+        {
+            x *= rhs;
+            y *= rhs;
+
+            return *this;
+        }
+
+        constexpr Vector2D operator*(real rhs) const { return Vector2D(x * rhs, y * rhs); }
+
+        constexpr Vector2D& operator/=(real rhs)
+        {
+            rhs = static_cast<real>(1) / rhs;
+
+            x *= rhs;
+            y *= rhs;
+
+            return *this;
+        }
+
+        constexpr Vector2D operator/(real rhs) const
+        {
+            rhs = static_cast<real>(1) / rhs;
+            return Vector2D(x * rhs, y * rhs);
+        }
+    };
+
     /*!
      * A class representing a mathematical/physical vector with three dimensions: x, y, z.
      */

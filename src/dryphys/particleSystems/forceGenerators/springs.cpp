@@ -1,12 +1,12 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: particleSpring.cpp
+// Name: spring.cpp
 // Author: crdrisko
 // Date: 06/22/2024-06:44:57
 // Description:
 
-#include "dryphys/particleSystems/forceGenerators/particleSprings.hpp"
+#include "dryphys/particleSystems/forceGenerators/springs.hpp"
 
 #include <cmath>
 

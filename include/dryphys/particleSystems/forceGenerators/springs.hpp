@@ -1,13 +1,13 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: particleSprings.hpp
+// Name: springs.hpp
 // Author: crdrisko
 // Date: 06/22/2024-06:36:13
 // Description:
 
-#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLESPRINGS_HPP
-#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLESPRINGS_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_SPRINGS_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_SPRINGS_HPP
 
 #include "dryphys/math/vector.hpp"
 #include "dryphys/particleSystems/forceGenerator.hpp"

@@ -12,6 +12,9 @@ function(DryPhysNewTest)
 
     target_link_libraries(Test${TEST_ARGS_TESTNAME} dryphys ${GTEST_LIBRARIES} Threads::Threads)
 
+    set_target_properties(Test${TEST_ARGS_TESTNAME} 
+                          PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_RPATH};${CMAKE_INSTALL_PREFIX}/lib;/usr/local/lib") 
+
     if (TEST_ARGS_USEFILESYSTEM AND CMAKE_COMPILER_IS_GNUCXX)
         target_link_libraries(Test${TEST_ARGS_TESTNAME} stdc++fs)
     endif()

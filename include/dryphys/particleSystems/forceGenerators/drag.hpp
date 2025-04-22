@@ -1,13 +1,13 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: particleDrag.hpp
+// Name: drag.hpp
 // Author: crdrisko
 // Date: 06/16/2024-05:48:52
 // Description:
 
-#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEDRAG_HPP
-#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_PARTICLEDRAG_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_DRAG_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_FORCEGENERATORS_DRAG_HPP
 
 #include "dryphys/particleSystems/forceGenerator.hpp"
 #include "dryphys/types/particle.hpp"

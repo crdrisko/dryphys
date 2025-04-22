@@ -47,6 +47,11 @@ namespace DryPhys
 
     public:
         void integrate(real duration);
+
+        //! Velocity-Verlet integration steps
+        void moveA(real duration);
+        void moveB(real duration);
+
         void calculateDerivedData();
         void addForce(const Vector3D& force);
         void addForceAtPoint(const Vector3D& force, const Vector3D& point);
@@ -58,16 +63,31 @@ namespace DryPhys
         constexpr Vector3D getPointInWorldSpace(const Vector3D& point) const { return transformMatrix_.transform(point); }
 
         //! Perform movement in one step rather than calling get and set positions
-        constexpr void move(const Vector3D& offset) { position_ += offset; }
-        constexpr void move(real x, real y, real z) { position_ += Vector3D {x, y, z}; }
+        constexpr void drift(const Vector3D& offset, real scale = 1)
+        {
+            position_.x += offset.x * scale;
+            position_.y += offset.y * scale;
+            position_.z += offset.z * scale;
+        }
 
         //! Perform velocity kick in one step rather than calling get and set velocities
-        constexpr void kick(const Vector3D& offset) { velocity_ += offset; }
-        constexpr void kick(real x, real y, real z) { velocity_ += Vector3D {x, y, z}; }
+        constexpr void kick(const Vector3D& offset, real scale = 1)
+        {
+            velocity_.x += offset.x * scale;
+            velocity_.y += offset.y * scale;
+            velocity_.z += offset.z * scale;
+        }
 
         //! Perform rotational kick in one step rather than calling get and set rotations
-        constexpr void rotate(const Vector3D& offset) { rotation_ += offset; }
-        constexpr void rotate(real x, real y, real z) { rotation_ += Vector3D {x, y, z}; }
+        constexpr void rotate(const Vector3D& offset, real scale = 1)
+        {
+            rotation_.x += offset.x * scale;
+            rotation_.y += offset.y * scale;
+            rotation_.z += offset.z * scale;
+        }
+
+        //! Perform drag force in one step rather than calling get and set velocities
+        constexpr void drag(real offset) { velocity_ *= offset; }
 
         //! Accessors
         constexpr void setPosition(const Vector3D& position) { position_ = position; }

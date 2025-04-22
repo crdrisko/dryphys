@@ -113,6 +113,44 @@ namespace DryPhys
         clearAccumulators();
     }
 
+    void RigidBody::moveA(real duration)
+    {
+        if (!isAwake_)
+            return;
+
+        Vector3D resultingAngularAcc = inverseInertiaTensorWorld_.transform(torqueAccumulator_);
+
+        kick(acceleration_, duration * 0.5);
+        rotate(resultingAngularAcc, duration * 0.5);
+        drift(velocity_, duration);
+    }
+
+    void RigidBody::moveB(real duration)
+    {
+        if (!isAwake_)
+            return;
+
+        // Update and store acceleration for next timestep's moveA()
+        acceleration_ = forceAccumulator_ * inverseMass_;
+
+        Vector3D resultingAngularAcc = inverseInertiaTensorWorld_.transform(torqueAccumulator_);
+
+        kick(acceleration_, duration * 0.5);
+        rotate(resultingAngularAcc, duration * 0.5);
+
+        Quaternion q {rotation_ * duration, 0};
+        q *= orientation_;
+
+        orientation_.w += q.w * static_cast<real>(0.5);
+        orientation_.x += q.x * static_cast<real>(0.5);
+        orientation_.y += q.y * static_cast<real>(0.5);
+        orientation_.z += q.z * static_cast<real>(0.5);
+
+        calculateDerivedData();
+
+        clearAccumulators();
+    }
+
     void RigidBody::calculateDerivedData()
     {
         orientation_.normalize();

@@ -1,12 +1,12 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: particleGravity.cpp
+// Name: gravity.cpp
 // Author: crdrisko
 // Date: 06/16/2024-05:53:22
 // Description:
 
-#include "dryphys/particleSystems/forceGenerators/particleGravity.hpp"
+#include "dryphys/particleSystems/forceGenerators/gravity.hpp"
 
 #include "dryphys/types/particle.hpp"
 #include "dryphys/utilities/config.hpp"
