@@ -134,7 +134,7 @@ if (NOT phys_exclude_engine)
 
     ## GLFW ##
     find_package(glfw3 REQUIRED)
-    find_package(glm REQUIRED)
+    # find_package(glm REQUIRED)
 
     include_directories(${imgui_SOURCE_DIR}/backends)
     include_directories(${PROJECT_SOURCE_DIR}/extern)
@@ -165,9 +165,9 @@ configure_file("${PROJECT_SOURCE_DIR}/include/config.hpp.cmake" "${PROJECT_SOURC
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
-set(DRYPHYS_SOURCE src/dryphys/particleSystems/collisions.cpp
-                   src/dryphys/particleSystems/collisionGenerators/groundCollisions.cpp
-                   src/dryphys/particleSystems/collisionGenerators/links.cpp
+set(DRYPHYS_SOURCE src/dryphys/particleSystems/constraints.cpp
+                   src/dryphys/particleSystems/constraintGenerators/groundConstraints.cpp
+                   src/dryphys/particleSystems/constraintGenerators/links.cpp
                    src/dryphys/particleSystems/forceGenerator.cpp
                    src/dryphys/particleSystems/forceGenerators/buoyancy.cpp
                    src/dryphys/particleSystems/forceGenerators/drag.cpp

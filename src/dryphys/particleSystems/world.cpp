@@ -10,18 +10,19 @@
 
 #include <iostream>
 
+#include "dryphys/particleSystems/constraints.hpp"
 #include "dryphys/utilities/config.hpp"
 
 namespace DryPhys
 {
-    ParticleWorld::ParticleWorld(unsigned maxCollisions, unsigned iterations)
-        : resolver_ {iterations}, maxCollisions_ {maxCollisions}
+    ParticleWorld::ParticleWorld(unsigned maxContraints, unsigned iterations)
+        : resolver_ {iterations}, maxContraints_ {maxContraints}
     {
-        collisions_          = new ParticleCollision[maxCollisions_];
+        constraints_         = new ParticleConstraint[maxContraints_];
         calculateIterations_ = (iterations == 0);
     }
 
-    ParticleWorld::~ParticleWorld() { delete[] collisions_; }
+    ParticleWorld::~ParticleWorld() { delete[] constraints_; }
 
     void ParticleWorld::startFrame()
     {
@@ -29,24 +30,24 @@ namespace DryPhys
             particle->clearAccumulator();
     }
 
-    unsigned ParticleWorld::generateCollisions()
+    unsigned ParticleWorld::generateConstraints()
     {
-        unsigned limit = maxCollisions_;
+        unsigned limit = maxContraints_;
 
-        ParticleCollision* nextCollision = collisions_;
+        ParticleConstraint* nextConstraint = constraints_;
 
-        for (const auto* collisionGenerator : collisionGenerators_)
+        for (const auto* collisionGenerator : constraintGenerators_)
         {
-            unsigned used = collisionGenerator->addCollision(nextCollision, limit);
+            unsigned used = collisionGenerator->addConstraint(nextConstraint, limit);
             limit -= used;
-            nextCollision += used;
+            nextConstraint += used;
 
             // We've run out of collisions
             if (limit <= 0)
                 break;
         }
 
-        return maxCollisions_ - limit;
+        return maxContraints_ - limit;
     }
 
     // void ParticleWorld::integrate(real duration)
@@ -76,14 +77,14 @@ namespace DryPhys
         registry_.updateForces(duration);
         moveB(duration);
 
-        unsigned usedCollisions = generateCollisions();
+        unsigned usedConstraints = generateConstraints();
 
-        if (usedCollisions)
+        if (usedConstraints)
         {
             if (calculateIterations_)
-                resolver_.setIterations(usedCollisions * 2);
+                resolver_.setIterations(usedConstraints * 2);
 
-            resolver_.resolveCollisions(collisions_, usedCollisions, duration);
+            resolver_.resolveConstraints(constraints_, usedConstraints, duration);
         }
     }
 }   // namespace DryPhys

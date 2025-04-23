@@ -1,13 +1,13 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: collisions.hpp
+// Name: constraints.hpp
 // Author: crdrisko
 // Date: 07/13/2024-06:30:04
 // Description:
 
-#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONS_HPP
-#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONS_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_CONSTRAINTS_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_CONSTRAINTS_HPP
 
 #include <vector>
 
@@ -18,14 +18,14 @@
 namespace DryPhys
 {
     //! Forward declare for friend class functionality
-    class ParticleCollisionResolver;
+    class ParticleConstraintResolver;
 
     /*!
      *
      */
-    class ParticleCollision
+    class ParticleConstraint
     {
-        friend class ParticleCollisionResolver;
+        friend class ParticleConstraintResolver;
 
     public:
         Particle* particles_[2];
@@ -46,29 +46,29 @@ namespace DryPhys
     /*!
      *
      */
-    class ParticleCollisionResolver
+    class ParticleConstraintResolver
     {
     protected:
         unsigned iterations_ {};
         unsigned iterationsUsed_ {};
 
     public:
-        constexpr explicit ParticleCollisionResolver(unsigned iterations) noexcept : iterations_ {iterations} {}
+        constexpr explicit ParticleConstraintResolver(unsigned iterations) noexcept : iterations_ {iterations} {}
 
         constexpr void setIterations(unsigned iterations) noexcept { iterations_ = iterations; }
 
-        void resolveCollisions(ParticleCollision* collisions, unsigned numCollisions, real duration);
+        void resolveConstraints(ParticleConstraint* constraints, unsigned numConstraints, real duration);
     };
 
     /*!
      *
      */
-    class ParticleCollisionGenerator
+    class ParticleConstraintGenerator
     {
     public:
-        virtual ~ParticleCollisionGenerator() = default;
+        virtual ~ParticleConstraintGenerator() = default;
 
-        virtual unsigned addCollision(ParticleCollision* collision, unsigned limit) const = 0;
+        virtual unsigned addConstraint(ParticleConstraint* collision, unsigned limit) const = 0;
     };
 }   // namespace DryPhys
 

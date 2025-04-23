@@ -1,7 +1,7 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: broadCollision.hpp
+// Name: broadConstraints.hpp
 // Author: crdrisko
 // Date: 12/28/2024-06:56:29
 // Description:

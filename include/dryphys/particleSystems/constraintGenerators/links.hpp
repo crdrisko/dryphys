@@ -6,10 +6,10 @@
 // Date: 07/13/2024-08:34:47
 // Description:
 
-#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONGENERATORS_LINKS_HPP
-#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONGENERATORS_LINKS_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_CONSTRAINTGENERATORS_LINKS_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_CONSTRAINTGENERATORS_LINKS_HPP
 
-#include "dryphys/particleSystems/collisions.hpp"
+#include "dryphys/particleSystems/constraints.hpp"
 #include "dryphys/types/particle.hpp"
 #include "dryphys/utilities/config.hpp"
 
@@ -18,12 +18,12 @@ namespace DryPhys
     /*!
      *
      */
-    class ParticleLink : public ParticleCollisionGenerator
+    class ParticleLink : public ParticleConstraintGenerator
     {
     public:
         Particle* particles_[2];
 
-        unsigned addCollision(ParticleCollision* collision, unsigned limit) const override = 0;
+        unsigned addConstraint(ParticleConstraint* constraint, unsigned limit) const override = 0;
 
     protected:
         real currentLength() const;
@@ -38,7 +38,7 @@ namespace DryPhys
         real maxLength_ {};
         real restitution_ {};
 
-        unsigned addCollision(ParticleCollision* collision, unsigned limit) const override;
+        unsigned addConstraint(ParticleConstraint* constraint, unsigned limit) const override;
     };
 
     /*!
@@ -49,11 +49,11 @@ namespace DryPhys
     public:
         real length_ {};
 
-        unsigned addCollision(ParticleCollision* collision, unsigned limit) const override;
+        unsigned addConstraint(ParticleConstraint* constraint, unsigned limit) const override;
     };
 
 
-    class ParticleConstraint : public ParticleCollisionGenerator
+    class ParticleAnchor : public ParticleConstraintGenerator
     {
     public:
         Particle* particle_;
@@ -63,28 +63,26 @@ namespace DryPhys
         real currentLength() const;
 
     public:
-        virtual unsigned addCollision(ParticleCollision* collision, unsigned limit) const = 0;
+        unsigned addConstraint(ParticleConstraint* constraint, unsigned limit) const override = 0;
     };
 
 
-    class ParticleCableConstraint : public ParticleConstraint
+    class ParticleCableConstraint : public ParticleAnchor
     {
     public:
         real maxLength_;
         real restitution_;
 
-    public:
-        unsigned addCollision(ParticleCollision* collision, unsigned limit) const override;
+        unsigned addConstraint(ParticleConstraint* constraint, unsigned limit) const override;
     };
 
 
-    class ParticleRodConstraint : public ParticleConstraint
+    class ParticleRodConstraint : public ParticleAnchor
     {
     public:
         real length_;
 
-    public:
-        unsigned addCollision(ParticleCollision* collision, unsigned limit) const override;
+        unsigned addConstraint(ParticleConstraint* constraint, unsigned limit) const override;
     };
 }   // namespace DryPhys
 

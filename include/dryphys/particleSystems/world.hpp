@@ -11,7 +11,7 @@
 
 #include <vector>
 
-#include "dryphys/particleSystems/collisions.hpp"
+#include "dryphys/particleSystems/constraints.hpp"
 #include "dryphys/particleSystems/forceGenerator.hpp"
 #include "dryphys/types/particle.hpp"
 
@@ -20,32 +20,32 @@ namespace DryPhys
     class ParticleWorld
     {
     public:
-        using Particles           = std::vector<Particle*>;
-        using CollisionGenerators = std::vector<ParticleCollisionGenerator*>;
+        using Particles            = std::vector<Particle*>;
+        using ConstraintGenerators = std::vector<ParticleConstraintGenerator*>;
 
     protected:
         Particles particles_;
         ParticleForceRegistry registry_;
-        ParticleCollisionResolver resolver_;
-        CollisionGenerators collisionGenerators_;
-        ParticleCollision* collisions_;
+        ParticleConstraintResolver resolver_;
+        ConstraintGenerators constraintGenerators_;
+        ParticleConstraint* constraints_;
 
-        unsigned maxCollisions_ {};
+        unsigned maxContraints_ {};
         bool calculateIterations_ {};
 
     public:
-        ParticleWorld(unsigned maxCollisions, unsigned iterations = 0);
+        ParticleWorld(unsigned maxConstraints, unsigned iterations = 0);
         ~ParticleWorld();
 
         void startFrame();
-        unsigned generateCollisions();
+        unsigned generateConstraints();
         // void integrate(real duration);
         void moveA(real duration);
         void moveB(real duration);
         void runPhysics(real duration);
 
         Particles& getParticles() { return particles_; }
-        CollisionGenerators& getCollisionGenerators() { return collisionGenerators_; }
+        ConstraintGenerators& getConstraintGenerators() { return constraintGenerators_; }
         ParticleForceRegistry& getParticleForceRegistry() { return registry_; }
     };
 }   // namespace DryPhys

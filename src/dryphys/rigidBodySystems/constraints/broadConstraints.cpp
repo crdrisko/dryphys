@@ -1,12 +1,12 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: broadCollision.cpp
+// Name: broadConstraints.cpp
 // Author: crdrisko
 // Date: 12/29/2024-05:09:47
 // Description:
 
-#include "dryphys/rigidBodySystems/collisions/broadCollision.hpp"
+#include "dryphys/rigidBodySystems/constraints/broadConstraints.hpp"
 
 #include <cmath>
 

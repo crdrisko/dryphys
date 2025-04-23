@@ -1,29 +1,29 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: collisions.cpp
+// Name: constraints.cpp
 // Author: crdrisko
 // Date: 07/13/2024-06:35:09
 // Description:
 
-#include "dryphys/particleSystems/collisions.hpp"
-
 #include <limits>
 #include <vector>
 
+#include "dryphys/particleSystems/constraints.hpp"
+
 namespace DryPhys
 {
-    void ParticleCollision::resolve(real duration)
+    void ParticleConstraint::resolve(real duration)
     {
         resolveVelocity(duration);
         resolveInterpenetration(duration);
     }
 
-    real ParticleCollision::calculateSeparatingVelocity() const
+    real ParticleConstraint::calculateSeparatingVelocity() const
     {
         Vector3D relativeVelocity = particles_[0]->getVelocity();
 
-        // NULL for single-object collisions (i.e. particle and scenery)
+        // NULL for single-object constraints (i.e. particle and scenery)
         if (particles_[1])
             relativeVelocity -= particles_[1]->getVelocity();
 
@@ -32,7 +32,7 @@ namespace DryPhys
         return separatingVelocity;
     }
 
-    void ParticleCollision::resolveVelocity(real)
+    void ParticleConstraint::resolveVelocity(real)
     {
         real separatingVelocity = calculateSeparatingVelocity();
 
@@ -80,7 +80,7 @@ namespace DryPhys
             particles_[1]->kick(impulsePerInvMass, -particles_[1]->getInverseMass());
     }
 
-    void ParticleCollision::resolveInterpenetration(real)
+    void ParticleConstraint::resolveInterpenetration(real)
     {
         // We can't resolve interpenetration if there isn't anything to resolve
         if (penetration_ <= 0)
@@ -110,7 +110,8 @@ namespace DryPhys
             particles_[1]->drift(particleMovements_[1]);
     }
 
-    void ParticleCollisionResolver::resolveCollisions(ParticleCollision* collisions, unsigned numCollisions, real duration)
+    void ParticleConstraintResolver::resolveConstraints(
+        ParticleConstraint* constraints, unsigned numConstraints, real duration)
     {
         unsigned i;
 
@@ -119,11 +120,11 @@ namespace DryPhys
         {
             // Find the contact with the largest closing velocity;
             real max          = std::numeric_limits<real>::max();
-            unsigned maxIndex = numCollisions;
-            for (i = 0; i < numCollisions; i++)
+            unsigned maxIndex = numConstraints;
+            for (i = 0; i < numConstraints; i++)
             {
-                real sepVel = collisions[i].calculateSeparatingVelocity();
-                if (sepVel < max && (sepVel < 0 || collisions[i].penetration_ > 0))
+                real sepVel = constraints[i].calculateSeparatingVelocity();
+                if (sepVel < max && (sepVel < 0 || constraints[i].penetration_ > 0))
                 {
                     max      = sepVel;
                     maxIndex = i;
@@ -131,33 +132,33 @@ namespace DryPhys
             }
 
             // Do we have anything worth resolving?
-            if (maxIndex == numCollisions)
+            if (maxIndex == numConstraints)
                 break;
 
             // Resolve this contact
-            collisions[maxIndex].resolve(duration);
+            constraints[maxIndex].resolve(duration);
 
             // Update the interpenetrations for all particles
-            Vector3D* move = collisions[maxIndex].particleMovements_;
-            for (i = 0; i < numCollisions; i++)
+            Vector3D* move = constraints[maxIndex].particleMovements_;
+            for (i = 0; i < numConstraints; i++)
             {
-                if (collisions[i].particles_[0] == collisions[maxIndex].particles_[0])
+                if (constraints[i].particles_[0] == constraints[maxIndex].particles_[0])
                 {
-                    collisions[i].penetration_ -= move[0].dot(collisions[i].contactNormal_);
+                    constraints[i].penetration_ -= move[0].dot(constraints[i].contactNormal_);
                 }
-                else if (collisions[i].particles_[0] == collisions[maxIndex].particles_[1])
+                else if (constraints[i].particles_[0] == constraints[maxIndex].particles_[1])
                 {
-                    collisions[i].penetration_ -= move[1].dot(collisions[i].contactNormal_);
+                    constraints[i].penetration_ -= move[1].dot(constraints[i].contactNormal_);
                 }
-                if (collisions[i].particles_[1])
+                if (constraints[i].particles_[1])
                 {
-                    if (collisions[i].particles_[1] == collisions[maxIndex].particles_[0])
+                    if (constraints[i].particles_[1] == constraints[maxIndex].particles_[0])
                     {
-                        collisions[i].penetration_ += move[0].dot(collisions[i].contactNormal_);
+                        constraints[i].penetration_ += move[0].dot(constraints[i].contactNormal_);
                     }
-                    else if (collisions[i].particles_[1] == collisions[maxIndex].particles_[1])
+                    else if (constraints[i].particles_[1] == constraints[maxIndex].particles_[1])
                     {
-                        collisions[i].penetration_ += move[1].dot(collisions[i].contactNormal_);
+                        constraints[i].penetration_ += move[1].dot(constraints[i].contactNormal_);
                     }
                 }
             }

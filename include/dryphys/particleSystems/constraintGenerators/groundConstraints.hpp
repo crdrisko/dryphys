@@ -1,23 +1,23 @@
 // Copyright (c) 2024 C.R. Drisko. All rights reserved.
 // Licensed under the MIT License. See the LICENSE file in the project root for more information.
 //
-// Name: groundCollisions.hpp
+// Name: groundConstraints.hpp
 // Author: crdrisko
 // Date: 12/04/2024-05:14:04
 // Description:
 
-#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONGENERATORS_GROUNDCOLLISIONS_HPP
-#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_COLLISIONGENERATORS_GROUNDCOLLISIONS_HPP
+#ifndef DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_CONSTRAINTGENERATORS_GROUNDCONSTRAINTS_HPP
+#define DRYPHYS_INCLUDE_DRYPHYS_PARTICLESYSTEMS_CONSTRAINTGENERATORS_GROUNDCONSTRAINTS_HPP
 
 #include <vector>
 
-#include "dryphys/particleSystems/collisions.hpp"
+#include "dryphys/particleSystems/constraints.hpp"
 #include "dryphys/particleSystems/world.hpp"
 #include "dryphys/types/particle.hpp"
 
 namespace DryPhys
 {
-    class GroundCollisions : public ParticleCollisionGenerator
+    class GroundConstraints : public ParticleConstraintGenerator
     {
     private:
         ParticleWorld::Particles* particles_;
@@ -25,7 +25,7 @@ namespace DryPhys
     public:
         void init(ParticleWorld::Particles* particles) { particles_ = particles; }
 
-        virtual unsigned addCollision(ParticleCollision* collision, unsigned limit) const;
+        unsigned addConstraint(ParticleConstraint* constraint, unsigned limit) const override;
     };
 }   // namespace DryPhys
 
