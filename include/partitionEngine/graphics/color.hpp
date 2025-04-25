@@ -4,7 +4,7 @@
 // Name: color.hpp
 // Author: crdrisko
 // Date: 01/12/2025-06:10:06
-// Description:
+// Description: Simple wrappers for OpenGL and RGBA color schemes
 
 #ifndef DRYPHYS_INCLUDE_PARTITIONENGINE_GRAPHICS_COLOR_HPP
 #define DRYPHYS_INCLUDE_PARTITIONENGINE_GRAPHICS_COLOR_HPP
@@ -14,7 +14,7 @@
 namespace PartitionEngine
 {
     /*!
-     * @brief 
+     * 
      */
     struct ColorGL
     {

@@ -19,7 +19,7 @@
 // #include "partitionEngine/engine/scene.hpp"
 #include "partitionEngine/graphics/color.hpp"
 // #include "partitionEngine/graphics/graphics.hpp"
-// #include "partitionEngine/graphics/shaders.hpp"
+#include "partitionEngine/graphics/shaders.hpp"
 // #include "partitionEngine/graphics/text.hpp"
 // #include "partitionEngine/graphics/texture.hpp"
 // #include "partitionEngine/graphics/textureSheet.hpp"

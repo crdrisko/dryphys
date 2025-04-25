@@ -30,16 +30,28 @@ namespace PartitionEngine
         std::vector<Event> events_;
 
         void init();
+        void resize(int width, int height);
         void spawnEvent(const Event& event) { events_.push_back(event); }
 
     public:
+        //! Constructors
         Window();
         Window(int width, int height, const std::string& title, GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
+
+        //! Destructor
         ~Window();
 
+        /*!
+         * Creates a GLFWwindow and initializes ImGui. 
+         *
+         * @param width 
+         * @param height 
+         * @param title 
+         * @param monitor 
+         * @param share 
+         */
         void create(
             int width, int height, const std::string& title, GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
-        void resize(int width, int height);
         bool isOpen();
         void pollEvents();
         void clear(const ColorRGBA& clearColor = Colors::Black);

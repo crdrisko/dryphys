@@ -105,6 +105,24 @@ if (NOT phys_exclude_engine)
                      ${imgui_SOURCE_DIR}/imgui_tables.cpp
                      ${imgui_SOURCE_DIR}/imgui_widgets.cpp)
 
+    ## GLFW ##
+    find_package(glfw3 REQUIRED)
+    # find_package(glm REQUIRED)
+
+    include_directories(${imgui_SOURCE_DIR}/backends)
+    include_directories(${PROJECT_SOURCE_DIR}/extern)
+    include_directories(/opt/homebrew/include/glm)
+
+    set(IMGUI_GLFW_SOURCE ${IMGUI_SOURCE}
+                          ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp 
+                          ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp)
+    
+    if(APPLE)
+        find_package(Freetype REQUIRED)
+        set(FREETYPE_LIBRARIES /opt/homebrew/opt/freetype/lib/libfreetype.dylib)
+        include_directories(${FREETYPE_INCLUDE_DIRS})
+    endif()
+
     # ## SFML ##
     # message(STATUS "Fetching SFML...")
     # FetchContent_Declare(sfml           # v2.6.1
@@ -131,24 +149,6 @@ if (NOT phys_exclude_engine)
 
     # set(IMGUI_SFML_SOURCE ${IMGUI_SOURCE}
     #                       ${imgui_sfml_SOURCE_DIR}/imgui-SFML.cpp)
-
-    ## GLFW ##
-    find_package(glfw3 REQUIRED)
-    # find_package(glm REQUIRED)
-
-    include_directories(${imgui_SOURCE_DIR}/backends)
-    include_directories(${PROJECT_SOURCE_DIR}/extern)
-    include_directories(/opt/homebrew/include/glm)
-
-    set(IMGUI_GLFW_SOURCE ${IMGUI_SOURCE}
-                          ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp 
-                          ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp)
-    
-    if(APPLE)
-        find_package(Freetype REQUIRED)
-        set(FREETYPE_LIBRARIES /opt/homebrew/opt/freetype/lib/libfreetype.dylib)
-        include_directories(${FREETYPE_INCLUDE_DIRS})
-    endif()
 endif()
 
 
@@ -204,12 +204,12 @@ if (NOT phys_exclude_engine)
     # set_target_properties(engine2d_gui PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
 
     ## 2D/3D PartitionEngine ##
-    set(PARTITIONENGINE_SOURCE src/partitionEngine/window/window.cpp)
+    set(PARTITIONENGINE_SOURCE src/partitionEngine/window/window.cpp
+                               src/partitionEngine/graphics/shaders.cpp)
                             #    src/partitionEngine/engine/assets.cpp
                             #    src/partitionEngine/engine/engine.cpp
                             #    src/partitionEngine/engine/scene.cpp
-                            #    src/partitionEngine/graphics/shaders.cpp
-                            #    src/partitionEngine/graphics/textureSheet.cpp
+                            #    src/partitionEngine/graphics/textureSheet.cpp)
 
     set(EXTERNAL_SOURCE ${PROJECT_SOURCE_DIR}/extern/glad/glad.c
                         ${PROJECT_SOURCE_DIR}/extern/stb_image/stb_image.cpp)
