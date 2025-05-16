@@ -35,6 +35,5 @@
 #include "dryphys/types/particle.hpp"
 #include "dryphys/types/rigidBody.hpp"
 #include "dryphys/utilities/config.hpp"
-#include "dryphys/utilities/ctStringHashing.hpp"
 
 #endif

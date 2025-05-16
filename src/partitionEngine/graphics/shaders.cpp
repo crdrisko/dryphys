@@ -13,7 +13,7 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <common-utils/errors.hpp>
+#include <drychem/drychem.hpp>
 #include <glad/glad.h>
 
 namespace PartitionEngine

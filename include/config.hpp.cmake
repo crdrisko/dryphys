@@ -29,6 +29,8 @@ namespace DryPhys
         static inline constexpr real pi = 3.14159265358979;
     }
 
+    constexpr real radians(real angle) { return angle * Constants::pi / 180.0; }
+
     //! Check equality of two reals by comparing their difference to the machine epsilon
     static inline bool equality(real rhs, real lhs) { return (std::abs(lhs - rhs) <= std::numeric_limits<real>::epsilon()); }
 }

@@ -11,5 +11,4 @@ if (phys_build_tests)
 
     DryPhysNewTest(TESTNAME AllMathFunctions)
     DryPhysNewTest(TESTNAME AllParticleSystemFunctions)
-    DryPhysNewTest(TESTNAME AllUtilityFunctions)
 endif()

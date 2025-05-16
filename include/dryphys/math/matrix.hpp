@@ -12,7 +12,7 @@
 #include <cmath>
 #include <limits>
 
-#include <common-utils/utilities.hpp>
+#include <drychem/drychem.hpp>
 
 #include "dryphys/math/quaternion.hpp"
 #include "dryphys/math/vector.hpp"

@@ -9,6 +9,7 @@
 #ifndef DRYPHYS_INCLUDE_PARTITIONENGINE_WINDOW_WINDOW_HPP
 #define DRYPHYS_INCLUDE_PARTITIONENGINE_WINDOW_WINDOW_HPP
 
+#include <queue>
 #include <string>
 #include <vector>
 
@@ -27,11 +28,11 @@ namespace PartitionEngine
         int width_, height_;
         GLFWwindow* window_;
 
-        std::vector<Event> events_;
+        std::queue<Event> events_;
 
         void init();
         void resize(int width, int height);
-        void spawnEvent(const Event& event) { events_.push_back(event); }
+        void spawnEvent(const Event& event) { events_.push(event); }
 
     public:
         //! Constructors
@@ -58,6 +59,9 @@ namespace PartitionEngine
         void display();
 
         GLFWwindow* window() { return window_; }
+
+        const std::queue<Event>& getEvents() const { return events_; }
+        std::queue<Event>& getEvents() { return events_; }
     };
 }   // namespace PartitionEngine
 

@@ -92,15 +92,36 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DryPhys_BINARY_DIR}/bin/demos)
 # target_link_libraries(particleSystem PRIVATE ImGui-SFML::ImGui-SFML dryphys)
 
 ## GLFW ##
-# add_executable(test_glfw glfw/test.cpp)
-# target_link_libraries(test_glfw PRIVATE glfw partitionEngine "-framework opengl")
-# # set_target_properties(test_glfw PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DryPhys_BINARY_DIR}/bin/demos/learnOpenGL)
 
-# add_executable(learnopengl glfw/learnopengl.cpp)
-# target_link_libraries(learnopengl PRIVATE glfw partitionEngine "-framework opengl")
+set(LEARNOPENGL_EXAMPLES learnOpenGL/GettingStarted/Part1/GettingStarted01_01.cpp
+                         learnOpenGL/GettingStarted/Part1/GettingStarted01_02.cpp
+                         learnOpenGL/GettingStarted/Part2/GettingStarted02_01.cpp
+                         learnOpenGL/GettingStarted/Part2/GettingStarted02_02.cpp
+                         learnOpenGL/GettingStarted/Part3/GettingStarted03_01.cpp
+                         learnOpenGL/GettingStarted/Part3/GettingStarted03_02.cpp
+                         learnOpenGL/GettingStarted/Part4/GettingStarted04_01.cpp
+                         learnOpenGL/GettingStarted/Part4/GettingStarted04_02.cpp
+                         learnOpenGL/GettingStarted/Part5/GettingStarted05_01.cpp
+                         learnOpenGL/GettingStarted/Part6/GettingStarted06_01.cpp
+                         learnOpenGL/GettingStarted/Part6/GettingStarted06_02.cpp
+                         learnOpenGL/GettingStarted/Part6/GettingStarted06_03.cpp
+                         learnOpenGL/GettingStarted/Part7/GettingStarted07_01.cpp
+                         learnOpenGL/GettingStarted/Part7/GettingStarted07_02.cpp
+                         learnOpenGL/GettingStarted/Part7/GettingStarted07_03.cpp
+                         learnOpenGL/GettingStarted/Part7/GettingStarted07_04.cpp)
+                         # learnOpenGL/Lighting/Part1/Lighting01_01.cpp)
+
+foreach (FILE ${LEARNOPENGL_EXAMPLES})
+    get_filename_component(example ${FILE} NAME_WE)
+
+    add_executable(${example} ${FILE} learnOpenGL/learnOpenGL.cpp)
+    target_include_directories(${example} PRIVATE ${DryPhys_SOURCE_DIR}/src/demos)
+    target_link_libraries(${example} PRIVATE glfw partitionEngine "-framework opengl")
+endforeach()
 
 # set(GLFW_DEMO_SOURCE glfw/demo3d.cpp
-#                     #  glfw/scenes/scene.cpp
+#                      glfw/scenes/scene.cpp
 #                      glfw/scenes/sceneMenu.cpp)
 
 # add_executable(demo3d ${GLFW_DEMO_SOURCE})
@@ -108,6 +129,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DryPhys_BINARY_DIR}/bin/demos)
 # target_link_libraries(demo3d PRIVATE glfw partitionEngine "-framework opengl")
 # set_target_properties(demo3d PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
 
-# configure_file(glfw/config/GL-Config.txt ${DryPhys_BINARY_DIR}/etc/GL-Config.txt)
+configure_file(learnOpenGL/config/GL-Config.txt ${DryPhys_BINARY_DIR}/etc/GL-Config.txt)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DryPhys_BINARY_DIR}/bin)

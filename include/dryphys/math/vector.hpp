@@ -11,7 +11,7 @@
 
 #include <cmath>
 
-#include <common-utils/utilities.hpp>
+#include <drychem/drychem.hpp>
 
 #include "dryphys/utilities/config.hpp"
 

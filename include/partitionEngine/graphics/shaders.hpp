@@ -17,6 +17,12 @@
 #include <dryphys/dryphys.hpp>
 #include <glad/glad.h>
 
+#ifdef USE_GLM
+    #include <glm/glm.hpp>
+    #include <glm/gtc/matrix_transform.hpp>
+    #include <glm/gtc/type_ptr.hpp>
+#endif
+
 namespace PartitionEngine
 {
     /*!
@@ -25,8 +31,8 @@ namespace PartitionEngine
     class Shader
     {
     private:
-        std::string source_ {};     //!< The source code of the given shader
-        unsigned int index_ {};     //!< The shader index of the given type (GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, etc.)
+        std::string source_ {};   //!< The source code of the given shader
+        unsigned int index_ {};   //!< The shader index of the given type (GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, etc.)
 
         void readShaderFromFile(const std::string& shaderPath);
         void compileShader();
@@ -142,7 +148,7 @@ namespace PartitionEngine
          * \note Internally the matrices are converted into their transpose for OpenGL.
          */
         template<typename MatrixType>
-        constexpr void setUniformMatrix(const std::string& name, MatrixType mat) const
+        constexpr void setUniformMatrix(const std::string& name, const MatrixType& mat) const
         {
             if constexpr (std::is_same_v<DryPhys::Matrix3D, MatrixType>)
             {
@@ -168,6 +174,13 @@ namespace PartitionEngine
                 glUniformMatrix4fv(glGetUniformLocation(index_, name.c_str()), 1, GL_FALSE, array);
                 return;
             }
+#ifdef USE_GLM
+            else if constexpr (std::is_same_v<glm::mat4, MatrixType>)
+            {
+                glUniformMatrix4fv(glGetUniformLocation(index_, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
+                return;
+            }
+#endif
         }
     };
 }   // namespace PartitionEngine

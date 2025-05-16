@@ -11,6 +11,8 @@
 
 #include <variant>
 
+#include <dryphys/dryphys.hpp>
+
 namespace PartitionEngine
 {
     class Event
@@ -20,18 +22,23 @@ namespace PartitionEngine
         {
         };
 
-        struct Scroll
-        {
-            double x, y;
-        };
-
         struct Resize
         {
             int width, height;
         };
 
+        struct Scroll
+        {
+            DryPhys::real x, y;
+        };
+
+        struct MouseMoved
+        {
+            DryPhys::real xpos, ypos;
+        };
+
     private:
-        std::variant<Closed, Scroll, Resize> event_;
+        std::variant<Closed, Resize, Scroll, MouseMoved> event_;
 
     public:
         Event() = default;
@@ -42,9 +49,9 @@ namespace PartitionEngine
         }
 
         template<typename EventType>
-        EventType getEvent()
+        EventType* getEvent()
         {
-            return std::get<EventType>(event_);
+            return std::get_if<EventType>(&event_);
         }
     };
 }   // namespace PartitionEngine

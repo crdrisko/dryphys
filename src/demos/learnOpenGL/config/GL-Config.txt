@@ -1,0 +1,39 @@
+## Shaders ##
+VertexShader            VertexComponents    ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/vertex/vertexComponents.vs
+VertexShader            VertexVector        ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/vertex/vertexVector.vs
+VertexShader            VertexColored       ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/vertex/vertexColored.vs
+VertexShader            VertexTextured      ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/vertex/vertexTextured.vs
+VertexShader            TransformMatrix     ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/vertex/transformMatrix.vs
+VertexShader            TransformMatrices   ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/vertex/transformMatrices.vs
+VertexShader            TransformPosition   ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/vertex/TransformPosition.vs
+
+FragmentShader          ColorFixed          ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/fragment/colorFixed.fs
+FragmentShader          ColorUniform        ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/fragment/colorUniform.fs
+FragmentShader          ColorInterpolation  ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/fragment/colorInterpolation.fs
+FragmentShader          SingleTexture       ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/fragment/singleTexture.fs
+FragmentShader          MixTextures         ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/fragment/mixTextures.fs
+FragmentShader          LightSource         ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/fragment/lightSource.fs
+FragmentShader          LightCube           ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/fragment/lightCube.fs
+
+VertexShader            Text                ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/example7_2/example7_2.vs
+FragmentShader          TextSource          ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/shaders/example7_2/example7_2.fs
+
+## Shader Programs ##
+ShaderProgram           Example2_1          VertexComponents    ColorFixed
+ShaderProgram           Example3_1          VertexVector        ColorUniform
+ShaderProgram           Example3_2          VertexColored       ColorInterpolation
+ShaderProgram           Example4_1          VertexTextured      SingleTexture
+ShaderProgram           Example4_2          VertexTextured      MixTextures
+ShaderProgram           Example5_1          TransformMatrix     MixTextures
+ShaderProgram           Example6_1          TransformMatrices   MixTextures
+ShaderProgram           Lighting1_1a        TransformPosition   LightSource
+ShaderProgram           Lighting1_1b        TransformPosition   LightCube
+
+ShaderProgram           Example7_2          Text                TextSource
+
+## Textures ##
+TextureSheet            Container           ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/textures/container.jpg
+TextureSheetFlipped     AwesomeFace         ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/textures/awesomeface.png
+
+## Fonts ##
+Font                    Arial               ${CMAKE_SOURCE_DIR}/src/demos/learnOpenGL/assets/fonts/arial.ttf

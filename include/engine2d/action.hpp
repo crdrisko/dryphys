@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string>
 
+#include <drychem/drychem.hpp>
 #include <dryphys/dryphys.hpp>
 
 namespace Engine2D
@@ -27,22 +28,22 @@ namespace Engine2D
 
     private:
         std::string name_ {};         //!< Name of the current action
-        DryPhys::StringID sid_ {};    //!< Hashed string id of the current action's name
+        DryChem::StringID sid_ {};    //!< Hashed string id of the current action's name
         Types type_ {};               //!< The type of the current action, options are start or end
         DryPhys::Vector3D mpos_ {};   //!< Location of the mouse if needed by the current action
 
     public:
         //! Constructors
         Action() = default;
-        Action(const std::string& name, Types type) : name_ {name}, sid_ {DryPhys::djb2Hash(name.c_str())}, type_ {type} {}
+        Action(const std::string& name, Types type) : name_ {name}, sid_ {DryChem::djb2Hash(name.c_str())}, type_ {type} {}
         Action(const std::string& name, Types type, const DryPhys::Vector3D& mousePos)
-            : name_ {name}, sid_ {DryPhys::djb2Hash(name.c_str())}, type_ {type}, mpos_ {mousePos}
+            : name_ {name}, sid_ {DryChem::djb2Hash(name.c_str())}, type_ {type}, mpos_ {mousePos}
         {
         }
 
         //! Accessors
         std::string name() const { return name_; }
-        DryPhys::StringID sid() const { return sid_; }
+        DryChem::StringID sid() const { return sid_; }
         Types type() const { return type_; }
         DryPhys::Vector3D pos() const { return mpos_; }
 

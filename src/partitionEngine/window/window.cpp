@@ -12,7 +12,7 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <common-utils/errors.hpp>
+#include <drychem/drychem.hpp>
 #include <glad/glad.h>
 
 #ifdef USE_IMGUI
@@ -68,19 +68,23 @@ namespace PartitionEngine
         glfwMakeContextCurrent(window_);
         glfwSetWindowUserPointer(window_, this);
 
+        auto window_close_callback = [](GLFWwindow* window)
+        { static_cast<Window*>(glfwGetWindowUserPointer(window))->spawnEvent(Event {Event::Closed {}}); };
+
         auto framebuffer_size_callback = [](GLFWwindow* window, int width, int height)
         { static_cast<Window*>(glfwGetWindowUserPointer(window))->spawnEvent(Event {Event::Resize {width, height}}); };
 
         auto scroll_callback = [](GLFWwindow* window, double x, double y)
         { static_cast<Window*>(glfwGetWindowUserPointer(window))->spawnEvent(Event {Event::Scroll {x, y}}); };
 
-        auto window_close_callback = [](GLFWwindow* window)
-        { static_cast<Window*>(glfwGetWindowUserPointer(window))->spawnEvent(Event {Event::Closed {}}); };
+        auto cursor_pos_callback = [](GLFWwindow* window, double xpos, double ypos)
+        { static_cast<Window*>(glfwGetWindowUserPointer(window))->spawnEvent(Event {Event::MouseMoved {xpos, ypos}}); };
 
         // Register our callbacks
         glfwSetFramebufferSizeCallback(window_, framebuffer_size_callback);
         glfwSetWindowCloseCallback(window_, window_close_callback);
         glfwSetScrollCallback(window_, scroll_callback);
+        glfwSetCursorPosCallback(window_, cursor_pos_callback);
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
@@ -113,7 +117,7 @@ namespace PartitionEngine
         ImGuiIO& io = ImGui::GetIO();
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;    // Enable Gamepad Controls
-        // io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;       // IF using Docking Branch
+        // io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;    // IF using Docking Branch
 
         // Setup Dear ImGui style
         ImGui::StyleColorsDark();
@@ -126,7 +130,7 @@ namespace PartitionEngine
 
     void Window::resize(int width, int height)
     {
-        // Avoid the divide by zero
+        // Avoid divide by zero
         if (height <= 0)
             height = 1;
 

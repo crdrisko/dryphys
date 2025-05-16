@@ -107,7 +107,7 @@ if (NOT phys_exclude_engine)
 
     ## GLFW ##
     find_package(glfw3 REQUIRED)
-    # find_package(glm REQUIRED)
+    find_package(glm REQUIRED)
 
     include_directories(${imgui_SOURCE_DIR}/backends)
     include_directories(${PROJECT_SOURCE_DIR}/extern)
@@ -204,12 +204,14 @@ if (NOT phys_exclude_engine)
     # set_target_properties(engine2d_gui PROPERTIES COMPILE_DEFINITIONS USE_IMGUI)
 
     ## 2D/3D PartitionEngine ##
-    set(PARTITIONENGINE_SOURCE src/partitionEngine/window/window.cpp
-                               src/partitionEngine/graphics/shaders.cpp)
-                            #    src/partitionEngine/engine/assets.cpp
+    set(PARTITIONENGINE_SOURCE src/partitionEngine/engine/assets.cpp
+                               src/partitionEngine/engine/camera.cpp
+                               src/partitionEngine/window/window.cpp
+                               src/partitionEngine/graphics/shaders.cpp
+                               src/partitionEngine/graphics/textureSheet.cpp)
                             #    src/partitionEngine/engine/engine.cpp
                             #    src/partitionEngine/engine/scene.cpp
-                            #    src/partitionEngine/graphics/textureSheet.cpp)
+                                
 
     set(EXTERNAL_SOURCE ${PROJECT_SOURCE_DIR}/extern/glad/glad.c
                         ${PROJECT_SOURCE_DIR}/extern/stb_image/stb_image.cpp)
